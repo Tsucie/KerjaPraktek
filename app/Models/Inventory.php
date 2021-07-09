@@ -16,6 +16,7 @@ class Inventory extends Model
     protected $foreign = 'ivty_pdct_id';
 
     protected $fillable = [
+        'ivty_id',
         'ivty_pdct_id',
         'ivty_pdct_nama',
         'ivty_pdct_stock',

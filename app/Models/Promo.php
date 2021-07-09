@@ -16,6 +16,7 @@ class Promo extends Model
     protected $foreign = ['prm_pdct_id','prm_vnu_id'];
 
     protected $fillable = [
+        'prm_id',
         'prm_pdct_id',
         'prm_vnu_id',
         'prm_nama',

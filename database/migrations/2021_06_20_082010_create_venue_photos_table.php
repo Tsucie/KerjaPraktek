@@ -19,7 +19,7 @@ class CreateVenuePhotosTable extends Migration
         {
             Schema::create('venue_photos', function (Blueprint $table) {
                 $table->integer('vp_id')->unique('vp_id_UNIQUE');
-                $table->integer('vp_vnu_id')->unique('vp_vnu_id_UNIQUE');
+                $table->integer('vp_vnu_id');
                 $table->string('vp_filename', 150);
                 $table->binary('vp_photo');
                 $table->timestamps();

@@ -16,6 +16,7 @@ class VenuePhoto extends Model
     protected $foreign = 'vp_vnu_id';
     
     protected $fillable = [
+        'vp_id',
         'vp_vnu_id',
         'vp_filename',
         'vp_photo'

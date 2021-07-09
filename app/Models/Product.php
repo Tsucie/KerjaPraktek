@@ -15,6 +15,7 @@ class Product extends Model
     protected $primaryKey = 'pdct_id';
 
     protected $fillable = [
+        'pdct_id',
         'pdct_kode',
         'pdct_nama',
         'pdct_desc',
@@ -23,14 +24,4 @@ class Product extends Model
         'created_by',
         'updated_by'
     ];
-
-    public function hasPhoto()
-    {
-        return $this->hasMany(ProductPhoto::class, 'ph_pdct_id', 'pdct_id');
-    }
-
-    public function hasInventory()
-    {
-        return $this->hasOne(Inventory::class, 'ivty_pdct_id', 'pdct_id');
-    }
 }

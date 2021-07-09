@@ -15,16 +15,17 @@ class Venue extends Model
     protected $primaryKey = 'vnu_id';
 
     protected $fillable = [
+        'vnu_id',
         'vnu_nama',
         'vnu_desc',
         'vnu_fasilitas',
         'vnu_harga',
+        'vnu_status_tersedia',
         'created_by',
         'updated_by'
     ];
 
-    public function hasPhoto()
-    {
-        return $this->hasMany(VenuePhoto::class, 'vp_vnu_id', 'vnu_id');
-    }
+    protected $casts = [
+        'vnu_harga' => 'double'
+    ];
 }

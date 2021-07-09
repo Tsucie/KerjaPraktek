@@ -19,7 +19,7 @@ class CreateProductPhotosTable extends Migration
         {
             Schema::create('product_photos', function (Blueprint $table) {
                 $table->integer('pp_id')->unique('pp_id_UNIQUE');
-                $table->integer('pp_pdct_id')->unique('pp_pdct_id_UNIQUE');
+                $table->integer('pp_pdct_id');
                 $table->string('pp_filename', 150);
                 $table->binary('pp_photo');
                 $table->timestamps();

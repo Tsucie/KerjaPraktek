@@ -17,6 +17,7 @@ class Customer extends Authenticatable implements MustVerifyEmail
     protected $primaryKey = 'cst_id';
 
     protected $fillable = [
+        'cst_id',
         'cst_name',
         'cst_alamat',
         'cst_no_telp',

@@ -16,6 +16,7 @@ class ProductPhoto extends Model
     protected $foreign = 'pp_pdct_id';
 
     protected $fillable = [
+        'pp_id',
         'pp_pdct_id',
         'pp_filename',
         'pp_photo'
