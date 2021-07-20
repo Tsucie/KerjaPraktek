@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\MoreFacility;
 use App\Models\ResponseMessage;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
@@ -22,7 +21,7 @@ class MoreFacilityController extends Controller
     public function index()
     {
         $data = MoreFacility::all();
-        return response(new JsonResponse($data));
+        return response()->json($data);
     }
 
     /**
@@ -50,7 +49,7 @@ class MoreFacilityController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
+            // $resmsg->code = 0;
             // $resmsg->message = 'Data Gagal Ditambahkan';
 
             #region Code Testing
@@ -59,7 +58,7 @@ class MoreFacilityController extends Controller
             #endregion
         }
 
-        return response(new JsonResponse($resmsg));
+        return response()->json($resmsg);
     }
 
     /**
@@ -79,11 +78,11 @@ class MoreFacilityController extends Controller
             $data = MoreFacility::query()->where('mfc_id','=',$id)->get();
             if ($data->count() == 0)  throw new Exception("Data Tidak Ditemukan", 0);
 
-            return response(new JsonResponse($data));
+            return response()->json($data);
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
+            // $resmsg->code = 0;
             // $resmsg->message = 'Data Tidak Ditemukan';
 
             #region Code Testing
@@ -91,7 +90,7 @@ class MoreFacilityController extends Controller
             $resmsg->message = $ex->getMessage();
             #endregion
 
-            return response(new JsonResponse($resmsg));
+            return response()->json($resmsg);
         }
     }
 
@@ -123,7 +122,7 @@ class MoreFacilityController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
+            // $resmsg->code = 0;
             // $resmsg->message = 'Data Gagal Diubah';
 
             #region Code Testing
@@ -132,7 +131,7 @@ class MoreFacilityController extends Controller
             #endregion
         }
 
-        return response(new JsonResponse($resmsg));
+        return response()->json($resmsg);
     }
 
     /**
@@ -156,7 +155,7 @@ class MoreFacilityController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
+            // $resmsg->code = 0;
             // $resmsg->message = 'Data Gagal Dihapus';
 
             #region Code Testing
@@ -165,6 +164,6 @@ class MoreFacilityController extends Controller
             #endregion
         }
 
-        return response(new JsonResponse($resmsg));
+        return response()->json($resmsg);
     }
 }

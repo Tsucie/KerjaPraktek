@@ -20,6 +20,9 @@ class Venue extends Model
         'vnu_desc',
         'vnu_fasilitas',
         'vnu_harga',
+        'vnu_tipe_waktu',
+        'vnu_jam_pemakaian_siang',
+        'vnu_jam_pemakaian_malam',
         'vnu_status_tersedia',
         'created_by',
         'updated_by'
@@ -28,4 +31,9 @@ class Venue extends Model
     protected $casts = [
         'vnu_harga' => 'double'
     ];
+
+    public function promo()
+    {
+        return $this->hasOne(Promo::class, 'prm_vnu_id', 'vnu_id');
+    }
 }

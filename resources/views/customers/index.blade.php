@@ -48,7 +48,7 @@
     <!-- /.modal-dialog -->
   </div>
 <!-- /.modal -->
-<div class="header bg-gradient-red pb-8 pt-5 pt-md-8"></div>
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8"></div>
 <div class="container-fluid mt--7">
     <div class="row">
         <div class="col">
@@ -83,7 +83,7 @@
                                 <td class="no_telp">{{ $item->cst_no_telp }}</td>
                                 <td class="created">{{ $item->created_at }}</td>
                                 <td class="action">
-                                    <a class="btn btn-sm btn-info btn-table" data-toggle="tooltip" data-html="true" title="See All Data" id="btndetail{{ $loop->index }}" role="button" data_id="{{ $item->cst_id }}" onclick="ShowDetails(this)">Informasi Customer</a>
+                                    <a class="btn btn-sm btn-info btn-table" data-toggle="tooltip" data-html="true" title="Lihat Detail Data" id="btndetail{{ $loop->index }}" role="button" data_id="{{ $item->cst_id }}" onclick="ShowDetails(this)">Informasi Customer</a>
                                 </td>
                             </tr>
                         @empty

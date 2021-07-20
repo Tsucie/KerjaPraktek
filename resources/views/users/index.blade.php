@@ -77,7 +77,7 @@
     </div>
   </div>
 <!-- /.modal-dialog -->
-<div class="header bg-gradient-red pb-8 pt-5 pt-md-8"></div>
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8"></div>
 <div class="container-fluid mt--7">
     <div class="row">
         <div class="col">
@@ -86,7 +86,7 @@
                 <div class="card-header bg-transparent border-0">
                     <h3 class="text-white mb-0">User Admin</h3>
                     <div class="pull-right">
-                        <a href="#" class="btn btn-success" role="button" data-toggle="modal" data-target="#AddEditModal" id="Add-btn">Add User</a>
+                        <a href="#" class="btn btn-success" role="button" data-toggle="modal" data-target="#AddEditModal" id="Add-btn">Tambah User</a>
                     </div>
                 </div>
                 <!-- Dark table -->
@@ -115,7 +115,7 @@
                                 <td class="action">
                                     <a class="btn btn-sm btn-info btn-table" data-toggle="tooltip" data-html="true" title="Lihat Detail Admin" id="btndetail{{ $loop->index }}" role="button" data_id="{{ $item->id }}" onclick="ShowDetails(this)">Detail</a>
                                     <a class="btn btn-sm btn-primary btn-table" data-toggle="tooltip" data-html="true" title="Ubah Data Admin" id="btnedit{{ $loop->index }}" role="button" data_id="{{ $item->id }}" onclick="ShowEditModals(this)">Ubah</a>
-                                    <a class="btn btn-sm btn-danger btn-table" data-toggle="tooltip" data-html="true" title="Hapus Data Admin" id="btndelete{{ $loop->index }}" role="button" data_id="{{ $item->id }}" data_name="{{ $item->name }}" onclick="DeleteUser(this)">Hapus</a>
+                                    <button class="btn btn-sm btn-danger btn-table" data-toggle="tooltip" data-html="true" title="Hapus Data Admin" id="btndelete{{ $loop->index }}" role="button" data_id="{{ $item->id }}" data_name="{{ $item->name }}" onclick="DeleteUser(this)" @if ($item->id === auth()->user()->id){{ 'disabled' }}@endif>Hapus</button>
                                 </td>
                             </tr>
                         @empty

@@ -40,7 +40,7 @@
                   <div class="form-group">
                       <label for="fasilitas">Fasilitas</label>
                       <div class="col-sm-12">
-                          <textarea class="form-control form-inputs" rows="10" name="fasilitas" id="fasilitas" placeholder="Detail fasilitas Gedung/Ruangannya"></textarea>
+                          <textarea class="form-control form-inputs" rows="5" name="fasilitas" id="fasilitas" placeholder="Detail fasilitas Gedung/Ruangannya"></textarea>
                       </div>
                   </div>
                   <div class="form-group">
@@ -53,6 +53,27 @@
                             Harga Gedung tidak boleh kosong atau nol!
                         </div>
                       </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="tipe_waktu">Tipe Waktu Sewa</label>
+                      <div class="col-sm-12">
+                        <select class="form-control form-inputs" name="tipe_waktu" id="tipe_waktu">
+                            <option value="0">Per-Setengah Hari</option>
+                            <option value="1">Per-Jam</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="form-group" id="siang">
+                    <label for="jam_siang">Jam Pemakaian Siang</label>
+                    <div class="col-sm-12">
+                        <input type="tel" class="form-control form-inputs" placeholder="Jam Pemakaian waktu Siang" id="jam_siang" name="jam_siang">
+                    </div>
+                  </div>
+                  <div class="form-group" id="malam">
+                    <label for="jam_malam">Jam Pemakaian Malam</label>
+                    <div class="col-sm-12">
+                        <input type="tel" class="form-control form-inputs" placeholder="Jam Pemakaian waktu Malam" id="jam_malam" name="jam_malam">
+                    </div>
                   </div>
                   <div class="form-group">
                       <label for="status_tersedia">Status Tersedia</label>
@@ -97,7 +118,7 @@
     </div>
   </div>
 <!-- /.modal-dialog -->
-<div class="header bg-gradient-green pb-8 pt-5 pt-md-8"></div>
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8"></div>
 <div class="container-fluid mt--7">
     <div class="row">
         <div class="col">
@@ -154,9 +175,9 @@
                                     @endif
                                 </td>
                                 <td class="action">
-                                    <a class="btn btn-sm btn-info btn-table" data-toggle="tooltip" data-html="true" title="See All Data" id="btndetail{{ $loop->index }}" role="button" data_id="{{ $item->vnu_id }}" onclick="ShowDetails(this)">Detail</a>
-                                    <a class="btn btn-sm btn-primary btn-table" data-toggle="tooltip" data-html="true" title="Edit Data" id="btnedit{{ $loop->index }}" role="button" data_id="{{ $item->vnu_id }}" onclick="ShowEditModals(this)">Ubah</a>
-                                    <a class="btn btn-sm btn-danger btn-table" data-toggle="tooltip" data-html="true" title="Delete Data" id="btndelete{{ $loop->index }}" role="button" data_id="{{ $item->vnu_id }}" data_name="{{ $item->vnu_nama }}" onclick="DeleteVenue(this)">Hapus</a>
+                                    <a class="btn btn-sm btn-info btn-table" data-toggle="tooltip" data-html="true" title="Lihat Detail Data" id="btndetail{{ $loop->index }}" role="button" data_id="{{ $item->vnu_id }}" onclick="ShowDetails(this)">Detail</a>
+                                    <a class="btn btn-sm btn-primary btn-table" data-toggle="tooltip" data-html="true" title="Ubah Data" id="btnedit{{ $loop->index }}" role="button" data_id="{{ $item->vnu_id }}" onclick="ShowEditModals(this)">Ubah</a>
+                                    <a class="btn btn-sm btn-danger btn-table" data-toggle="tooltip" data-html="true" title="Hapus Data" id="btndelete{{ $loop->index }}" role="button" data_id="{{ $item->vnu_id }}" data_name="{{ $item->vnu_nama }}" onclick="DeleteVenue(this)">Hapus</a>
                                 </td>
                             </tr>
                         @empty

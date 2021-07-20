@@ -9,6 +9,9 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @author Rizky A
+ */
 class CustomerController extends Controller
 {
     /**
@@ -18,7 +21,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $data = Customer::all();
+        $data = Customer::orderBy('cst_name', 'ASC')->get();
         return view('customers.index', compact('data'));
     }
 

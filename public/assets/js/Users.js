@@ -73,6 +73,11 @@ function ClearInput() {
     $('#nama').val('');
 }
 
+function DisableBtn(selector) {
+    $(selector).prop('disabled', true);
+    $(selector).text('Tunggu ...');
+}
+
 // JQuery Validate
 function validasi() {
     var isValid = true;
@@ -98,7 +103,7 @@ function AddUser() {
         $('#password-alrt').hide();
     }
     if(res == false) return false;
-
+    DisableBtn('#btn-add-user');
     var formData = new FormData();
     
     formData.append("email", $('#email').val());
@@ -156,7 +161,7 @@ function GetUser(id) {
 function EditUser() {
     var res = validasi();
     if(res == false) return false;
-
+    DisableBtn('#btn-edit-user');
     var formData = new FormData();
     
     formData.append("email", $('#email').val());
@@ -200,6 +205,7 @@ function DeleteUser(obj) {
 }
 
 function Delete(obj) {
+    DisableBtn('#btn-hps');
     let id = parseInt(obj.attributes.data_id.value);
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },

@@ -16,6 +16,7 @@ class OrderDetailProduct extends Model
     protected $foreign = ['odp_op_id','odp_pdct_id'];
 
     protected $fillable = [
+        'odp_id',
         'odp_op_id',
         'odp_pdct_id',
         'odp_pdct_kode',

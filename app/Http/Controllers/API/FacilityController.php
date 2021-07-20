@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Facility;
 use App\Models\ResponseMessage;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
@@ -22,7 +21,7 @@ class FacilityController extends Controller
     public function index()
     {
         $data = Facility::all();
-        return response(new JsonResponse($data));
+        return response()->json($data);
     }
 
     /**
@@ -46,7 +45,7 @@ class FacilityController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
+            // $resmsg->code = 0;
             // $resmsg->message = 'Data Gagal Ditambahkan';
 
             #region Code Testing
@@ -55,7 +54,7 @@ class FacilityController extends Controller
             #endregion
         }
 
-        return response(new JsonResponse($resmsg));
+        return response()->json($resmsg);
     }
 
     /**
@@ -75,11 +74,11 @@ class FacilityController extends Controller
             $data = Facility::query()->where('fc_id','=',$id)->get();
             if ($data->count() == 0)  throw new Exception("Data Tidak Ditemukan", 0);
 
-            return response(new JsonResponse($data));
+            return response()->json($data);
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
+            // $resmsg->code = 0;
             // $resmsg->message = 'Data Tidak Ditemukan';
 
             #region Code Testing
@@ -87,7 +86,7 @@ class FacilityController extends Controller
             $resmsg->message = $ex->getMessage();
             #endregion
 
-            return response(new JsonResponse($resmsg));
+            return response()->json($resmsg);
         }
     }
 
@@ -115,7 +114,7 @@ class FacilityController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
+            // $resmsg->code = 0;
             // $resmsg->message = 'Data Gagal Diubah';
 
             #region Code Testing
@@ -124,7 +123,7 @@ class FacilityController extends Controller
             #endregion
         }
 
-        return response(new JsonResponse($resmsg));
+        return response()->json($resmsg);
     }
 
     /**
@@ -148,7 +147,7 @@ class FacilityController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
+            // $resmsg->code = 0;
             // $resmsg->message = 'Data Gagal Dihapus';
 
             #region Code Testing
@@ -157,6 +156,6 @@ class FacilityController extends Controller
             #endregion
         }
 
-        return response(new JsonResponse($resmsg));
+        return response()->json($resmsg);
     }
 }

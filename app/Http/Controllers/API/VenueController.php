@@ -30,7 +30,7 @@ class VenueController extends Controller
     /**
      * Return a list of the resource as json.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\Response::json
      */
     public function getList()
     {
@@ -49,7 +49,7 @@ class VenueController extends Controller
             "SELECT vnu.*,".
                 " (SELECT vp_filename FROM venue_photos WHERE vp_vnu_id=vnu_id LIMIT 1) AS vp_filename,".
                 " (SELECT vp_photo FROM venue_photos WHERE vp_vnu_id=vnu_id LIMIT 1) AS vp_photo".
-            " FROM dbsilungkang.venues vnu;"
+            " FROM dbsilungkang.venues vnu ORDER BY vnu.vnu_nama;"
         );
 
         foreach ($datas as $data)
@@ -71,10 +71,11 @@ class VenueController extends Controller
         $resmsg = new ResponseMessage();
 
         $request->validate([
-            'images.*' => 'mimes:jpeg,png,jpg,gif,svg|max:5120',
+            'images.*' => 'mimes:jpeg,png,jpg|max:5120',
             'nama' => 'required',
             'fasilitas' => 'required',
-            'harga' => 'required',
+            'harga' => 'required|numeric',
+            'tipe_waktu' => 'required|numeric',
             'status_tersedia' => 'required'
         ]);
 
@@ -84,6 +85,9 @@ class VenueController extends Controller
             'vnu_desc' => $request->has('desc') ? $request->desc : null,
             'vnu_fasilitas' => $request->fasilitas,
             'vnu_harga' => $request->harga,
+            'vnu_tipe_waktu' => $request->tipe_waktu,
+            'vnu_jam_pemakaian_siang' => $request->has('jam_siang') ? $request->jam_siang : null,
+            'vnu_jam_pemakaian_malam' => $request->has('jam_malam') ? $request->jam_malam : null,
             'vnu_status_tersedia' => $request->status_tersedia,
             'created_by' => auth()->user()->name ?? 'system'
         ];
@@ -122,13 +126,21 @@ class VenueController extends Controller
         catch (Exception $ex)
         {
             DB::rollBack();
-            // $resmsg->code = 0;
-            // $resmsg->message = 'Data Gagal Ditambahkan';
+            if ($ex->getCode() == 22001)
+            {
+                $resmsg->code = 0;
+                $resmsg->message = 'Ukuran foto tidak sesuai';
+            }
+            else
+            {
+                // $resmsg->code = 0;
+                // $resmsg->message = 'Data Gagal Ditambahkan';
 
-            #region Code Testing
-            $resmsg->code = $ex->getCode();
-            $resmsg->message = $ex->getMessage();
-            #endregion
+                #region Code Testing
+                $resmsg->code = $ex->getCode();
+                $resmsg->message = $ex->getMessage();
+                #endregion
+            }
         }
         return response()->json($resmsg);
     }
@@ -188,7 +200,8 @@ class VenueController extends Controller
             'id' => 'required|integer',
             'nama' => 'required',
             'fasilitas' => 'required',
-            'harga' => 'required',
+            'harga' => 'required|numeric',
+            'tipe_waktu' => 'required|numeric',
             'status_tersedia' => 'required'
         ]);
 
@@ -197,6 +210,9 @@ class VenueController extends Controller
             'vnu_desc' => $request->has('desc') ? $request->desc : null,
             'vnu_fasilitas' => $request->fasilitas,
             'vnu_harga' => $request->harga,
+            'vnu_tipe_waktu' => $request->tipe_waktu,
+            'vnu_jam_pemakaian_siang' => $request->has('jam_siang') ? $request->jam_siang : null,
+            'vnu_jam_pemakaian_malam' => $request->has('jam_malam') ? $request->jam_malam : null,
             'vnu_status_tersedia' => $request->status_tersedia,
             'updated_by' => auth()->user()->name ?? 'system'
         ];

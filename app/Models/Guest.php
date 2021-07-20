@@ -15,6 +15,7 @@ class Guest extends Model
     protected $primaryKey = 'gst_id';
 
     protected $fillable = [
+        'gst_id',
         'gst_nama',
         'gst_alamat',
         'gst_no_telp',

@@ -74,7 +74,7 @@ function ShowEditModals(obj) {
 
 function ClearInput() {
     $('div.gallery').html("");
-    $('#images').val(null);
+    $('#gallery-photo-add').val(null);
     $('#nama').val('');
     $('#desc').val('');
     $('#stock').val('');
@@ -226,7 +226,7 @@ function GetProduct(id) {
 
 function EditProduct() {
     if (!validasi()) return false;
-    DisableBtn('#btn-edit-vnu');
+    DisableBtn('#btn-edit-pdct');
 
     var formData = new FormData();
     formData.append("id", edit);

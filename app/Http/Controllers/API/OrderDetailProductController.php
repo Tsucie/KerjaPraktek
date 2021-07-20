@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class VenueOrderController extends Controller
+class OrderDetailProductController extends Controller
 {
     /**
      * Display a listing of the resource.

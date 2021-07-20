@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PromoResource;
 use App\Models\Promo;
 use App\Models\ResponseMessage;
 use Exception;
@@ -29,8 +30,8 @@ class PromoController extends Controller
      */
     public function getList()
     {
-        $data = $this->selectList();
-        return response()->json($data);
+        $datas = $this->selectList();
+        return response()->json($datas);
     }
 
     /**
@@ -40,7 +41,7 @@ class PromoController extends Controller
      */
     private function selectList()
     {
-        $datas = DB::select(
+        $rawDatas = DB::select(
             "SELECT prm.*,".
                 " (SELECT pdct_nama FROM products WHERE pdct_id=prm.prm_pdct_id) AS pdct_nama,".
                 " (SELECT pdct_harga FROM products WHERE pdct_id=prm.prm_pdct_id) AS pdct_harga,".
@@ -52,10 +53,28 @@ class PromoController extends Controller
                 " (SELECT vp_photo FROM venue_photos WHERE vp_vnu_id=prm.prm_vnu_id LIMIT 1) AS vp_photo".
             " FROM dbsilungkang.promos prm;"
         );
-        foreach ($datas as $data)
+        $datas = [];
+        foreach ($rawDatas as $data)
         {
-            $data->pp_photo = $data->pp_photo == null ? null : base64_encode($data->pp_photo);
-            $data->vp_photo = $data->vp_photo == null ? null : base64_encode($data->vp_photo);
+            $data->nama = $data->pdct_nama ?? $data->vnu_nama;
+            $data->harga = $data->pdct_harga ?? $data->vnu_harga;
+            $data->filename = $data->pp_filename ?? $data->vp_filename;
+            $data->photo =
+                // Mengembalikan nilai null atau base64String
+                ($data->pp_photo == null ? null : base64_encode($data->pp_photo))
+                ?? // OR
+                // Mengembalikan nilai null atau base64String
+                ($data->vp_photo == null ? null : base64_encode($data->vp_photo));
+            // Unset Unused property from object
+            unset($data->pdct_nama);
+            unset($data->vnu_nama);
+            unset($data->pdct_harga);
+            unset($data->vnu_harga);
+            unset($data->pp_filename);
+            unset($data->vp_filename);
+            unset($data->vp_photo);
+            unset($data->pp_photo);
+            array_push($datas, $data);
         }
 
         return $datas;

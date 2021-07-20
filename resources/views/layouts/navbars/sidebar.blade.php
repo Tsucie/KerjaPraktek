@@ -6,7 +6,7 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand pt-0" href="{{ route('home') }}">
-            <img src="{{ asset('argon') }}/img/brand/blue.png" class="navbar-brand-img" alt="...">
+            <img src="{{ asset('assets') }}/img/brand/Sidebar-pkslogo.png" class="navbar-brand-img" alt="...">
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
@@ -14,7 +14,8 @@
                 <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="media align-items-center">
                         <span class="avatar avatar-sm rounded-circle">
-                        <img alt="Image placeholder" src="{{ asset('argon') }}/img/theme/team-1-800x800.jpg">
+                        {{-- <img alt="Image placeholder" src="{{ asset('argon') }}/img/theme/team-1-800x800.jpg"> --}}
+                        <i class="fas fa-user"></i>
                         </span>
                     </div>
                 </a>
@@ -46,7 +47,7 @@
                 <div class="row">
                     <div class="col-6 collapse-brand">
                         <a href="{{ route('home') }}">
-                            <img src="{{ asset('argon') }}/img/brand/blue.png">
+                            <img src="{{ asset('assets') }}/img/brand/Sidebar-pkslogo.png">
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
@@ -82,7 +83,7 @@
                         <span class="nav-link-text">{{ __('User Management') }}</span>
                     </a>
 
-                    <div class="collapse show" id="navbar-user">
+                    <div class="collapse" id="navbar-user">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('users') }}">
@@ -101,11 +102,11 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#navbar-services" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-services" onclick="openSidebar()">
-                        <i class="fas fa-cogs" style="color: green;" title="{{ __('Layanan') }}"></i>
+                        <i class="fas fa-building" style="color: green;" title="{{ __('Layanan') }}"></i>
                         <span class="nav-link-text">{{ __('Layanan') }}</span>
                     </a>
 
-                    <div class="collapse show" id="navbar-services">
+                    <div class="collapse" id="navbar-services">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('venues') }}">
@@ -120,7 +121,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#{{-- route('promos') --}}">
+                                <a class="nav-link" href="{{ url('/Promo') }}">
                                     <i class="fas fa-percentage" style="color: green;" title="{{ __('Promo') }}"></i>
                                     <span class="nav-link-text">{{ __('Promo') }}</span>
                                 </a>
@@ -130,27 +131,27 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#navbar-order" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-order" onclick="openSidebar()">
-                        <i class="fas fa-receipt" style="color: black;" title="{{ __('Order & Feedback') }}"></i>
+                        <i class="fas fa-receipt text-primary" title="{{ __('Order & Feedback') }}"></i>
                         <span class="nav-link-text">{{ __('Order & Feedback') }}</span>
                     </a>
 
-                    <div class="collapse show" id="navbar-order">
+                    <div class="collapse" id="navbar-order">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a class="nav-link" href="#{{-- route('venue-orders') --}}">
-                                    <i class="fas fa-receipt" style="color: black;" title="{{ __('Order Gedung/Ruangan') }}"></i>
+                                <a class="nav-link" href="{{ url('/OrderVenue') }}">
+                                    <i class="fas fa-receipt text-primary" title="{{ __('Order Gedung/Ruangan') }}"></i>
                                     <span class="nav-link-text">{{ __('Order Gedung/Ruangan') }}</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#{{-- route('product-orders') --}}">
-                                    <i class="fas fa-cart-arrow-down" style="color: black;" title="{{ __('Order Produk') }}"></i>
+                                <a class="nav-link" href="{{ url('/OrderProduct') }}">
+                                    <i class="fas fa-cart-arrow-down text-primary" title="{{ __('Order Produk') }}"></i>
                                     <span class="nav-link-text">{{ __('Order Produk') }}</span>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#{{-- route('feedbacks') --}}">
-                                    <i class="fas fa-comment-alt" style="color: black;" title="{{ __('Order') }}"></i>
+                                <a class="nav-link" href="{{ url('/Feedback') }}">
+                                    <i class="fas fa-comment-alt text-primary" title="{{ __('Order') }}"></i>
                                     <span class="nav-link-text">{{ __('Feedback') }}</span>
                                 </a>
                             </li>

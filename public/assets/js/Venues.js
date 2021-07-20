@@ -12,6 +12,9 @@ $(document).ready(function () {
         $('#harga-alrt').hide();
         ClearInput();
     });
+    $('#tipe_waktu').on('change', function (e) {
+        toggleHourInputs(this);
+    });
     $("#Add-btn").click(function() {
         ShowAddModals(this);
     });
@@ -71,11 +74,30 @@ function ShowEditModals(obj) {
 
 function ClearInput() {
     $('div.gallery').html("");
-    $('#images').val(null);
+    $('#gallery-photo-add').val(null);
     $('#nama').val('');
     $('#desc').val('');
     $('#fasilitas').val('');
     $('#harga').val('');
+    $('#jam_siang').val('');
+    $('#jam_malam').val('');
+}
+
+function toggleHourInputs(selector) {
+    switch ($(selector).val()) {
+        case "0":
+            $('#siang').show();
+            $('#malam').show();
+            break;
+        case "1":
+            $('#siang').hide();
+            $('#malam').hide();
+            break;
+        default:
+            $('#siang').show();
+            $('#malam').show();
+            break;
+    }
 }
 
 // JQuery Image Preview
@@ -149,6 +171,9 @@ function AddVenue() {
     formData.append("desc", $('#desc').val());
     formData.append("fasilitas", $('#fasilitas').val());
     formData.append("harga", $('#harga').val());
+    formData.append("tipe_waktu", $('#tipe_waktu').val());
+    formData.append("jam_siang", $('#jam_siang').val());
+    formData.append("jam_malam", $('#jam_malam').val());
     formData.append("status_tersedia", $('#status_tersedia').val());
 
     $.ajax({
@@ -205,8 +230,18 @@ function GetVenue(id) {
                 $('#desc').val(data.venue[0].vnu_desc);
                 $('#fasilitas').val(data.venue[0].vnu_fasilitas);
                 $('#harga').val(data.venue[0].vnu_harga);
+                $('#tipe_waktu').val(data.venue[0].vnu_tipe_waktu);
+                if (data.venue[0].vnu_tipe_waktu == 1) {
+                    $('#siang').hide();
+                    $('#malam').hide();
+                } else {
+                    $('#siang').show();
+                    $('#malam').show();
+                    $('#jam_siang').val(data.venue[0].vnu_jam_pemakaian_siang);
+                    $('#jam_malam').val(data.venue[0].vnu_jam_pemakaian_malam);
+                }
                 $('#status_tersedia').val(data.venue[0].vnu_status_tersedia);
-                $("#AddEditModal").modal('show');
+                setTimeout(function () { $("#AddEditModal").modal('show'); }, 1000);
             }
         },
         error: function () {
@@ -225,6 +260,9 @@ function EditVenue() {
     formData.append("desc", $('#desc').val());
     formData.append("fasilitas", $('#fasilitas').val());
     formData.append("harga", $('#harga').val());
+    formData.append("tipe_waktu", $('#tipe_waktu').val());
+    formData.append("jam_siang", $('#jam_siang').val());
+    formData.append("jam_malam", $('#jam_malam').val());
     formData.append("status_tersedia", $('#status_tersedia').val());
 
     $.ajax({

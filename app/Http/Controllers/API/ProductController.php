@@ -13,6 +13,9 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * @author Rizky A
+ */
 class ProductController extends Controller
 {
     /**
@@ -48,13 +51,13 @@ class ProductController extends Controller
             "SELECT pdct.*,".
                 " (SELECT pp_filename FROM product_photos WHERE pp_pdct_id=pdct_id LIMIT 1) AS pp_filename,".
                 " (SELECT pp_photo FROM product_photos WHERE pp_pdct_id=pdct_id LIMIT 1) AS pp_photo".
-            " FROM dbsilungkang.products pdct;"
+            " FROM dbsilungkang.products pdct ORDER BY pdct.pdct_nama;"
         );
         foreach ($datas as $data)
         {
             $data->pp_photo = base64_encode($data->pp_photo);
         }
-
+        
         return $datas;
     }
 
@@ -68,7 +71,7 @@ class ProductController extends Controller
     {
         $resmsg = new ResponseMessage();
         $request->validate([
-            'images.*' => 'mimes:jpeg,png,jpg,gif,svg|max:5120',
+            'images.*' => 'mimes:jpeg,png,jpg|max:5120',
             'nama' => 'required',
             'harga' => 'required',
             'stock' => 'required'
@@ -127,13 +130,21 @@ class ProductController extends Controller
         catch (Exception $ex)
         {
             DB::rollBack();
-            // $resmsg->code = 0;
-            // $resmsg->message = 'Data Gagal Ditambahkan';
+            if ($ex->getCode() == 22001)
+            {
+                $resmsg->code = 0;
+                $resmsg->message = 'Ukuran foto tidak sesuai';
+            }
+            else
+            {
+                // $resmsg->code = 0;
+                // $resmsg->message = 'Data Gagal Ditambahkan';
 
-            #region Code Testing
-            $resmsg->code = $ex->getCode();
-            $resmsg->message = $ex->getMessage();
-            #endregion
+                #region Code Testing
+                $resmsg->code = $ex->getCode();
+                $resmsg->message = $ex->getMessage();
+                #endregion
+            }
         }
         return response()->json($resmsg);
     }

@@ -16,10 +16,13 @@ class OrderVenue extends Model
     protected $foreign = ['ov_cst_id','ov_gst_id','ov_vnu_id'];
 
     protected $fillable = [
+        'ov_id',
         'ov_cst_id',
         'ov_gst_id',
         'ov_vnu_id',
         'ov_vnu_nama',
+        'ov_harga_sewa',
+        'ov_nama_catering',
         'ov_no_telp',
         'ov_biaya_lain',
         'ov_fee_catering',
@@ -30,6 +33,22 @@ class OrderVenue extends Model
         'ov_sum_biaya',
         'ov_down_payment',
         'ov_remaining_payment',
-        'ov_status_order'
+        'ov_status_order', // 0: Dalam Proses; 1: Terverifikasi; 2: Sudah Down Payment; 3: Selesai(Lunas); 4: Ditolak; 
+        'ov_contact_customer'
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'ov_cst_id', 'cst_id');
+    }
+
+    public function guest()
+    {
+        return $this->belongsTo(Guest::class, 'ov_gst_id', 'gst_id');
+    }
+
+    public function venue()
+    {
+        return $this->belongsTo(Venue::class, 'ov_vnu_id', 'vnu_id');
+    }
 }

@@ -92,7 +92,7 @@
     </div>
   </div>
 <!-- /.modal-dialog -->
-<div class="header bg-gradient-green pb-8 pt-5 pt-md-8"></div>
+<div class="header bg-gradient-info pb-8 pt-5 pt-md-8"></div>
 <div class="container-fluid mt--7">
     <div class="row">
         <div class="col">
@@ -139,9 +139,9 @@
                                 <td class="harga">Rp {{ number_format($item->pdct_harga, 2) }}</td>
                                 <td class="stock">{{ $item->pdct_stock }}</td>
                                 <td class="action">
-                                    <a class="btn btn-sm btn-info btn-table" data-toggle="tooltip" data-html="true" title="See All Data" id="btndetail{{ $loop->index }}" role="button" data_id="{{ $item->pdct_id }}" onclick="ShowDetails(this)">Detail</a>
+                                    <a class="btn btn-sm btn-info btn-table" data-toggle="tooltip" data-html="true" title="Lihat Detail Data" id="btndetail{{ $loop->index }}" role="button" data_id="{{ $item->pdct_id }}" onclick="ShowDetails(this)">Detail</a>
                                     <a class="btn btn-sm btn-primary btn-table" data-toggle="tooltip" data-html="true" title="Edit Data" id="btnedit{{ $loop->index }}" role="button" data_id="{{ $item->pdct_id }}" onclick="ShowEditModals(this)">Ubah</a>
-                                    <a class="btn btn-sm btn-danger btn-table" data-toggle="tooltip" data-html="true" title="Delete Data" id="btndelete{{ $loop->index }}" role="button" data_id="{{ $item->pdct_id }}" data_name="{{ $item->pdct_nama }}" onclick="DeleteProduct(this)">Hapus</a>
+                                    <a class="btn btn-sm btn-danger btn-table" data-toggle="tooltip" data-html="true" title="Hapus Data" id="btndelete{{ $loop->index }}" role="button" data_id="{{ $item->pdct_id }}" data_name="{{ $item->pdct_nama }}" onclick="DeleteProduct(this)">Hapus</a>
                                 </td>
                             </tr>
                         @empty

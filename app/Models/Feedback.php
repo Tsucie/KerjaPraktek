@@ -16,6 +16,7 @@ class Feedback extends Model
     protected $foreign = ['fb_ov_id','fb_op_id'];
 
     protected $fillable = [
+        'fb_id',
         'fb_ov_id',
         'fb_op_id',
         'fb_order_status',

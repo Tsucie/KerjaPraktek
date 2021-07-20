@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class FeedbackController extends Controller
+class AuthCustomerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,19 +14,7 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        $data = DB::table('feedbacks')
-                ->leftJoin('order_venues', 'feedbacks.fb_ov_id', '=', 'order_venues.ov_id')
-                ->leftJoin('order_products', 'feedbacks.fb_op_id', '=', 'order_products.op_id')
-                ->select('order_venues.*', 'order_products.*', 'feedbacks.*')
-                ->selectSub("SELECT cst_name FROM dbsilungkang.customers WHERE cst_id=order_venues.ov_cst_id OR cst_id=order_products.op_cst_id",'cst_name')
-                    ->orderBy('feedbacks.fb_order_status')
-                        ->paginate(5);
-        
-        foreach ($data as $ele) {
-            $strArr = explode(' ',trim($ele->fb_text));
-            $ele->fb_text = $strArr[0].' '.$strArr[1].' '.$strArr[2].' '.$strArr[3].' ...';
-        }
-        return view('feedback.index', compact('data'));
+        //
     }
 
     /**

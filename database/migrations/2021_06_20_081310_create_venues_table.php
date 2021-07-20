@@ -23,6 +23,8 @@ class CreateVenuesTable extends Migration
                 $table->string('vnu_desc')->nullable();
                 $table->text('vnu_fasilitas');
                 $table->decimal('vnu_harga',20,2,true);
+                $table->string('vnu_jam_pemakaian_siang');
+                $table->string('vnu_jam_pemakaian_malam');
                 $table->smallInteger('vnu_status_tersedia');
                 $table->string('created_by')->nullable();
                 $table->string('updated_by')->nullable();
