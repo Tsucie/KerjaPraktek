@@ -23,6 +23,7 @@ class CreateFeedbacksTable extends Migration
                 $table->bigInteger('fb_op_id')->nullable();
                 $table->smallInteger('fb_order_status');
                 $table->text('fb_text');
+                $table->decimal('fb_rating',1,1,true);
                 $table->timestamps();
                 $table->primary('fb_id');
                 $table->foreign('fb_ov_id')

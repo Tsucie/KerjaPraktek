@@ -29,4 +29,26 @@ class OrderProduct extends Model
         'op_status_order',
         'op_contact_customer'
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'op_cst_id', 'cst_id');
+    }
+
+    public function detail()
+    {
+        return $this->hasOne(OrderDetailProduct::class, 'odp_op_id', 'op_id');
+    }
+
+    public function product()
+    {
+        return $this->hasOneThrough(
+            Product::class,
+            OrderDetailProduct::class,
+            'pdct_id',
+            'odp_pdct_id',
+            'op_id',
+            'odp_op_id'
+        );
+    }
 }

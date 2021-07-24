@@ -20,6 +20,21 @@ class Feedback extends Model
         'fb_ov_id',
         'fb_op_id',
         'fb_order_status',
-        'fb_text'
+        'fb_text',
+        'fb_rating'
     ];
+
+    protected $casts = [
+        'fb_rating' => 'decimal'
+    ];
+
+    public function orderVenue()
+    {
+        return $this->belongsTo(OrderVenue::class, 'fb_ov_id', 'ov_id');
+    }
+
+    public function orderProduct()
+    {
+        return $this->belongsTo(OrderProduct::class, 'fb_op_id', 'op_id');
+    }
 }

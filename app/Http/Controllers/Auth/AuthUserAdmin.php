@@ -147,7 +147,7 @@ class AuthUserAdmin extends Controller
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-        Session::flash('error', 'Username atau Password Salah');
+        Session::flash('error', 'Email atau Password Salah');
         return redirect()->route('login');
     }
 

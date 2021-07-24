@@ -23,4 +23,9 @@ class OrderDetailProduct extends Model
         'odp_pdct_harga',
         'odp_pdct_qty'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'odp_pdct_id', 'pdct_id');
+    }
 }

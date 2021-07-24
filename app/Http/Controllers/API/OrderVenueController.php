@@ -127,7 +127,7 @@ class OrderVenueController extends Controller
 
                 DB::commit();
                 $resmsg->code = 1;
-                $resmsg->message = 'Data Berhasil Ditambahkan';
+                $resmsg->message = 'Order Berhasil Ditambahkan';
             }
             catch (Exception $ex)
             {
@@ -157,7 +157,6 @@ class OrderVenueController extends Controller
     public function show($id)
     {
         $resmsg = new ResponseMessage();
-
         try
         {
             if (preg_match("/[A-Za-z]/", $id)) throw new Exception("Data Tidak Valid", 0);
@@ -242,7 +241,7 @@ class OrderVenueController extends Controller
 
                 DB::commit();
                 $resmsg->code = 1;
-                $resmsg->message = 'Data berhasil diubah';
+                $resmsg->message = 'Order berhasil diubah';
             }
             catch (Exception $ex)
             {
@@ -289,7 +288,7 @@ class OrderVenueController extends Controller
 
                 DB::commit();
                 $resmsg->code = 1;
-                $resmsg->message = 'Data berhasil dihapus';
+                $resmsg->message = 'Order berhasil dihapus';
             }
             catch (Exception $ex)
             {

@@ -48,14 +48,14 @@ Route::group(['middleware' => 'auth:web'], function () {
     Route::get('/users', 'App\Http\Controllers\API\UserController@index')->name('users');
     Route::get('/customers', 'App\Http\Controllers\API\CustomerController@index')->name('customers');
     // [Layanan Menu]
-    // Routes Venue (API)
+    // Routes Venue (Direct & API)
     Route::get('/Venue', [VenueController::class, 'index'])->name('venues');
     Route::post('/Venue', [VenueController::class, 'store']);
     Route::put('/Venue', [VenueController::class, 'update']);
     Route::delete('/Venue', [VenueController::class, 'destroy']);
     Route::put('/VenuePhoto', [VenueController::class, 'updatePhoto']);
     Route::delete('/VenuePhoto', [VenueController::class, 'destroyPhoto']);
-    // Routes Product (API)
+    // Routes Product (Direct & API)
     Route::get('/Product', [ProductController::class, 'index'])->name('products');
     Route::post('/Product', [ProductController::class, 'store']);
     Route::put('/Product', [ProductController::class, 'update']);
@@ -65,18 +65,18 @@ Route::group(['middleware' => 'auth:web'], function () {
     // Route Promo Page
     Route::get('/Promo', [PromoController::class, 'index'])->name('promo');
     // [Order & Feedback Menu]
-    // Route OrderVenue Page
+    // Route OrderVenue Page (Direct)
     Route::get('/OrderVenue', [OrderVenueController::class, 'index']);
-    // Route OrderProduct Page
+    // Route OrderProduct Page (Direct)
     Route::get('/OrderProduct', [OrderProductController::class, 'index']);
-    // Route Feedback Page
+    // Route Feedback Page (Direct)
     Route::get('/Feedback', [FeedbackController::class, 'index']);
-    // Admin Profile Routes
+    // Admin Profile Routes (API)
     Route::get('profile', ['as' => 'profile.edit', 'uses' => 'App\Http\Controllers\ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
     Route::get('/Customer/{id}', [CustomerController::class, 'show']);
-    // Route Logout Admin
+    // Route Logout Admin (Direct)
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthUserAdmin@logout')->name('logout');
 
     // Route group API Resources (CRUD)
@@ -90,23 +90,21 @@ Route::group(['middleware' => 'auth:web'], function () {
     ]);
 });
 
-// Routes SignUp Customer
-Route::post('/Customer/SignUp', [CustomerController::class, 'store']);
-// Routes SignIn Customer
+// Routes SignUp Customer (API)
+Route::post('/Customer/signup', [CustomerController::class, 'store']);
+// Routes SignIn Customer (Direct)
+Route::get('/signin', 'App\Http\Controllers\Auth\AuthCustomerController@showLoginForm')->name('signin');
+Route::post('/signin', 'App\Http\Controllers\Auth\AuthCustomerController@login')->name('signin');
 
 // Routes group for Customer
 Route::group(['middleware' => 'auth:customer'], function () {
-    // Route Order Venue
+    // Route Order Venue (API)
     Route::post('/VenueOrderGetListById', [OrderVenueController::class, 'getList']);
     Route::get('/VenueOrder/{id}', [OrderVenueController::class, 'show']);
     Route::post('/VenueOrder', [OrderVenueController::class, 'store']);
 
-    // Route Order Product
+    // Route Order Product (API)
     Route::post('/ProductOrderGetListById', [OrderProductController::class, 'getList']);
     Route::get('/ProductOrder/{id}', [OrderProductController::class, 'show']);
     Route::post('/ProductOrder', [OrderProductController::class, 'store']);
 });
-
-// Route::get('/token', function() {
-//     return csrf_token();
-// });
