@@ -25,6 +25,7 @@ class OrderProduct extends Model
         'op_nominal_pajak',
         'op_alamat_pengiriman',
         'op_alamat_pemesanan',
+        'op_sum_biaya',
         'op_tanggal_order',
         'op_status_order',
         'op_contact_customer'
@@ -42,13 +43,13 @@ class OrderProduct extends Model
 
     public function product()
     {
-        return $this->hasOneThrough(
+        return $this->hasOneThrough( // Through Junction Table
             Product::class,
             OrderDetailProduct::class,
-            'pdct_id',
-            'odp_pdct_id',
-            'op_id',
-            'odp_op_id'
+            'odp_op_id', // Foreign key on OrderDetailProduct that related to this
+            'pdct_id', // Local key on Product that related to OrderDetailProduct
+            'op_id', // Local key on this that related to OrderDetailProduct
+            'odp_pdct_id' // Foreign key on OrderDetailProduct that related to Product
         );
     }
 }

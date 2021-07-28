@@ -87,7 +87,6 @@ function EditOrder() {
     DisableBtn('#btn-edit-ov');
 
     var formData = new FormData();
-    formData.append("id", edit);
     formData.append("ov_no_telp", $('#ov_no_telp').val());
     formData.append("ov_nama_catering", $('#ov_nama_catering').val());
     if ($('#ov_biaya_lain').val() != "") formData.append("ov_biaya_lain", parseInt($('#ov_biaya_lain').val()));

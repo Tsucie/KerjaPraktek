@@ -26,7 +26,7 @@ class OrderProductController extends Controller
         foreach ($data as $ele) {
             $ele->op_tanggal_order = date_format(
                 DateTime::createFromFormat('Y-m-d H:i:s', $ele->op_tanggal_order),
-                DateTime::RSS
+                'D, d M Y H:i:s'
             );
         }
         return view('order.product', compact('data'));
@@ -148,8 +148,11 @@ class OrderProductController extends Controller
 
             $data = OrderProduct::query()->where('op_id','=',$id)
                         ->with(['customer','detail','product'])->get();
-            
             if ($data->count() == 0) throw new Exception("Tidak Ada Data", 0);
+            $data[0]->op_tanggal_order = date_format(
+                DateTime::createFromFormat('Y-m-d H:i:s', $data[0]->op_tanggal_order),
+                'D, d M Y H:i:s'
+            );
             return response()->json($data);
         }
         catch (Exception $ex)
@@ -193,7 +196,7 @@ class OrderProductController extends Controller
             $existingOrder = OrderProduct::query()->where('op_id','=',$id)->with('detail')->get();
             if ($existingOrder->count() == 0) throw new Exception("Data Order tidak ada", 0);
             $updateDetail = [
-                'odp_pdct_qty' => $request->pdct_qty
+                'odp_pdct_qty' => $request->pdct_qty ?? $existingOrder[0]->detail->odp_pdct_qty
             ];
             $sumPdctPrice = $existingOrder[0]->op_sum_harga_produk;
             if ($request->has('pdct_id') && $request->pdct_id != $existingOrder[0]->detail->odp_pdct_id)
@@ -209,13 +212,15 @@ class OrderProductController extends Controller
                     $sumPdctPrice = $existPdct['pdct_harga'] * $updateDetail['odp_pdct_qty'];
                 }
             }
+            $pajak =  $sumPdctPrice * ($request->op_persen_pajak/100);
             $updateOrder = [
                 'op_lokasi_pengiriman' => $request->op_lokasi_pengiriman,
                 'op_sum_harga_produk' => $sumPdctPrice,
                 'op_harga_ongkir' => $request->op_harga_ongkir,
                 'op_persen_pajak' => $request->op_persen_pajak,
-                'op_nominal_pajak' => $sumPdctPrice * ($request->op_persen_pajak/100),
+                'op_nominal_pajak' => $pajak,
                 'op_alamat_pemesanan' => $request->alamat_pemesanan,
+                'op_sum_biaya' => $sumPdctPrice + $request->op_harga_ongkir + $pajak,
                 'op_status_order' => $request->op_status_order,
                 'op_contact_customer' => $request->op_contact_customer
             ];

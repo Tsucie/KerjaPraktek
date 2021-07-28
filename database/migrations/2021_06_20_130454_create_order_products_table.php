@@ -27,6 +27,7 @@ class CreateOrderProductsTable extends Migration
                 $table->decimal('op_nominal_pajak')->nullable();
                 $table->text('op_alamat_pengiriman')->nullable();
                 $table->text('op_alamat_pemesanan')->nullable();
+                $table->decimal('op_sum_biaya',20,2,true);
                 $table->dateTime('op_tanggal_order');
                 $table->smallInteger('op_status_order');
                 $table->timestamps();
