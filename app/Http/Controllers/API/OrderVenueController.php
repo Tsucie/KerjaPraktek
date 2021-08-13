@@ -48,6 +48,51 @@ class OrderVenueController extends Controller
     }
 
     /**
+     * Return a list of the resource as json.
+     *
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response::json
+     */
+    public function checkAvailable(Request $request)
+    {
+        $request->validate([
+            'vnu_id' => 'required|numeric',
+            'tanggal' => 'required',
+            'waktu' => 'required'
+        ]);
+        $resmsg = new ResponseMessage();
+        // dd($request);
+        try {
+            $data = DB::table('order_venues')
+                        ->join('guests', 'order_venues.ov_gst_id', '=', 'guests.gst_id')
+                        ->where('ov_vnu_id','=',$request->vnu_id)
+                        ->where('guests.gst_rencana_pemakaian','=',$request->tanggal)
+                        ->where('guests.gst_waktu_pemakaian','=',$request->waktu)
+                        ->where('ov_status_order','>',1)
+                        ->get();
+            if ($data->count() > 0) {
+                $resmsg->code = 0;
+                $resmsg->message = 'Venue sudah di booking';
+            }
+            else {
+                $resmsg->code = 1;
+                $resmsg->message = 'Venue tersedia';
+            }
+        }
+        catch (Exception $ex)
+        {
+            // $resmsg->code = 0;
+            // $resmsg->message = 'Tidak ada Data';
+
+            #region Code Testing
+            $resmsg->code = $ex->getCode();
+            $resmsg->message = $ex->getMessage();
+            #endregion
+        }
+        return response()->json($resmsg);
+    }
+
+    /**
      * Get a list of the resource from database.
      *
      * @return \Illuminate\Support\Collection
@@ -57,8 +102,8 @@ class OrderVenueController extends Controller
         return DB::table('order_venues')
                      ->join('guests', 'order_venues.ov_gst_id', '=', 'guests.gst_id')
                         ->select('order_venues.*', 'guests.*')
-                            ->orderBy('guests.gst_rencana_pemakaian')
                             ->orderBy('order_venues.ov_status_order')
+                            ->orderBy('guests.gst_rencana_pemakaian')
                             ->where('ov_cst_id', $cs_id == null ? '<>' : '=', $cs_id)
                                 ->paginate($pageLength, ['*'], 'page', $page);
     }
@@ -71,6 +116,7 @@ class OrderVenueController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
         $resmsg = new ResponseMessage();
         $request->validate([
             'cst_id' => 'required|numeric',
@@ -81,7 +127,8 @@ class OrderVenueController extends Controller
             'gst_alamat' => 'required',
             'gst_no_telp' => 'required',
             'gst_rencana_pemakaian' => 'required',
-            'gst_waktu_pemakaian' => 'required'
+            'gst_waktu_pemakaian' => 'required',
+            'ov_lain_lain' => 'numeric'
         ]);
         try
         {
@@ -103,6 +150,7 @@ class OrderVenueController extends Controller
                             $venue[0]->vnu_harga : (
                                 $venue[0]->promo == null ? $venue[0]->vnu_harga : $venue[0]->promo->prm_harga_promo
                             );
+            $sumBiaya = $hargaSewa + ($request->has('ov_lain_lain') ? $request->ov_lain_lain : 0);
             $orderData = [
                 'ov_id' => rand(intval(date('ymdhis')),intval(date('ymdhis'))),
                 'ov_cst_id' => $request->cst_id,
@@ -111,10 +159,11 @@ class OrderVenueController extends Controller
                 'ov_vnu_nama' => $venue[0]->vnu_nama,
                 'ov_no_telp' => $request->ov_no_telp,
                 'ov_harga_sewa' => $hargaSewa,
-                'ov_more_facilities' => $request->ov_more_facilities ?? null,
-                'ov_sum_biaya' => $venue[0]->vnu_harga,
+                'ov_more_facilities' => $request->has('ov_more_facilities') ? $request->ov_more_facilities : null,
+                'ov_lain_lain' => $request->has('ov_lain_lain') ? $request->ov_lain_lain : null,
+                'ov_sum_biaya' => $sumBiaya,
                 'ov_down_payment' => 0.00,
-                'ov_remaining_payment' => $venue[0]->vnu_harga,
+                'ov_remaining_payment' => $sumBiaya,
                 'ov_status_order' => 0, // 0: Dalam Proses
                 'ov_contact_customer' => 0
             ];

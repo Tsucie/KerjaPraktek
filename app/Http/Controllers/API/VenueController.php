@@ -27,6 +27,14 @@ class VenueController extends Controller
         return view('venue.index', compact('data'));
     }
 
+    public function detail($id)
+    {
+        $data = Venue::query()->where('vnu_id','=',$id)
+                    ->with(['promo','photos'])
+                    ->get();
+        return view('customers.venuedetail', compact('data'));
+    }
+
     /**
      * Return a list of the resource as json.
      *
@@ -197,6 +205,7 @@ class VenueController extends Controller
     {
         $resmsg = new ResponseMessage();
         $request->validate([
+            'images.*' => 'mimes:jpeg,png,jpg|max:5120',
             'id' => 'required|integer',
             'nama' => 'required',
             'fasilitas' => 'required',
@@ -217,23 +226,60 @@ class VenueController extends Controller
             'updated_by' => auth()->user()->name ?? 'system'
         ];
 
+        $photoData = [];
+        if ($request->has('imgLength') && $request->imgLength > 0)
+        {
+            for($i = 0; $i < $request->imgLength; $i++)
+            {
+                if ($request->hasFile('images'.$i))
+                {
+                    $file = $request->file('images'.$i);
+                    $photoRequest = ImageProcessor::getImageThumbnail($file, $request->nama, 'vp_filename', 'vp_photo',$i);
+                    array_push($photoData, $photoRequest);
+                }
+            }
+        }
+
+        DB::beginTransaction();
         try
         {
             $vnu_id = $request->id;
             Venue::query()->where('vnu_id','=',$vnu_id)->update($updateVenue);
+            if ($request->has('imgLength') && $request->imgLength > 0)
+            {
+                VenuePhoto::query()->where('vp_vnu_id','=',$vnu_id)->delete();
+                foreach ($photoData as $photo)
+                {
+                    $photo->merge([
+                        'vp_id' => rand(0,2147483647),
+                        'vp_vnu_id' => $vnu_id
+                    ]);
+                    VenuePhoto::query()->create($photo->all());
+                }
+            }
 
+            DB::commit();
             $resmsg->code = 1;
             $resmsg->message = 'Data Berhasil Diubah';
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 0;
-            // $resmsg->message = 'Data Gagal Diubah';
+            DB::rollBack();
+            if ($ex->getCode() == 22001)
+            {
+                $resmsg->code = 0;
+                $resmsg->message = 'Ukuran foto tidak sesuai';
+            }
+            else
+            {
+                // $resmsg->code = 0;
+                // $resmsg->message = 'Data Gagal Ditambahkan';
 
-            #region Code Testing
-            $resmsg->code = $ex->getCode();
-            $resmsg->message = $ex->getMessage();
-            #endregion
+                #region Code Testing
+                $resmsg->code = $ex->getCode();
+                $resmsg->message = $ex->getMessage();
+                #endregion
+            }
         }
 
         return response()->json($resmsg);

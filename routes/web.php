@@ -23,9 +23,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Routes Global (guests)
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+Route::get('/', function () { return view('welcome'); })->name('welcome');
+Route::get('/venue/{id}', [VenueController::class, 'detail'])->name('venuedetail');
+Route::get('/product/{id}', function() { return view('customers.productdetail'); })->name('productdetail');
+
+Route::get('/morefacilities', [MoreFacilityController::class, 'index']);
 
 Route::get('/VenueGetList', [VenueController::class, 'getList']);
 Route::get('/Venue/{id}', [VenueController::class, 'show']);
@@ -86,25 +88,32 @@ Route::group(['middleware' => 'auth:web'], function () {
         'Promo' => PromoController::class,
         'User' => UserController::class,
         'OrderVenue' => OrderVenueController::class,
-        'OrderProduct' => OrderProductController::class
+        'OrderProduct' => OrderProductController::class,
+        'Feedback' => FeedbackController::class
     ]);
 });
 
-// Routes SignUp Customer (API)
+// Route SignUp Customer (API)
 Route::post('/Customer/signup', [CustomerController::class, 'store']);
-// Routes SignIn Customer (Direct)
-Route::get('/signin', 'App\Http\Controllers\Auth\AuthCustomerController@showLoginForm')->name('signin');
-Route::post('/signin', 'App\Http\Controllers\Auth\AuthCustomerController@login')->name('signin');
+// Route SignIn Customer (API)
+Route::post('/Customer/signin', 'App\Http\Controllers\Auth\AuthCustomerController@login');
+// Route Cek Available for Venue (API)
+Route::post('/CheckVenue', [OrderVenueController::class, 'checkAvailable']);
 
 // Routes group for Customer
 Route::group(['middleware' => 'auth:customer'], function () {
-    // Route Order Venue (API)
+    // Routes Order Venue (API)
     Route::post('/VenueOrderGetListById', [OrderVenueController::class, 'getList']);
     Route::get('/VenueOrder/{id}', [OrderVenueController::class, 'show']);
     Route::post('/VenueOrder', [OrderVenueController::class, 'store']);
-
-    // Route Order Product (API)
+    // Routes Order Product (API)
     Route::post('/ProductOrderGetListById', [OrderProductController::class, 'getList']);
     Route::get('/ProductOrder/{id}', [OrderProductController::class, 'show']);
     Route::post('/ProductOrder', [OrderProductController::class, 'store']);
+    // Route SignOut Customer (API)
+    Route::post('/Customer/signout', 'App\Http\Controllers\Auth\AuthCustomerController@logout');
+    // Route group API Resources (CRUD)
+    Route::apiResources([
+        'Review' => FeedbackController::class
+    ]);
 });

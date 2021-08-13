@@ -24,7 +24,7 @@ class CreateOrderVenuesTable extends Migration
                 $table->integer('ov_vnu_id');
                 $table->string('ov_vnu_nama');
                 $table->string('ov_nama_catering');
-                $table->string('ov_no_telp',20);
+                $table->string('ov_no_telp');
                 $table->decimal('ov_harga_sewa',20,2,true);
                 $table->decimal('ov_biaya_lain',20,2,true)->nullable();
                 $table->decimal('ov_fee_catering',20,2,true)->nullable();

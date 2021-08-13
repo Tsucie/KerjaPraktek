@@ -18,33 +18,35 @@
                                     <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales"
                                     data-update='{
                                         "data":{
+                                            "labels": ["Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
                                             "datasets":[
                                                 {
-                                                    "data":[5000, 2000, 1000, 3000, 1500, 4000, 2000, 6000, 6000]
+                                                    "data":[5000, 0, 0, 0, 0, 0]
                                                 }
                                             ]
                                         }
                                     }'
                                     data-prefix="Rp " data-suffix="k">
                                         <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
-                                            <span class="d-none d-md-block">Bulan</span>
-                                            <span class="d-md-none">B</span>
+                                            <span class="d-none d-md-block">Venue</span>
+                                            <span class="d-md-none">V</span>
                                         </a>
                                     </li>
                                     <li class="nav-item" data-toggle="chart" data-target="#chart-sales"
                                     data-update='{
                                         "data":{
+                                            "labels": ["Jul", "Agu", "Sep", "Okt", "Nov", "Des"],
                                             "datasets":[
                                                 {
-                                                    "data":[500, 2000, 500, 2500, 1000, 3000, 1500, 4000, 4000]
+                                                    "data":[500, 0, 0, 0, 0, 0]
                                                 }
                                             ]
                                         }
                                     }'
                                     data-prefix="Rp " data-suffix="k">
                                         <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
-                                            <span class="d-none d-md-block">Minggu</span>
-                                            <span class="d-md-none">M</span>
+                                            <span class="d-none d-md-block">Produk</span>
+                                            <span class="d-md-none">P</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -72,7 +74,14 @@
                     </div>
                     <div class="card-body">
                         <!-- Chart -->
-                        <div class="chart">
+                        <div class="chart" id="chart-container">
+                        {{-- data-update='{
+                            "labels": ['Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+                            "datasets": [{
+                                label: 'Sales',
+                                data: [25, 20, 30, 22, 17, 29]
+                            }]
+                        }'> --}}
                             <canvas id="chart-orders" class="chart-canvas"></canvas>
                         </div>
                     </div>

@@ -9,7 +9,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Kunjungan</h5>
-                                    <span class="h2 font-weight-bold mb-0">{{ number_format(350897) }}</span>
+                                    <span class="h2 font-weight-bold mb-0">{{ number_format($data['vst']) }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
@@ -30,7 +30,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Customer</h5>
-                                    <span class="h2 font-weight-bold mb-0">{{ number_format(2356) }}</span>
+                                    <span class="h2 font-weight-bold mb-0">{{ number_format($data['cs']) }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
@@ -51,7 +51,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Order</h5>
-                                    <span class="h2 font-weight-bold mb-0">{{ number_format(1924) }}</span>
+                                    <span class="h2 font-weight-bold mb-0">{{ number_format($data['ord']) }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
@@ -72,7 +72,7 @@
                             <div class="row">
                                 <div class="col">
                                     <h5 class="card-title text-uppercase text-muted mb-0">Performa</h5>
-                                    <span class="h2 font-weight-bold mb-0">49,65%</span>
+                                    <span class="h2 font-weight-bold mb-0">{{ $data['performa'] }}</span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-info text-white rounded-circle shadow">

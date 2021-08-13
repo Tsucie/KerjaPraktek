@@ -26,11 +26,21 @@ class Customer extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $hidden = [
-        'cst_password',
+        // 'cst_password',
         'remember_token',
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->cst_password;
+    }
 }

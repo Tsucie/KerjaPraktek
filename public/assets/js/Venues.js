@@ -65,7 +65,7 @@ function ShowEditModals(obj) {
     $("#AddEditModal").on('show.bs.modal', function (e) {
         var modal = $(this);
         modal.find('.modal-title').text(actionTitle);
-        $('#gallery-photo-add').hide();
+        $('#gallery-photo-add').show();
         $("#btn-edit-vnu").show();
         $("#btn-add-vnu").hide();
     });
@@ -253,8 +253,15 @@ function GetVenue(id) {
 function EditVenue() {
     if (!validasi()) return false;
     DisableBtn('#btn-edit-vnu');
-
     var formData = new FormData();
+    let input = $('#gallery-photo-add')[0];
+    if (input.files) {
+        let length = input.files.length;
+        for (let i = 0; i < length; i++) {
+            formData.append("images"+i, input.files[i]);
+        }
+        formData.append("imgLength", input.files.length);
+    }
     formData.append("id", edit);
     formData.append("nama", $('#nama').val());
     formData.append("desc", $('#desc').val());

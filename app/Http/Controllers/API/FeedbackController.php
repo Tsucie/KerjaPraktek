@@ -6,6 +6,7 @@ use Exception;
 use App\Http\Controllers\Controller;
 use App\Models\Feedback;
 use App\Models\ResponseMessage;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,16 +20,16 @@ class FeedbackController extends Controller
     public function index()
     {
         $data = DB::table('feedbacks')
-                ->leftJoin('order_venues', 'feedbacks.fb_ov_id', '=', 'order_venues.ov_id')
-                ->leftJoin('order_products', 'feedbacks.fb_op_id', '=', 'order_products.op_id')
-                ->select('order_venues.*', 'order_products.*', 'feedbacks.*')
-                ->selectSub("SELECT cst_name FROM dbsilungkang.customers WHERE cst_id=order_venues.ov_cst_id OR cst_id=order_products.op_cst_id",'cst_name')
-                    ->orderBy('feedbacks.fb_order_status')
+                ->leftJoin('venues', 'feedbacks.fb_vnu_id', '=', 'venues.vnu_id')
+                ->leftJoin('products', 'feedbacks.fb_pdct_id', '=', 'products.pdct_id')
+                ->select('venues.*', 'products.*', 'feedbacks.*')
+                    ->orderBy('feedbacks.created_at', 'desc')
                         ->paginate(5);
         
         foreach ($data as $ele) {
             $strArr = explode(' ',trim($ele->fb_text));
-            $ele->fb_text = $strArr[0].' '.$strArr[1].' '.$strArr[2].' '.$strArr[3].' ...';
+            $ele->fb_text = $strArr[0].' ...';
+            $ele->created_at = date_format(DateTime::createFromFormat('Y-m-d H:i:s', $ele->created_at),'l, d F Y H:i:s');
         }
         return view('feedback.index', compact('data'));
     }
@@ -43,32 +44,41 @@ class FeedbackController extends Controller
     {
         $resmsg = new ResponseMessage();
         $request->validate([
-            'fb_ov_id' => 'numeric',
-            'fb_op_id' => 'numeric',
+            'fb_vnu_id' => 'numeric',
+            'fb_pdct_id' => 'numeric',
+            'fb_cst_nama' => 'required|string',
+            'fb_cst_email' => 'required|string',
             'fb_text' => 'required|string',
-            'fb_order_status' => 'required|numeric',
             'fb_rating' => 'required|numeric'
         ]);
         try {
-            if (!$request->has('fb_ov_id') && !$request->has('fb_op_id')) throw new Exception("Data tidak valid");
+            if (!$request->has('fb_vnu_id') && !$request->has('fb_pdct_id')) throw new Exception("Data tidak valid");
             $fbData = [
                 'fb_id' => rand(intval(date('ymdhis')),intval(date('ymdhis'))),
-                'fb_ov_id' => $request->fb_ov_id ?? null,
-                'fb_op_id' => $request->fb_op_id ?? null,
+                'fb_vnu_id' => $request->fb_vnu_id ?? null,
+                'fb_pdct_id' => $request->fb_pdct_id ?? null,
+                'fb_cst_nama' => $request->fb_cst_nama,
+                'fb_cst_email' => $request->fb_cst_email,
                 'fb_text' => $request->fb_text,
-                'fb_order_status' => $request->fb_order_status
+                'fb_rating' => $request->fb_rating ?? 0
             ];
             Feedback::query()->create($fbData);
             $resmsg->code = 1;
             $resmsg->message = "Feedback berhasil dibuat";
         } catch (Exception $ex) {
-            // $resmsg->code = 0;
-            // $resmsg->message = 'Data Gagal Dihapus';
+            if ($ex->getCode() == 23000) {
+                $resmsg->code = 0;
+                $resmsg->message = "Feedback sudah ada";
+            }
+            else {
+                // $resmsg->code = 0;
+                // $resmsg->message = 'Feedback Gagal dibuat';
 
-            #region Code Testing
-            $resmsg->code = $ex->getCode();
-            $resmsg->message = $ex->getMessage();
-            #endregion
+                #region Code Testing
+                $resmsg->code = $ex->getCode();
+                $resmsg->message = $ex->getMessage();
+                #endregion
+            }
         }
         return response()->json($resmsg);
     }
@@ -83,14 +93,16 @@ class FeedbackController extends Controller
     {
         $resmsg = new ResponseMessage();
         try {
-            if (preg_match("/[A-Za-z]/", $id)) throw new Exception("Data Tidak Valid", 0);
+            $column = '';
+            if (preg_match("/[0-9]/", $id)) $column = 'fb_id';
+            if (filter_var($id, FILTER_VALIDATE_EMAIL)) $column = 'fb_cst_email';
 
-            $data = Feedback::query()->where('fb_id','=',$id)->with(['orderVenue','orderProduct'])->get();
+            $data = Feedback::query()->where($column,'=',$id)->get();
             if ($data->count() == 0) throw new Exception("Tidak Ada Data", 0);
             return response()->json($data);
         } catch (Exception $ex) {
             // $resmsg->code = 0;
-            // $resmsg->message = 'Data Gagal Dihapus';
+            // $resmsg->message = 'Data Tidak Ada';
 
             #region Code Testing
             $resmsg->code = $ex->getCode();
@@ -111,8 +123,9 @@ class FeedbackController extends Controller
     {
         $resmsg = new ResponseMessage();
         $request->validate([
+            'fb_cst_nama' => 'required|string',
+            'fb_cst_email' => 'required|string',
             'fb_text' => 'required|string',
-            'fb_order_status' => 'required|numeric',
             'fb_rating' => 'required|numeric'
         ]);
         try {
@@ -124,7 +137,7 @@ class FeedbackController extends Controller
             $resmsg->message = 'Feedback berhasil diubah';
         } catch (Exception $ex) {
             // $resmsg->code = 0;
-            // $resmsg->message = 'Data Gagal Dihapus';
+            // $resmsg->message = 'Data Gagal diubah';
 
             #region Code Testing
             $resmsg->code = $ex->getCode();

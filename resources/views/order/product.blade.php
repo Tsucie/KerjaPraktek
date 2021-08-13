@@ -201,7 +201,7 @@
                                 <td class="name">{{ $item->pdct_nama }}</td>
                                 <td class="cst_name">{{ $item->cst_name }}</td>
                                 <td class="op_tanggal_order">{{ $item->op_tanggal_order }}</td>
-                                <td class="harga">Rp {{ number_format($item->op_sum_harga_produk, 2) }}</td>
+                                <td class="price">Rp {{ number_format($item->op_sum_biaya, 2) }}</td>
                                 <!-- op_status_order -->
                                 <td>
                                     @switch($item->op_status_order)

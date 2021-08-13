@@ -19,7 +19,7 @@ function pesanAlert(obj) {
             break;
     }
     notif({
-        msg: "<b>" + msg + "</b>",
+        msg: '<b style="color: white;">' + msg + '</b>',
         type: color,
         position: "center"
     });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\ResponseMessage;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,8 +53,8 @@ class AuthCustomerController extends Controller
     public function login(Request $request)
     {
         $this->validateLogin($request);
-        if ($request->has('toPage'))
-            $this->redirectTo = $request->toPage;
+        // if ($request->has('toPage'))
+        //     $this->redirectTo = $request->toPage;
 
         $this->attemptLogin($request);
 
@@ -72,15 +73,21 @@ class AuthCustomerController extends Controller
      */
     public function logout(Request $request)
     {
+        $name = auth()->guard('customer')->user()->cst_name;
+
         $this->guard('customer')->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return $request->wantsJson()
-            ? new JsonResponse([], 204)
-            : redirect('/');
+        $resmsg = new ResponseMessage();
+        $resmsg->code = 1;
+        $resmsg->message = 'Logout Berhasil. Bye '.$name.'';
+        return response()->json($resmsg);
+        // return $request->wantsJson()
+        //     ? new JsonResponse([], 204)
+        //     : redirect('/');
     }
 
     /**
@@ -94,8 +101,8 @@ class AuthCustomerController extends Controller
     protected function validateLogin(Request $request)
     {
         $request->validate([
-            $this->username() => 'required|string',
-            'cst_password' => 'required|string',
+            'email' => 'required|string',
+            'password' => 'required|string',
         ]);
     }
 
@@ -122,9 +129,10 @@ class AuthCustomerController extends Controller
     {
         $data = [
             $this->username() => $request->email,
-            'cst_password' => $request->password
+            'password' => $request->password
         ];
         return $data;
+        // return $request->only($this->username(), 'cst_password');
     }
 
     /**
@@ -136,8 +144,11 @@ class AuthCustomerController extends Controller
     protected function sendLoginResponse(Request $request)
     {
         $request->session()->regenerate();
-
-        return $request->wantsJson() ? new JsonResponse([], 204) : redirect()->intended($this->redirectTo);
+        $resmsg = new ResponseMessage();
+        $resmsg->code = 1;
+        $resmsg->message = 'Login Berhasil. Hai '.auth()->guard('customer')->user()->cst_name.'!';
+        return response()->json($resmsg);
+        // return $request->wantsJson() ? new JsonResponse([], 204) : redirect()->intended($this->redirectTo);
     }
 
     /**
@@ -150,8 +161,12 @@ class AuthCustomerController extends Controller
      */
     protected function sendFailedLoginResponse(Request $request)
     {
-        Session::flash('error', 'Email atau Password Salah');
-        return redirect()->route('signin');
+        // Session::flash('error', 'Email atau Password Salah');
+        // return redirect()->route('signin');
+        $resmsg = new ResponseMessage();
+        $resmsg->code = 0;
+        $resmsg->message = 'Email atau Password Salah';
+        return response()->json($resmsg);
     }
 
     /**

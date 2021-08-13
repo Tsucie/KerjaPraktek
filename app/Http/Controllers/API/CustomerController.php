@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\ResponseMessage;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -21,7 +22,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $data = Customer::orderBy('cst_name', 'ASC')->get();
+        $data = DB::table('customers')->orderBy('cst_name','asc')->paginate(10);
         return view('customers.index', compact('data'));
     }
 
@@ -43,7 +44,7 @@ class CustomerController extends Controller
         try
         {
             $csData = [
-                'cst_id' => rand(PHP_INT_MIN, PHP_INT_MAX),
+                'cst_id' => rand(intval(date('ymdhis')),intval(date('ymdhis'))),
                 'cst_name' => $request->nama,
                 'cst_alamat' => $request->has('alamat') ? $request->alamat : null,
                 'cst_no_telp' => $request->has('no_telp') ? $request->no_telp : null,
@@ -53,12 +54,12 @@ class CustomerController extends Controller
             Customer::query()->create($csData);
 
             $resmsg->code = 1;
-            $resmsg->message = 'Data Berhasil Ditambahkan';
+            $resmsg->message = 'Registrasi Berhasil';
         }
         catch (Exception $ex)
         {
             // $resmsg->code = 1;
-            // $resmsg->message = 'Data Gagal Ditambahkan';
+            // $resmsg->message = 'Registrasi Gagal';
 
             #region Code Testing
             $resmsg->code = $ex->getCode();

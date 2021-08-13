@@ -95,6 +95,10 @@
                         @endforelse
                     </tbody>
                     </table>
+                    {{-- Pagination --}}
+                    <div class="card-footer bg-transparent d-flex justify-content-end">
+                        {!! $data->links() !!}
+                    </div>
                 </div>
             </div>
         </div>

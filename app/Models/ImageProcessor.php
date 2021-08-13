@@ -21,7 +21,7 @@ class ImageProcessor
         $photo = new Request();
         $imgExt = $imgFile->getClientOriginalExtension();
         $filename = $name.'_'.DateTime::Now().'_'.$index.'.'.$imgExt;
-        $imageThumb = Image::make($imgFile->getRealPath())->resize(200, 200, function ($constraint) {
+        $imageThumb = Image::make($imgFile->getRealPath())->resize(500, 500, function ($constraint) {
             $constraint->aspectRatio();
         });
         Response::make($imageThumb->encode($imgExt));

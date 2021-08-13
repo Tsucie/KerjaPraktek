@@ -36,4 +36,14 @@ class Venue extends Model
     {
         return $this->hasOne(Promo::class, 'prm_vnu_id', 'vnu_id');
     }
+
+    public function photos()
+    {
+        return $this->hasMany(VenuePhoto::class, 'vp_vnu_id', 'vnu_id');
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Feedback::class, 'fb_vnu_id', 'vnu_id');
+    }
 }
