@@ -1,5 +1,5 @@
 const appUrl = $('meta[name="route"]').attr('content');
-
+var notifAlign = "bottom";
 (function($) {
 
 	"use strict";
@@ -42,11 +42,70 @@ const appUrl = $('meta[name="route"]').attr('content');
 	};
 	carousel();
 
+	var venueList = function() {
+		let venueList = $('#venue-list');
+		$.ajax({
+			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+			type: "GET",
+			url: appUrl+'/VenueGetList',
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function (data) {
+				try {
+					if (data.code == null) {
+						if (data.length > 0) {
+							let rowHtml = '';
+							for (let i = 0; i < data.length; i++) {
+								rowHtml = 
+								'<div class="pst-box-styl3 lst '+ ((i%2) !== 0 ? '' : 'rev') +'">' +
+									'<div class="pst-thmb-styl3">' +
+										'<a href="'+appUrl+'/venue/'+data[i].vnu_id+'" title="" itemprop="url"><img src="data:image/'+data[i].vp_filename.split('.').pop()+';base64,'+data[i].vp_photo+'" alt="'+data[i].vp_filename+'" itemprop="image">'+
+										(data[i].vnu_status_tersedia == 1 ? '' : '<h3 class="position-absolute top-50 start-50 translate-middle text-thumb"><span>Coming Soon</span></h3>') +
+										'</a>' +
+									'</div>' +
+									'<div class="pst-inf-styl3">' +
+										'<span>'+ (data[i].vnu_tipe_waktu == 0 ? 'Gedung' : 'Ruangan') +'</span>' +
+										'<h4 itemprop="headline"><a href="'+appUrl+'/venue/'+data[i].vnu_id+'" title="" itemprop="url">'+data[i].vnu_nama+'</a></h4>' +
+										'<p itemprop="description">'+data[i].vnu_desc+'</p>' +
+										'<a class="fa fa-arrow-right" href="'+appUrl+'/venue/'+data[i].vnu_id+'" title="" itemprop="url"></a>' +
+									'</div>' +
+								'</div>';
+								venueList.append(rowHtml);
+							}
+						}
+						else { throw new Error(); }
+					} else { throw new Error(); }
+				} catch (error) {
+					$('#venue-section').hide();
+				}
+			},
+			error: function () {
+				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
+				$('#venue-section').hide();
+			},
+			complete: function () {}
+		});
+	};
+	if (window.location.href == appUrl ||
+			window.location.href === appUrl+'/' ||
+			window.location.href === appUrl+'/#' ||
+			window.location.href === appUrl+'/#about-section' ||
+			window.location.href === appUrl+'/#promo-section' ||
+			window.location.href === appUrl+'/#venue-section' ||
+			window.location.href === appUrl+'/#produk-section' ||
+			window.location.href === appUrl+'/#kontak-section') {
+		venueList();
+	}
+
 	$('a[href="#"]').attr('href', appUrl+'/#');
 	$('a[href="#about-section"]').attr('href', appUrl+'/#about-section');
   $('a[href="#promo-section"]').attr('href', appUrl+'/#promo-section');
   $('a[href="#produk-section"]').attr('href', appUrl+'/#produk-section');
-  $('a[href="#kontak-section"]').attr('href', appUrl+'/#kontak-section');
+	$('a[href="#kontak-section"]').attr('href', appUrl+'/#kontak-section');
+	
+	if ($(window).width() > 500) {
+		notifAlign = "center";
+	}
 
 })(jQuery);
 
@@ -90,6 +149,11 @@ $(".modal").on("hidden.bs.modal", function () {
 $('#regis-form').submit(function (e) {
 	e.preventDefault();
 	DisableBtn('#input-regis-submit');
+	if (!validatePass($('#input-regis-password').val(), $('#input-regis-confirm-password').val())) {
+		notif({msg: '<b style="color: white;">Password dan Confirm Password tidak sama!</b>', type: "error", position: notifAlign});
+		EnableBtn('#input-regis-submit','Sign Up');
+		return false;
+	}
 	let no_telp = $('#input-regis-telepon').val();
 	var formData = new FormData();
 	formData.append("nama", $('#input-regis-nama').val());
@@ -106,10 +170,10 @@ $('#regis-form').submit(function (e) {
 		processData: false,
 		contentType: false,
 		success: function (data) {
-			pesanAlert(data);
+			pesanAlert(data, notifAlign);
 		},
 		error: function () {
-				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: "center"});
+				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
 		},
 		complete: function () {
 				$('#regis-modal').modal('hide');
@@ -135,25 +199,27 @@ $("#login-form").submit(function(e) {
 			contentType: false,
 			success: function (data) {
 				if (data.code == 1) {
-					pesanAlert(data);
-					setTimeout(function () { window.location.reload() }, 2000);
+					$('#login-modal').modal('hide');
+					pesanAlert(data, notifAlign);
+					setTimeout(function () { window.location.reload() }, 1500);
 				}
 				else {
 					pesanAlert(data);
+					EnableBtn('#input-login-submit','Login');
 				}
 			},
 			error: function () {
-					notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: "center"});
-			},
-			complete: function () {
-					$('#login-modal').modal('hide');
-					EnableBtn('#input-login-submit','Login');
+					notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
 			}
 		});
 });
 
 //logout Function
 $('#logout-btn').click(function (e) {
+	e.preventDefault();
+	logout();
+});
+$('#logout-btn-mobile').click(function (e) {
 	e.preventDefault();
 	logout();
 });
@@ -170,15 +236,16 @@ function logout() {
 			contentType: false,
 			success: function (data) {
 				if (data.code == 1) {
-					pesanAlert(data);
-					setTimeout(function () { window.location.reload() }, 2000);
+					pesanAlert(data, notifAlign);
+					$('#respon-menu').removeClass('slidein');
+					setTimeout(function () { window.location.reload() }, 1500);
 				}
 				else {
 					pesanAlert(data);
 				}
 			},
 			error: function () {
-				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: "center"});
+				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
 			}
 		});
 	}
@@ -197,16 +264,16 @@ function show_pass_login() {
 	}
 };
 
-function show_pass_regis() {
-	var x = document.getElementById("input-regis-password");
+function show_pass_regis(idselector) {
+	var x = document.getElementById(idselector);
 	if (x.type === "password") {
 		x.type = "text";
-		$('input + label + a > .fa').removeClass("fa-eye-slash");
-		$('input + label + a > .fa').addClass("fa-eye");
+		$('#'+idselector+' + label + a > .fa').removeClass("fa-eye-slash");
+		$('#'+idselector+' + label + a > .fa').addClass("fa-eye");
 	}else if (x.type === "text") {
 		x.type = "password";
-		$('input + label + a > .fa').addClass("fa-eye-slash");
-		$('input + label + a > .fa').removeClass("fa-eye");
+		$('#'+idselector+' + label + a > .fa').addClass("fa-eye-slash");
+		$('#'+idselector+' + label + a > .fa').removeClass("fa-eye");
 	}
 };
 
@@ -225,3 +292,5 @@ function EnableBtn(selector, btnName = '') {
 	$(selector).prop('disabled', false);
 	$(selector).text(btnName);
 }
+
+var validatePass = (pass, cpass) => (pass === cpass);

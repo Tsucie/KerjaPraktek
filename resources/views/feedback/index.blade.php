@@ -31,10 +31,6 @@
                   <input class="form-control form-inputs" type="text" name="review" id="review" disabled>
                 </div>
             </div>
-            {{-- <div class="form-group">
-                <label for="fb_order_status">Status Order</label>
-                <div class="col-sm-12" id="fb_order_status"></div>
-            </div> --}}
             <div class="form-group">
                 <label for="fb_rating">Rating</label>
                 <div class="col-sm-12" id="fb_rating"></div>
@@ -55,6 +51,27 @@
   </div>
 </div>
 <!-- /.modal -->
+
+<!-- .modal-dialog -->
+<div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="DeleteModalTitle">Hapus Feedback</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-danger" id="btn-hps" data_id="" onclick="Delete(this)">Hapus</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.modal-dialog -->
+
 <div class="header bg-gradient-info pb-8 pt-5 pt-md-8"></div>
 <div class="container-fluid mt--7">
     <div class="row">
@@ -85,6 +102,7 @@
                                 <td class="created">{{ $item->created_at }}</td>
                                 <td class="action">
                                     <a class="btn btn-sm btn-info btn-table" data-toggle="tooltip" data-html="true" title="Lihat Detail Data" id="btndetail{{ $loop->index }}" role="button" data_id="{{ $item->fb_id }}" data_nama="{{ $item->vnu_nama ?? $item->pdct_nama }}" onclick="ShowDetails(this)">Detail Feedback</a>
+                                    <a class="btn btn-sm btn-danger btn-table" data-toggle="tooltip" data-html="true" title="Hapus Data" id="btndelete{{ $loop->index }}" role="button" data_id="{{ $item->fb_id }}" data_name="{{ $item->fb_cst_nama }}" onclick="DeleteFeedback(this)">Hapus</a>
                                 </td>
                             </tr>
                         @empty

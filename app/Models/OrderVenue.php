@@ -34,7 +34,9 @@ class OrderVenue extends Model
         'ov_down_payment',
         'ov_remaining_payment',
         'ov_status_order', // 0: Dalam Proses; 1: Terverifikasi; 2: Sudah Down Payment; 3: Selesai(Lunas); 4: Ditolak; 
-        'ov_contact_customer'
+        'ov_contact_customer',
+        'ov_bukti_transfer_filename',
+        'ov_bukti_transfer_file'
     ];
 
     public function customer()

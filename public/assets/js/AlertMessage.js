@@ -1,26 +1,23 @@
-function pesanAlert(obj) {
+function pesanAlert(obj, pos = "center") {
     let color = "";
     let msg = "";
     switch (parseInt(obj.code)) {
         case 1:
             color = "success";
             msg = obj.message;
-            position = "center";
             break;
         case 0:
             color = "warning";
             msg = obj.message;
-            position = "center";
             break;
         default:
             color = "error";
             msg = "Internal Server Error!";
-            position = "center";
             break;
     }
     notif({
         msg: '<b style="color: white;">' + msg + '</b>',
         type: color,
-        position: "center"
+        position: pos
     });
 }

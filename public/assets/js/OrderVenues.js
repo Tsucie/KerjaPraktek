@@ -8,9 +8,41 @@ $(document).ready(function () {
     });
 });
 
+$('#ov_status_order').on('change', function (e) {
+    if ($(this).val() == 2 || $(this).val() == 3) {
+        $('#div-input-bukti').removeClass('d-none');
+    }
+    else {
+        $('#div-input-bukti').addClass('d-none');
+    }
+});
+
+// JQuery Image Preview
+$(function() {
+    var imagesPreview = function(input, placeToInsertImagePreview) {
+        $(placeToInsertImagePreview).html("");
+        if (input.files) {
+            var filesAmount = input.files.length;
+            for (i = 0; i < filesAmount; i++) {
+                var reader = new FileReader();
+                reader.onload = function(event) {
+                    $($.parseHTML('<img width="100" height="auto" id="service-img">'))
+                        .attr('src', event.target.result)
+                        .appendTo(placeToInsertImagePreview);
+                }
+                reader.readAsDataURL(input.files[i]);
+            }
+        }
+    };
+    $('#ov_bukti_transfer_file').on('change', function() {
+        imagesPreview(this, 'div.gallery');
+    });
+});
+
 // Modals for Show Details
 function ShowDetails(obj) {
     let actionTitle = 'Informasi Pemesanan';
+    $('#ov_bukti_transfer_file').hide();
     $('#form').attr('method', "");
     $('#form').attr('action', "");
     $("#AddEditModal").on('show.bs.modal', function (e) {
@@ -25,6 +57,7 @@ function ShowDetails(obj) {
 function ShowEditModals(obj) {
     let actionTitle = obj.attributes.data_text.value;
     edit = parseInt(obj.attributes.data_id.value);
+    $('#ov_bukti_transfer_file').show();
     $('#form').attr('method', "PUT");
     $('#form').attr('action', appUrl + "/OrderVenue/" + edit);
     $("#AddEditModal").on('show.bs.modal', function (e) {
@@ -55,10 +88,18 @@ function GetOrder(id) {
                 $('#gst_nama').val(data[0].guest.gst_nama);
                 $('#gst_alamat').val(data[0].guest.gst_alamat);
                 $('#gst_no_telp').val(data[0].guest.gst_no_telp);
-                $('#gst_rencana_pemakaian').val(data[0].guest.gst_rencana_pemakaian+" - "+data[0].guest.gst_waktu_pemakaian);
+                $('#gst_rencana_pemakaian').val(data[0].guest.gst_rencana_pemakaian);
                 $('#gst_keperluan_pemakaian').val(data[0].guest.gst_keperluan_pemakaian);
-                $('#vnu_jam_pemakaian_siang').val(data[0].venue.vnu_jam_pemakaian_siang);
-                $('#vnu_jam_pemakaian_malam').val(data[0].venue.vnu_jam_pemakaian_malam);
+                if (data[0].venue.vnu_tipe_waktu == 1) {
+                    $('#gst_waktu_pemakaian').val(data[0].guest.gst_waktu_pemakaian + ' jam');
+                    $('#vnu_jam_pemakaian_siang').val('Dari jam   : ' + data[0].venue.vnu_jam_pemakaian_siang);
+                    $('#vnu_jam_pemakaian_malam').val('Sampai jam : ' + data[0].venue.vnu_jam_pemakaian_malam);
+                }
+                else {
+                    $('#gst_waktu_pemakaian').val(data[0].guest.gst_waktu_pemakaian);
+                    $('#vnu_jam_pemakaian_siang').val('Siang : ' +  data[0].venue.vnu_jam_pemakaian_siang);
+                    $('#vnu_jam_pemakaian_malam').val('Malam : ' + data[0].venue.vnu_jam_pemakaian_malam);
+                }
                 $('#vnu_nama').val(data[0].venue.vnu_nama);
                 $('#ov_no_telp').val(data[0].ov_no_telp);
                 $('#vnu_harga').val(data[0].ov_harga_sewa);
@@ -74,6 +115,15 @@ function GetOrder(id) {
                 $('#ov_remaining_payment').val(data[0].ov_remaining_payment);
                 $('#ov_status_order').val(data[0].ov_status_order);
                 $('#ov_contact_customer').val(data[0].ov_contact_customer);
+                if (data[0].ov_bukti_transfer_file != null) {
+                    $('#div-input-bukti').removeClass('d-none');
+                    var gallery = 'div.gallery';
+                    $(gallery).html("");
+                    let fileExt = data[0].ov_bukti_transfer_filename.split('.').pop();
+                    $($.parseHTML('<img width="100" height="auto" id="service-img">'))
+                        .attr('src', 'data:image/'+fileExt+';base64,'+data[0].ov_bukti_transfer_file)
+                        .appendTo(gallery);
+                }
                 $("#AddEditModal").modal('show');
             }
         },
@@ -85,10 +135,10 @@ function GetOrder(id) {
 
 function EditOrder() {
     DisableBtn('#btn-edit-ov');
-
     var formData = new FormData();
     formData.append("ov_no_telp", $('#ov_no_telp').val());
     formData.append("ov_nama_catering", $('#ov_nama_catering').val());
+    if ($('#ov_more_facilities').val() != "") formData.append("ov_more_facilities", $('#ov_more_facilities').val());
     if ($('#ov_biaya_lain').val() != "") formData.append("ov_biaya_lain", parseInt($('#ov_biaya_lain').val()));
     if ($('#ov_fee_catering').val() != "") formData.append("ov_fee_catering", parseInt($('#ov_fee_catering').val()));
     if ($('#ov_fee_pelaminan').val() != "") formData.append("ov_fee_pelaminan", parseInt($('#ov_fee_pelaminan').val()));
@@ -97,9 +147,9 @@ function EditOrder() {
     if ($('#ov_sum_biaya').val() != "") formData.append("ov_sum_biaya", parseInt($('#ov_sum_biaya').val()));
     if ($('#ov_down_payment').val() != "") formData.append("ov_down_payment", parseInt($('#ov_down_payment').val()));
     if ($('#ov_remaining_payment').val() != "") formData.append("ov_remaining_payment", parseInt($('#ov_remaining_payment').val()));
+    if ($('#ov_bukti_transfer_file')[0].files[0]) formData.append("ov_bukti_transfer_file", $('#ov_bukti_transfer_file')[0].files[0]);
     formData.append("ov_status_order", parseInt($('#ov_status_order').val()));
     formData.append("ov_contact_customer", parseInt($('#ov_contact_customer').val()));
-
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         type: "POST",

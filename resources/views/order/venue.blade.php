@@ -29,7 +29,7 @@
                   <div class="form-group">
                     <label for="gst_alamat">Alamat Penyewa</label>
                     <div class="col-sm-12">
-                        <input class="form-control form-inputs" type="text" name="gst_alamat" id="gst_alamat" disabled>
+                        <textarea class="form-control form-inputs" name="gst_alamat" id="gst_alamat" rows="5" disabled></textarea>
                     </div>
                   </div>
                   <div class="form-group">
@@ -42,6 +42,12 @@
                     <label for="gst_rencana_pemakaian">Rencana Pemakaian</label>
                     <div class="col-sm-12">
                         <input class="form-control form-inputs" type="text" name="gst_rencana_pemakaian" id="gst_rencana_pemakaian" disabled>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="gst_rencana_pemakaian">Waktu Pemakaian</label>
+                    <div class="col-sm-12">
+                        <input class="form-control form-inputs" type="text" name="gst_rencana_pemakaian" id="gst_waktu_pemakaian" disabled>
                     </div>
                   </div>
                   <div class="form-group">
@@ -115,14 +121,14 @@
                   <div class="form-group">
                     <label for="ov_sum_lain_lain">Subtotal Biaya Lain-lain</label>
                     <div class="col-sm-12">
-                      <!-- Generated from sum('ov_biaya_lain','ov_fee_catering','ov_fee_pelaminan','ov_lain_lain') -->
+                      {{-- <!-- Generated from sum('ov_biaya_lain','ov_fee_catering','ov_fee_pelaminan','ov_lain_lain') --> --}}
                       <input class="form-control form-inputs" type="tel" name="ov_sum_lain_lain" id="ov_sum_lain_lain" placeholder="Subtotal Biaya Lain-lain">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="ov_sum_biaya">Total Biaya</label>
                     <div class="col-sm-12">
-                      <!-- Generated from sum('vnu_harga','ov_sum_lain_lain') -->
+                      {{-- <!-- Generated from sum('vnu_harga','ov_sum_lain_lain') --> --}}
                       <input class="form-control form-inputs" type="tel" name="ov_sum_biaya" id="ov_sum_biaya" placeholder="Total Biaya">
                     </div>
                   </div>
@@ -149,6 +155,11 @@
                         <option value="4">Ditolak</option>
                       </select>
                     </div>
+                  </div>
+                  <div class="form-group d-none" id="div-input-bukti">
+                    <label for="images">Bukti Transfer</label>
+                      <input type="file" name="images" id="ov_bukti_transfer_file">
+                      <div class="gallery" id="images-gallery"></div>
                   </div>
                   <div class="form-group">
                     <label for="ov_contact_customer">Sudah Contact Customer via WA/Telp?</label>

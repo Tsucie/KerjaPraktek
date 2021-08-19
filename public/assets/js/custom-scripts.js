@@ -8,15 +8,26 @@ $(document).ready(function(){
   }
 
   // Start Fungsi Set Harga Sewa Mobile Phone //
-  if ($(window).width() < 500) { 
+  if ($(window).width() < 500) {
     $('.alert-carousel').hide();
     $('.top-spac70 .container').css("padding","0 25px");
     $('.harga > span').css("color","#FF4848");
     $('.delet').hide();
     $('#promo-tag').show();
     $('#promo-price').show();
-    $('.harga').append("<span style='font-weight: lighter; font-size: 16px;'>Deskripsi &nbsp; <i class='fa fa-chevron-down' style='color: #2A93F6;' aria-hidden='true'></i></span>");
+    // $('.harga').append("<div style='font-weight: lighter; font-size: 16px;'>Deskripsi &nbsp; <i class='fa fa-chevron-down' style='color: #2A93F6;' aria-hidden='true'></i></div>");
     $('.srv-dtl-inr .col-md-5 p').css("text-align", "justify");
+    $('#vnu_imgs').removeClass('pt-5');
+    $('#div-sewa-contact').removeClass('row');
+    $('#div-sewa-fasilitas').removeClass('row');
+    $('#div-tgl-wkt-inputs').removeClass('row');
+    $('#input-sewa-morefacility').parent().removeClass('col-10');
+    $('#input-sewa-jumlah').parent().removeClass('col-2');
+    $('#div-feedback-user').removeClass('row');
+    $('#input-feedback-submit').removeClass('end-0');
+    $('#input-feedback-submit').addClass('bottom-0 start-50 translate-middle-x');
+    $('#input-feedback-update').removeClass('end-0');
+    $('#input-feedback-update').addClass('bottom-0 start-50 translate-middle-x');
   }
   if ($(window).width() <= 425) {
     $('#promo-tag').css("margin-left","50px");

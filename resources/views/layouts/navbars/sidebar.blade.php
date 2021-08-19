@@ -102,7 +102,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#navbar-services" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-services" onclick="openSidebar()">
-                        <i class="fas fa-building" style="color: green;" title="{{ __('Layanan') }}"></i>
+                        <i class="fas fa-building" style="color: #198754;" title="{{ __('Layanan') }}"></i>
                         <span class="nav-link-text">{{ __('Layanan') }}</span>
                     </a>
 
@@ -110,19 +110,19 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('venues') }}">
-                                    <i class="fas fa-building" style="color: green;" title="{{ __('Gedung') }}"></i>
+                                    <i class="fas fa-building" style="color: #198754;" title="{{ __('Gedung') }}"></i>
                                     <span class="nav-link-text">{{ __('Gedung') }}</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('products') }}">
-                                    <i class="fas fa-gift" style="color: green;" title="{{ __('Produk') }}"></i>
+                                    <i class="fas fa-gift" style="color: #198754;" title="{{ __('Produk') }}"></i>
                                     <span class="nav-link-text">{{ __('Produk') }}</span>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/Promo') }}">
-                                    <i class="fas fa-percentage" style="color: green;" title="{{ __('Promo') }}"></i>
+                                    <i class="fas fa-percentage" style="color: #198754;" title="{{ __('Promo') }}"></i>
                                     <span class="nav-link-text">{{ __('Promo') }}</span>
                                 </a>
                             </li>

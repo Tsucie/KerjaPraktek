@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <meta name="route" content="{{ __('http://127.0.0.1:8000') }}">
-	<!-- CSS -->
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet" />
 	<link rel="stylesheet" href="{{ asset('assets') }}/css/owl.carousel.min.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css" />
@@ -23,7 +22,6 @@
 	<main>
 		{{-- Include customer page main header --}}
 		@include('layouts.headers.csmainheader')
-
 		<!-- Slider Start -->
 		<div class="home-slider owl-carousel js-fullheight">
 			<div class="slider-item js-fullheight" style="background-image: url({{ asset('assets') }}/images/aula.JPG)">
@@ -69,7 +67,6 @@
 				</div>
 			</div>
 		</div>
-
 		<!-- About Section -->
 		<section>
 			<div class="gap" id="about-section">
@@ -131,7 +128,6 @@
 				</div>
 			</div>
 		</section>
-
 		<!-- Promo Section -->
 		<section>
 			<div class="gap" id="promo-section">
@@ -204,7 +200,6 @@
 				</div>
 			</div>
 		</section>
-
 		<!-- Venue Section -->
 		<section>
 			<div class="gap" id="venue-section">
@@ -213,53 +208,11 @@
 						<h3 itemprop="headline">Our Venue</h3>
 						<span>Pilihan Venue untuk anda</span>
 					</div>
-					<div class="remove-ext3">
-						<div class="pst-box-styl3 lst rev">
-							<div class="pst-thmb-styl3">
-								<a href="{{ route('venuedetail',891141429) }}" title="" itemprop="url"><img src="{{ asset('assets') }}/images/aula-venue.png" alt="venue.jpg" itemprop="image"></a>
-							</div>
-							<div class="pst-inf-styl3">
-								<span>Gedung</span>
-								<h4 itemprop="headline"><a href="{{ route('venuedetail',891141429) }}" title="" itemprop="url">Gedung Aula PKS</a></h4>
-								<p itemprop="description">Pilihan lokasi terbaik untuk anda yang ingin menyelenggarakan Event seperti Pernikahan, Reuni, dan
-									Acara Perkumpulan Lainnnya</p>
-								<a class="fa fa-arrow-right" href="{{ route('venuedetail',891141429) }}" title="" itemprop="url"></a>
-							</div>
-						</div>
-						<div class="pst-box-styl3 lst">
-							<div class="pst-thmb-styl3">
-								<a href="{{ route('venuedetail', 847319320) }}" title="" itemprop="url"><img src="{{ asset('assets') }}/images/workspace-venue.png" alt="workspace-venue.jpg"
-										itemprop="image">
-									<h3 class="position-absolute top-50 start-50 translate-middle text-thumb"><span>Coming Soon</span></h3>
-								</a>
-							</div>
-							<div class="pst-inf-styl3">
-								<span>Ruangan</span>
-								<h4 itemprop="headline"><a href="{{ route('venuedetail', 847319320) }}" title="" itemprop="url">Workspace <span>(COMING SOON)</span></a></h4>
-								<p itemprop="description">Pilihan terbaik untuk anda yang membutuhkan lokasi bekerja yang aman dan nyaman dengan segudang
-									fasilitas</p>
-								<a href="{{ route('venuedetail', 847319320) }}" title="" itemprop="url"><i class="fa fa-arrow-right"></i></a>
-							</div>
-						</div>
-						<div class="pst-box-styl3 lst rev">
-							<div class="pst-thmb-styl3">
-								<a href="{{ route('venuedetail', 355126194) }}" title="" itemprop="url"><img src="{{ asset('assets') }}/images/meeting-room-venue.png" alt="meeting-room-venue.jpg"
-										itemprop="image">
-									<h3 class="position-absolute top-50 start-50 translate-middle text-thumb"><span>coming soon</span></h3>
-								</a>
-							</div>
-							<div class="pst-inf-styl3">
-								<span>Ruangan</span>
-								<h4 itemprop="headline"><a href="{{ route('venuedetail', 355126194) }}" title="" itemprop="url">Meeting Room <span>(COMING SOON)</span></a></h4>
-								<p itemprop="description">disediakan sebagai lokasi pertemuan kerja yang aman dan nyaman dengan segudang fasilitas</p>
-								<a href="{{ route('venuedetail', 355126194) }}" title="" itemprop="url"><i class="fa fa-arrow-right"></i></a>
-							</div>
-						</div>
+					<div class="remove-ext3" id="venue-list">
 					</div>
 				</div>
 			</div>
 		</section>
-
 		<!-- Produk Section -->
 		<section>
 			<div class="gap gray-bg2" id="produk-section">
@@ -344,7 +297,6 @@
 				</div>
 			</div>
 		</section>
-
 		<!-- Contact Section -->
 		<section>
 			<div class="gap" id="kontak-section">

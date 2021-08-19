@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Guest;
+use App\Models\ImageProcessor;
 use App\Models\OrderVenue;
 use App\Models\ResponseMessage;
 use App\Models\Venue;
@@ -61,7 +62,6 @@ class OrderVenueController extends Controller
             'waktu' => 'required'
         ]);
         $resmsg = new ResponseMessage();
-        // dd($request);
         try {
             $data = DB::table('order_venues')
                         ->join('guests', 'order_venues.ov_gst_id', '=', 'guests.gst_id')
@@ -99,13 +99,20 @@ class OrderVenueController extends Controller
      */
     private function selectListPartially($pageLength = 15, $cs_id = null, $page = null)
     {
-        return DB::table('order_venues')
+        $datas = DB::table('order_venues')
                      ->join('guests', 'order_venues.ov_gst_id', '=', 'guests.gst_id')
                         ->select('order_venues.*', 'guests.*')
                             ->orderBy('order_venues.ov_status_order')
+                            ->orderBy('order_venues.created_at')
                             ->orderBy('guests.gst_rencana_pemakaian')
                             ->where('ov_cst_id', $cs_id == null ? '<>' : '=', $cs_id)
                                 ->paginate($pageLength, ['*'], 'page', $page);
+        
+        foreach ($datas as $data) {
+            if ($data->ov_bukti_transfer_file != null)
+                $data->ov_bukti_transfer_file = base64_encode($data->ov_bukti_transfer_file);
+        }
+        return $datas;
     }
 
     /**
@@ -116,7 +123,6 @@ class OrderVenueController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
         $resmsg = new ResponseMessage();
         $request->validate([
             'cst_id' => 'required|numeric',
@@ -141,15 +147,25 @@ class OrderVenueController extends Controller
                 'gst_waktu_pemakaian' => $request->gst_waktu_pemakaian,
                 'gst_keperluan_pemakaian' => $request->gst_keperluan_pemakaian ?: 'Tidak di jelaskan'
             ];
-    
+            $hargaSewa = 0;
             $venue = Venue::query()->where('vnu_id','=',$request->ov_vnu_id)->with('promo')->get();
             if ($venue->count() == 0) throw new Exception("Data gedung tidak ada",0);
             $day = date_format(DateTime::createFromFormat('Y-m-d',$request->gst_rencana_pemakaian),'l');
-            // Assign hargaSewa with nested Tenary Opr
-            $hargaSewa = ($day == 'Saturday' || $day == 'Sunday') ?
-                            $venue[0]->vnu_harga : (
-                                $venue[0]->promo == null ? $venue[0]->vnu_harga : $venue[0]->promo->prm_harga_promo
-                            );
+            // Assign hargaSewa for venue that has per hour based pricing
+            if ($venue[0]->vnu_tipe_waktu == 1) {
+                // Assign hargaSewa for venue that has normal promo?
+                $hargaSewa = $venue[0]->promo == null ?
+                    $venue[0]->vnu_harga * $guestData['gst_waktu_pemakaian'] :
+                    $venue[0]->promo->prm_harga_promo * $guestData['gst_waktu_pemakaian'];
+            }
+            // Assign hargaSewa for venue that has per half-day based pricing
+            else {
+                // Assign hargaSewa for venue that has weekend promo
+                $hargaSewa = ($day == 'Saturday' || $day == 'Sunday') ?
+                $venue[0]->vnu_harga : (
+                    $venue[0]->promo == null ? $venue[0]->vnu_harga : $venue[0]->promo->prm_harga_promo
+                );
+            }
             $sumBiaya = $hargaSewa + ($request->has('ov_lain_lain') ? $request->ov_lain_lain : 0);
             $orderData = [
                 'ov_id' => rand(intval(date('ymdhis')),intval(date('ymdhis'))),
@@ -215,6 +231,8 @@ class OrderVenueController extends Controller
             
             if ($data->count() == 0) throw new Exception("Tidak Ada Data", 0);
             $data[0]->guest->gst_rencana_pemakaian = date_format(DateTime::createFromFormat('Y-m-d', $data[0]->guest->gst_rencana_pemakaian), 'l, d F Y');
+            if ($data[0]->ov_bukti_transfer_file != null)
+                $data[0]->ov_bukti_transfer_file = base64_encode($data[0]->ov_bukti_transfer_file);
             return response()->json($data);
         }
         catch (Exception $ex)
@@ -250,6 +268,7 @@ class OrderVenueController extends Controller
             'ov_sum_lain_lain' => 'numeric',
             'ov_sum_biaya' => 'numeric',
             'ov_down_payment' => 'numeric',
+            'ov_bukti_transfer_file' => 'mimes:jpeg,png,jpg|max:2048',
             'ov_remaining_payment' => 'required|numeric',
             'ov_status_order' => 'required|numeric',
             'ov_contact_customer' => 'required|numeric'
@@ -282,6 +301,13 @@ class OrderVenueController extends Controller
                 'ov_status_order' => $request->ov_status_order, // 0: Dalam Proses; 1: Terverifikasi; 2: Sudah Down Payment; 3: Selesai(Lunas); 4: Ditolak;
                 'ov_contact_customer' => $request->ov_contact_customer
             ];
+            if ($request->hasFile('ov_bukti_transfer_file'))
+            {
+                $file = $request->file('ov_bukti_transfer_file');
+                $fileReq = ImageProcessor::getImageThumbnail($file,'BuktiTransfer','ov_bukti_transfer_filename','ov_bukti_transfer_file',$updateGuest['gst_nama']);
+                $updateOrder = array_merge($updateOrder, $fileReq->all());
+            }
+            
             DB::beginTransaction();
             try
             {

@@ -34,6 +34,60 @@ class FeedbackController extends Controller
         return view('feedback.index', compact('data'));
     }
 
+    public function getCsFeedback(Request $request)
+    {
+        $request->validate([
+            'column' => 'required|string',
+            'id' => 'required|numeric',
+            'email' => 'required|email'
+        ]);
+        $resmsg = new ResponseMessage();
+        try {
+            $data = Feedback::query()
+                        ->where('fb_cst_email','=',$request->email)
+                        ->where($request->column,'=',$request->id)
+                        ->get();
+            if ($data->count() == 0) throw new Exception("Tidak Ada Data", 0);
+            return response()->json($data);
+        } catch (Exception $ex) {
+            // $resmsg->code = 0;
+            // $resmsg->message = 'Data Tidak Ada';
+
+            #region Code Testing
+            $resmsg->code = $ex->getCode();
+            $resmsg->message = $ex->getMessage();
+            #endregion
+            return response()->json($resmsg);
+        }
+    }
+
+    public function get3BestReview(Request $request)
+    {
+        $request->validate([
+            'column' => 'required|string',
+            'id' => 'required|numeric'
+        ]);
+        $resmsg = new ResponseMessage();
+        try {
+            $data = DB::table('feedbacks')
+                        ->where($request->column,'=',$request->id)
+                            ->orderBy('created_at', 'asc')
+                            ->orderBy('fb_rating', 'desc')
+                                ->limit(3)->get();
+            if ($data->count() == 0) throw new Exception("Tidak Ada Data", 0);
+            return response()->json($data);
+        } catch (Exception $ex) {
+            // $resmsg->code = 0;
+            // $resmsg->message = 'Data Tidak Ada';
+
+            #region Code Testing
+            $resmsg->code = $ex->getCode();
+            $resmsg->message = $ex->getMessage();
+            #endregion
+            return response()->json($resmsg);
+        }
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -53,6 +107,10 @@ class FeedbackController extends Controller
         ]);
         try {
             if (!$request->has('fb_vnu_id') && !$request->has('fb_pdct_id')) throw new Exception("Data tidak valid");
+            $existFb = Feedback::query()
+                            ->where($request->has('fb_vnu_id') ? 'fb_vnu_id' : 'fb_pdct_id','=',$request->fb_vnu_id ?? $request->fb_pdct_id)
+                            ->where('fb_cst_email','=',$request->fb_cst_email)->get();
+            if ($existFb->count() > 0) throw new Exception("Feedback sudah dibuat");
             $fbData = [
                 'fb_id' => rand(intval(date('ymdhis')),intval(date('ymdhis'))),
                 'fb_vnu_id' => $request->fb_vnu_id ?? null,
@@ -65,20 +123,15 @@ class FeedbackController extends Controller
             Feedback::query()->create($fbData);
             $resmsg->code = 1;
             $resmsg->message = "Feedback berhasil dibuat";
-        } catch (Exception $ex) {
-            if ($ex->getCode() == 23000) {
-                $resmsg->code = 0;
-                $resmsg->message = "Feedback sudah ada";
-            }
-            else {
-                // $resmsg->code = 0;
-                // $resmsg->message = 'Feedback Gagal dibuat';
+        }
+        catch (Exception $ex) {
+            // $resmsg->code = 0;
+            // $resmsg->message = 'Feedback Gagal dibuat';
 
-                #region Code Testing
-                $resmsg->code = $ex->getCode();
-                $resmsg->message = $ex->getMessage();
-                #endregion
-            }
+            #region Code Testing
+            $resmsg->code = $ex->getCode();
+            $resmsg->message = $ex->getMessage();
+            #endregion
         }
         return response()->json($resmsg);
     }
@@ -93,11 +146,10 @@ class FeedbackController extends Controller
     {
         $resmsg = new ResponseMessage();
         try {
-            $column = '';
-            if (preg_match("/[0-9]/", $id)) $column = 'fb_id';
-            if (filter_var($id, FILTER_VALIDATE_EMAIL)) $column = 'fb_cst_email';
+            if (preg_match("/[a-zA-Z]/", $id)) throw new Exception("Data Tidak Valid");
+            // if (filter_var($id, FILTER_VALIDATE_EMAIL)) $column = 'fb_cst_email';
 
-            $data = Feedback::query()->where($column,'=',$id)->get();
+            $data = Feedback::query()->where('fb_id','=',$id)->get();
             if ($data->count() == 0) throw new Exception("Tidak Ada Data", 0);
             return response()->json($data);
         } catch (Exception $ex) {
@@ -132,7 +184,7 @@ class FeedbackController extends Controller
             if (preg_match("/[A-Za-z]/", $id)) throw new Exception("Data Tidak Valid", 0);
             $existFb = Feedback::query()->where('fb_id','=',$id)->get();
             if ($existFb->count() == 0) throw new Exception("Data tidak ditemukan",0);
-            Feedback::query()->where('fb_id','=',$existFb['fb_id'])->update($request->all());
+            Feedback::query()->where('fb_id','=',$existFb[0]->fb_id)->update($request->all());
             $resmsg->code = 1;
             $resmsg->message = 'Feedback berhasil diubah';
         } catch (Exception $ex) {
@@ -160,7 +212,7 @@ class FeedbackController extends Controller
             if (preg_match("/[A-Za-z]/", $id)) throw new Exception("Data Tidak Valid", 0);
             $existFb = Feedback::query()->where('fb_id','=',$id)->get();
             if ($existFb->count() == 0) throw new Exception("Data tidak ditemukan",0);
-            Feedback::query()->where('fb_id','=',$existFb['fb_id'])->delete();
+            Feedback::query()->where('fb_id','=',$existFb[0]->fb_id)->delete();
             $resmsg->code = 1;
             $resmsg->message = 'Feedback berhasil dihapus';
         } catch (Exception $ex) {

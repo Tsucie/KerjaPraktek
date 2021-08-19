@@ -86,16 +86,14 @@ function ClearInput() {
 function toggleHourInputs(selector) {
     switch ($(selector).val()) {
         case "0":
-            $('#siang').show();
-            $('#malam').show();
+            $('#siang > label').text('Jam Pemakaian Siang');
+            $('#malam > label').text('Jam Pemakaian Malam');
             break;
         case "1":
-            $('#siang').hide();
-            $('#malam').hide();
+            $('#siang > label').text("Dari jam");
+            $('#malam > label').text("Sampai jam");
             break;
         default:
-            $('#siang').show();
-            $('#malam').show();
             break;
     }
 }
@@ -232,14 +230,14 @@ function GetVenue(id) {
                 $('#harga').val(data.venue[0].vnu_harga);
                 $('#tipe_waktu').val(data.venue[0].vnu_tipe_waktu);
                 if (data.venue[0].vnu_tipe_waktu == 1) {
-                    $('#siang').hide();
-                    $('#malam').hide();
+                    $('#siang > label').text("Dari jam");
+                    $('#malam > label').text("Sampai jam");
                 } else {
-                    $('#siang').show();
-                    $('#malam').show();
-                    $('#jam_siang').val(data.venue[0].vnu_jam_pemakaian_siang);
-                    $('#jam_malam').val(data.venue[0].vnu_jam_pemakaian_malam);
+                    $('#siang > label').text('Jam Pemakaian Siang');
+                    $('#malam > label').text('Jam Pemakaian Malam');
                 }
+                $('#jam_siang').val(data.venue[0].vnu_jam_pemakaian_siang);
+                $('#jam_malam').val(data.venue[0].vnu_jam_pemakaian_malam);
                 $('#status_tersedia').val(data.venue[0].vnu_status_tersedia);
                 setTimeout(function () { $("#AddEditModal").modal('show'); }, 1000);
             }

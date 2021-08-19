@@ -1756,7 +1756,7 @@ header.style10 .menu-wrp2 nav > div > .hdr-scl + ul:before {
   top: 50%;
   margin-top: -12.5px;
 }
-#regis-nav{;
+#regis-nav{
   margin-left: 0px;
   padding-left: 5px;
 }
@@ -2018,7 +2018,7 @@ body.sticky-active .sticky-header {
   width: 100%;
 }
 .rsnp-mnu.slidein {
-  opacity: 1;
+  opacity: 0.9;
   right: 0;
   visibility: visible;
 }
@@ -4104,7 +4104,7 @@ footer {
   margin-top: 45px;
 }
 .testi-itm2 > p {
-  margin-bottom: ;
+  margin-bottom: 0;
   margin: 0;
   font-style: italic;
   font-size: 17px;
@@ -4813,7 +4813,10 @@ footer {
 }
 .pst-thmb-styl3 + .pst-inf-styl3 {margin-top: 25px;}
 .pst-box-styl3.rev.lst .pst-inf-styl3 {padding: 0 30px 0 0;}
-.pst-box-styl3.lst .pst-thmb-styl3 {min-width: 775px;}
+.pst-box-styl3.lst .pst-thmb-styl3 {
+  text-align: center;
+  min-width: 650px;
+}
 .pst-box-styl3.lst .pst-inf-styl3 {padding-left: 30px;}
 .pst-box-styl3:hover .pst-thmb-styl3 img {
   -webkit-transform: scale(1.2) rotate(3deg);

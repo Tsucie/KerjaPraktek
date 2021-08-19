@@ -1,8 +1,23 @@
 $(document).ready(function () {
   getFacilities();
-  getMyReview($('#rvw-btn').attr('data-email'));
+  getCsReview(parseInt($('#vnu_id').val()));
   $('.nav-item').removeClass('active');
   $('a[href="#venue-section"]').parent().addClass('active');
+
+  $('#gedung_aula').click(function (e) {
+    e.preventDefault();
+    if (isNaN(parseInt($('#form-sewa input[id="cst_id"]').val()))) {
+      notif({
+        msg: '<b style="color: white;">Harap Login terlebih dahulu sebelum order!</b>',
+        type: "warning",
+        position: notifAlign
+      });
+      $('#login-modal').modal('show');
+    }
+    else {
+      $('#sewa-modal').modal('show');
+    }
+  });
 
   $('#input-cek-submit').click(function (e) {
     e.preventDefault();
@@ -14,9 +29,19 @@ $(document).ready(function () {
     createOrd('#form-sewa');
   });
 
+  $('#rvw-btn').click(function (e) {
+    e.preventDefault();
+    getMyReview($('#rvw-btn').attr('data-email'),parseInt($('#rvw-btn').attr('data-id')));
+  });
+
   $('#form-feedback').submit(function (e) {
     e.preventDefault();
     addReview('#form-feedback');
+  });
+
+  $('#input-feedback-update').click(function (e) {
+    e.preventDefault();
+    updateReview('#form-feedback');
   });
 
   setTimeout(() => {
@@ -34,14 +59,12 @@ $(document).ready(function () {
   $('#hps-facility-btn').click(function (e) {
     deleteFacility(parseInt($('#input-sewa-jumlah').val()));
   });
-  // facility();
 });
 
 //-- Adding Facilities --//
 const fcs = { text: "", total: 0, dataFacilities: [] };
 
 function renderFacilities(list1, list2, selectBox, data) {
-  // let data = fcs.dataFacilities;
   console.log("render", data);
   if (data.length > 0) {
     $(selectBox).empty();
@@ -56,7 +79,7 @@ function renderFacilities(list1, list2, selectBox, data) {
 }
 
 function renderMobileFacilities(list, selectBox, data) {
-  // let data = fcs.dataFacilities;
+  console.log("render", data);
   if (data.length > 0) {
     $(selectBox).empty();
     for (let i = 0; i < data.length; i++) {
@@ -70,7 +93,6 @@ function renderMobileFacilities(list, selectBox, data) {
 
 //-- Get Facilities --//
 function getFacilities() {
-  // var dataArr;
   $.ajax({
 		headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		type: "GET",
@@ -84,10 +106,9 @@ function getFacilities() {
       }
 		},
 		error: function () {
-			notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: "center"});
+			notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
 		}
   });
-  // return Promise.all(dataArr);
 }
 
 function addFacility(jumlah) {
@@ -97,7 +118,7 @@ function addFacility(jumlah) {
     alert("Fasilitas sudah dipilih");
     return false;
   }
-  fcs.text += (jumlah + ' ' + newText + '\n');
+  fcs.text += (jumlah + ' ' + newText.split('/').pop() + ' ' + newText + '\n');
   console.log(fcs.text);
   fcs.total += (parseInt($('#input-sewa-morefacility').val()) * jumlah);
   console.log(fcs.total);
@@ -134,10 +155,10 @@ function checkVenue(obj) {
 		processData: false,
 		contentType: false,
 		success: function (data) {
-			pesanAlert(data);
+			pesanAlert(data,notifAlign);
 		},
 		error: function () {
-				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: "center"});
+				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
 		},
 		complete: function () {
 				$('#cek-modal').modal('hide');
@@ -154,7 +175,7 @@ function createOrd(obj) {
   if (!csValidation(id)) {
     notif({
       msg: '<b style="color: white;">Harap Login terlebih dahulu sebelum order!</b>',
-      type: "error",
+      type: "warning",
       position: "center"
     });
     $('#sewa-modal').modal('hide');
@@ -171,7 +192,7 @@ function createOrd(obj) {
   formData.append("gst_alamat", $(obj+' input[id="input-sewa-alamat"]').val());
   formData.append("gst_no_telp", no_telp.charAt(0) === '0' ? no_telp : '+62'+no_telp);
   formData.append("gst_rencana_pemakaian", $(obj+' input[id="input-sewa-tanggal"]').val());
-  formData.append("gst_waktu_pemakaian", $(obj+' select[id="input-sewa-waktu"]').val());
+  formData.append("gst_waktu_pemakaian", $('#input-sewa-waktu').val());
   if ($(obj+' input[id="input-sewa-keperluan"]').val() != "")
     formData.append("gst_keperluan_pemakaian", $(obj+' input[id="input-sewa-keperluan"]').val());
   if (fcs.text !== "" && fcs.total !== 0) {
@@ -186,10 +207,10 @@ function createOrd(obj) {
 		processData: false,
 		contentType: false,
 		success: function (data) {
-			pesanAlert(data);
+			pesanAlert(data,notifAlign);
 		},
 		error: function () {
-				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: "center"});
+				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
 		},
 		complete: function () {
 				$('#sewa-modal').modal('hide');
@@ -199,30 +220,94 @@ function createOrd(obj) {
 }
 
 //-- Review API --//
-function getMyReview(email) {
+var fb_id = 0;
+
+function getMyReview(email, vnu_id) {
   if (email !== undefined) {
+    let request = {
+      "column": "fb_vnu_id",
+      "id": vnu_id,
+      "email": email
+    };
     $.ajax({
       headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
       type: "GET",
-      url: appUrl+'/Review/' + email,
-      data: null,
-      processData: false,
-      contentType: false,
+      url: appUrl+'/CustomerReview',
+      data: request,
+      contentType: 'application/json',
+      dataType: 'json',
       success: function (data) {
         if (data.code == null) {
+          fb_id = data[0].fb_id;
           $('#input-feedback-ulas').val(data[0].fb_text);
           $('#form-feedback input[id="star-'+data[0].fb_rating+'"]').prop('checked', true);
+          $('#input-feedback-submit').hide();
+          $('#input-feedback-update').show();
+        }
+        else {
+          $('#input-feedback-update').hide();
+          $('#input-feedback-submit').show();
         }
       },
       error: function () {
-        notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: "center"});
+        notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
       },
       complete: function () {
-        $('#feedback-modal').modal('hide');
-        EnableBtn('#input-feedback-submit','Kirim');
+        $('#feedback-modal').modal('show');
       }
     });
   }
+}
+
+function getCsReview(vnu_id) {
+  let feedback = $('#venue-feedbacks');
+  let request = {
+    "column": "fb_vnu_id",
+    "id": vnu_id
+  };
+  $.ajax({
+    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+    type: "GET",
+    url: appUrl+'/Reviews',
+    data: request,
+    contentType: 'application/json',
+    dataType: 'json',
+    success: function (data) {
+      try {
+        if (data.code == null) {
+          if (data.length > 0) {
+            let rowHtml = '';
+            for (let i = 0; i < data.length; i++) {
+              rowHtml = '<div class="col-md-4 col-sm-12 col-xs-12 clearfix align-left mb-3">' +
+                          '<div class="ce-feature-box-16 border margin-bottom">' +
+                            '<div class="text-box text-center">' +
+                              '<div class="imgbox-small round center overflow-hidden">' +
+                                '<img src="'+appUrl+'/assets/img/profiles/DefaultPPimg.jpg" alt="profile" class="img-responsive"/>' +
+                              '</div>' +
+                              '<div class="text-box">' +
+                                '<h6 class="title less-mar-1 mt-1">'+data[i].fb_cst_nama+'</h6>' +
+                                '<p class="subtext">'+$('#title-vnu-page').text()+'</p>' +
+                              '</div>' +
+                              '<br>' +
+                              '<p class="content">'+data[i].fb_text+'</p>' +
+                            '</div>' +
+                          '</div>' +
+                        '</div>';
+              feedback.append(rowHtml);
+            }
+          }
+          else { throw new Error(); }
+        } else { throw new Error(); }
+      } catch (error) {
+        $('#sec-ulasan').hide();
+      }
+    },
+    error: function () {
+      notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
+      $('#sec-ulasan').hide();
+    },
+    complete: function () {}
+  });
 }
 
 function addReview(obj) {
@@ -241,11 +326,13 @@ function addReview(obj) {
 		processData: false,
 		contentType: false,
 		success: function (data) {
-      pesanAlert(data);
-      setTimeout(function () { window.location.reload() }, 2000);
+      pesanAlert(data,notifAlign);
+      if (data.code == 1) {
+        setTimeout(function () { window.location.reload() }, 2000);
+      }
 		},
 		error: function () {
-			notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: "center"});
+			notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
 		},
 		complete: function () {
 			$('#feedback-modal').modal('hide');
@@ -254,9 +341,35 @@ function addReview(obj) {
 	});
 }
 
-// Update Review ?
-
-// Delete Review ?
+function updateReview(obj) {
+  DisableBtn('#input-feedback-update');
+  var data = {
+    "fb_cst_nama": $(obj + ' input[id="input-feedback-nama"]').val(),
+    "fb_cst_email": $(obj + ' input[id="input-feedback-email"]').val(),
+    "fb_text": $(obj + ' textarea[id="input-feedback-ulas"]').val(),
+    "fb_rating": parseInt($(obj + ' input[name="star"]:checked').val())
+  }
+  $.ajax({
+    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+    type: 'PUT',
+    url: appUrl+'/Review/' + fb_id,
+    data: JSON.stringify(data),
+    contentType: "application/json",
+    success: function (data) {
+      pesanAlert(data,notifAlign);
+      if (data.code == 1) {
+        setTimeout(function () { window.location.reload() }, 2000);
+      }
+    },
+    error: function () {
+        notif({msg: "<b>Connection Error!</b>", type: "error", position: notifAlign});
+    },
+    complete: function () {
+      $('#feedback-modal').modal('hide');
+			EnableBtn('#input-feedback-update','Simpan');
+    }
+  });
+}
 
 // Validation
 var csValidation = (id) => !isNaN(id);

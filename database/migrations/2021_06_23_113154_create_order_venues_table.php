@@ -36,6 +36,9 @@ class CreateOrderVenuesTable extends Migration
                 $table->decimal('ov_down_payment',20,2,true);
                 $table->decimal('ov_remaining_payment',20,2,true);
                 $table->smallInteger('ov_status_order');
+                $table->smallInteger('ov_contact_customer')->default(0);
+                $table->string('ov_bukti_transfer_filename')->nullable();
+                $table->binary('ov_bukti_transfer_file')->nullable();
                 $table->timestamps();
                 $table->primary('ov_id');
                 $table->foreign('ov_cst_id')

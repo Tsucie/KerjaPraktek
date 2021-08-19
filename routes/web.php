@@ -99,6 +99,8 @@ Route::post('/Customer/signup', [CustomerController::class, 'store']);
 Route::post('/Customer/signin', 'App\Http\Controllers\Auth\AuthCustomerController@login');
 // Route Cek Available for Venue (API)
 Route::post('/CheckVenue', [OrderVenueController::class, 'checkAvailable']);
+// Route CS Reviews (API)
+Route::get('/Reviews', [FeedbackController::class, 'get3BestReview']);
 
 // Routes group for Customer
 Route::group(['middleware' => 'auth:customer'], function () {
@@ -112,6 +114,8 @@ Route::group(['middleware' => 'auth:customer'], function () {
     Route::post('/ProductOrder', [OrderProductController::class, 'store']);
     // Route SignOut Customer (API)
     Route::post('/Customer/signout', 'App\Http\Controllers\Auth\AuthCustomerController@logout');
+    // Route Feedback Customer (API)
+    Route::get('/CustomerReview', [FeedbackController::class, 'getCsFeedback']);
     // Route group API Resources (CRUD)
     Route::apiResources([
         'Review' => FeedbackController::class
