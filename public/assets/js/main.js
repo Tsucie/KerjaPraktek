@@ -99,7 +99,8 @@ var notifAlign = "bottom";
 
 	$('a[href="#"]').attr('href', appUrl+'/#');
 	$('a[href="#about-section"]').attr('href', appUrl+'/#about-section');
-  $('a[href="#promo-section"]').attr('href', appUrl+'/#promo-section');
+	$('a[href="#promo-section"]').attr('href', appUrl+'/#promo-section');
+	$('a[href="#venue-section"]').attr('href', appUrl+'/#venue-section');
   $('a[href="#produk-section"]').attr('href', appUrl+'/#produk-section');
 	$('a[href="#kontak-section"]').attr('href', appUrl+'/#kontak-section');
 	
@@ -126,7 +127,7 @@ $('.modal').on('shown.bs.modal', function (e) {
 	if ($(window).width() < 450) { 
 		$('#respon-header').hide();
 	}
-})
+});
 
 //modal on close
 $(".modal").on("hidden.bs.modal", function () {
@@ -238,7 +239,7 @@ function logout() {
 				if (data.code == 1) {
 					pesanAlert(data, notifAlign);
 					$('#respon-menu').removeClass('slidein');
-					setTimeout(function () { window.location.reload() }, 1500);
+					setTimeout(function () { window.location.href = '/' }, 1500);
 				}
 				else {
 					pesanAlert(data);

@@ -91,11 +91,13 @@ function GetOrder(id) {
                 $('#gst_rencana_pemakaian').val(data[0].guest.gst_rencana_pemakaian);
                 $('#gst_keperluan_pemakaian').val(data[0].guest.gst_keperluan_pemakaian);
                 if (data[0].venue.vnu_tipe_waktu == 1) {
+                    $('div#pl_fee').hide();
                     $('#gst_waktu_pemakaian').val(data[0].guest.gst_waktu_pemakaian + ' jam');
                     $('#vnu_jam_pemakaian_siang').val('Dari jam   : ' + data[0].venue.vnu_jam_pemakaian_siang);
                     $('#vnu_jam_pemakaian_malam').val('Sampai jam : ' + data[0].venue.vnu_jam_pemakaian_malam);
                 }
                 else {
+                    $('div#pl_fee').show();
                     $('#gst_waktu_pemakaian').val(data[0].guest.gst_waktu_pemakaian);
                     $('#vnu_jam_pemakaian_siang').val('Siang : ' +  data[0].venue.vnu_jam_pemakaian_siang);
                     $('#vnu_jam_pemakaian_malam').val('Malam : ' + data[0].venue.vnu_jam_pemakaian_malam);
@@ -115,6 +117,7 @@ function GetOrder(id) {
                 $('#ov_remaining_payment').val(data[0].ov_remaining_payment);
                 $('#ov_status_order').val(data[0].ov_status_order);
                 $('#ov_contact_customer').val(data[0].ov_contact_customer);
+                $('#ov_note_to_customer').val(data[0].ov_note_to_customer);
                 if (data[0].ov_bukti_transfer_file != null) {
                     $('#div-input-bukti').removeClass('d-none');
                     var gallery = 'div.gallery';
@@ -137,7 +140,7 @@ function EditOrder() {
     DisableBtn('#btn-edit-ov');
     var formData = new FormData();
     formData.append("ov_no_telp", $('#ov_no_telp').val());
-    formData.append("ov_nama_catering", $('#ov_nama_catering').val());
+    if ($('#ov_nama_catering').val() != "") formData.append("ov_nama_catering", $('#ov_nama_catering').val());
     if ($('#ov_more_facilities').val() != "") formData.append("ov_more_facilities", $('#ov_more_facilities').val());
     if ($('#ov_biaya_lain').val() != "") formData.append("ov_biaya_lain", parseInt($('#ov_biaya_lain').val()));
     if ($('#ov_fee_catering').val() != "") formData.append("ov_fee_catering", parseInt($('#ov_fee_catering').val()));
@@ -150,6 +153,7 @@ function EditOrder() {
     if ($('#ov_bukti_transfer_file')[0].files[0]) formData.append("ov_bukti_transfer_file", $('#ov_bukti_transfer_file')[0].files[0]);
     formData.append("ov_status_order", parseInt($('#ov_status_order').val()));
     formData.append("ov_contact_customer", parseInt($('#ov_contact_customer').val()));
+    formData.append("ov_note_to_customer", $('#ov_note_to_customer').val());
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
         type: "POST",

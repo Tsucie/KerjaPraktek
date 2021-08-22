@@ -104,12 +104,13 @@ Route::get('/Reviews', [FeedbackController::class, 'get3BestReview']);
 
 // Routes group for Customer
 Route::group(['middleware' => 'auth:customer'], function () {
+    Route::get('/myorder', function() { return view('customers.myorder'); })->name('myorder');
     // Routes Order Venue (API)
-    Route::post('/VenueOrderGetListById', [OrderVenueController::class, 'getList']);
+    Route::get('/VenueOrderGetListById', [OrderVenueController::class, 'getList']);
     Route::get('/VenueOrder/{id}', [OrderVenueController::class, 'show']);
     Route::post('/VenueOrder', [OrderVenueController::class, 'store']);
     // Routes Order Product (API)
-    Route::post('/ProductOrderGetListById', [OrderProductController::class, 'getList']);
+    Route::get('/ProductOrderGetListById', [OrderProductController::class, 'getList']);
     Route::get('/ProductOrder/{id}', [OrderProductController::class, 'show']);
     Route::post('/ProductOrder', [OrderProductController::class, 'store']);
     // Route SignOut Customer (API)

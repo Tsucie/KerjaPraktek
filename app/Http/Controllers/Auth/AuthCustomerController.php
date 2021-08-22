@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 
 class AuthCustomerController extends Controller
 {
-    private $redirectTo = '/';
+    public $redirectTo = '/';
     /**
      * Create a new controller instance.
      *

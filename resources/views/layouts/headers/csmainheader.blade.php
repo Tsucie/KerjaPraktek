@@ -38,7 +38,7 @@
             </li> --}}
             @auth('customer')
               <li class="nav-item" style="margin-top: 17px;">
-                <a class="btn btn-yellow btn-sm text-white shadow" href="http://127.0.0.1:8000/#" style="font-weight: bold; text-shadow: 1px 1px rgb(0 0 0 / 20%);">MyOrder</a>
+                <a class="btn btn-yellow btn-sm text-white shadow" href="{{ route('myorder') }}" style="font-weight: bold; text-shadow: 1px 1px rgb(0 0 0 / 20%);">MyOrder</a>
               </li>
               <li class="login-btn">
                 <button type="button" class="btn btn-danger btn-sm" id="logout-btn">Logout</button>
@@ -86,7 +86,7 @@
           </li> --}}
           @auth('customer')
             <li class="nav-item" style="margin-top: 17px;">
-              <a class="btn btn-yellow btn-sm text-white shadow" href="http://127.0.0.1:8000/#" style="font-weight: bold; text-shadow: 1px 1px rgb(0 0 0 / 20%);">MyOrder</a>
+              <a class="btn btn-yellow btn-sm text-white shadow" href="{{ route('myorder') }}" style="font-weight: bold; text-shadow: 1px 1px rgb(0 0 0 / 20%);">MyOrder</a>
             </li>
             <li class="login-btn">
               <button type="button" class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
@@ -123,7 +123,7 @@
             <span style="font-size: 1.2rem !important;">&nbsp;{{ $cs->cst_name }}</span>
           </div>
         </li>
-        <li><a class="btn btn-sm btn-yellow text-dark" href="#" style="font-weight: bold; text-shadow: 1px 1px rgb(0 0 0 / 20%);">My Order</a></li>
+        <li><a class="btn btn-sm btn-yellow text-dark" href="{{ route('myorder') }}" style="font-weight: bold; text-shadow: 1px 1px rgb(0 0 0 / 20%);">My Order</a></li>
       @endauth
       <li><a href="#" title="" itemprop="url">Home</a>
       </li>
@@ -231,8 +231,8 @@
           </div>
           <div class="form-floating mb-3 col input-group">
             <div class="input-group-text">+62</div>
-            <input type="tel" class="form-control" id="input-regis-telepon" placeholder="No. Telp" required>
-            <label for="input-regis-telepon">No. Telp</label>
+            <input type="tel" class="form-control" id="input-regis-telepon" placeholder="No.Telp/WA" required>
+            <label for="input-regis-telepon">No.Telp/WA</label>
           </div>
           <div class="form-floating mb-3">
             <textarea class="form-control" id="input-regis-alamat" rows="5" placeholder="Alamat"></textarea>

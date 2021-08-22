@@ -215,7 +215,7 @@
 					<button class="thm-btn position-absolute bottom-0 end-0" id="input-feedback-submit" type="submit">
 						Kirim
 					</button>
-					<button class="thm-btn btn-success position-absolute bottom-0 end-0" id="input-feedback-update" type="button">
+					<button class="thm-btn btn-success position-absolute bottom-0 end-0" id="input-feedback-update" type="button" style="margin: 0 70px 80px 0;">
 						Simpan
 					</button>
 				</form>

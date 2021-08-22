@@ -19,12 +19,12 @@
   <main>
     {{-- Include customer page main header --}}
     {{-- Tommorrow Tasks
-      1. Create Order Histories for Customer
-      2. Create Review Histories for Customer ?
-      3. Create Product Detail Page
-      4. Make Welcome Page dynamic
-      5. Create Change Password for Customer ?
-      6. Make review only can be made if a customer has ordered specified venue ?
+      1. Create Order Histories for Customer (100% - Tested(65%))
+      2. Create Review Histories for Customer ? (0%)
+      3. Create Product Detail Page (24%)
+      4. Make Welcome Page dynamic (78%)
+      5. Create Change Password for Customer ? (0%)
+      6. Make review only can be made if a customer has ordered specified venue ? (0%)
     --}}
 		@include('layouts.headers.csmainheader')
     {{-- Load main section content --}}

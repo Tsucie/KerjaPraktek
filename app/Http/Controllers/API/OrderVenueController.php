@@ -45,6 +45,12 @@ class OrderVenueController extends Controller
     {
         $request->validate(['cst_id' => 'required|numeric']);
         $data = $this->selectListPartially($request->pageLength ?? 15, $request->cst_id, $request->page ?? 1);
+        foreach ($data as $ele) {
+            $ele->gst_rencana_pemakaian = date_format(
+                DateTime::createFromFormat('Y-m-d', $ele->gst_rencana_pemakaian),
+                'l, d F Y' // for references see: https://www.php.net/manual/en/datetime.format.php
+            );
+        }
         return response()->json($data);
     }
 
@@ -111,6 +117,8 @@ class OrderVenueController extends Controller
         foreach ($datas as $data) {
             if ($data->ov_bukti_transfer_file != null)
                 $data->ov_bukti_transfer_file = base64_encode($data->ov_bukti_transfer_file);
+            if (preg_match('~[0-9]+~', $data->gst_waktu_pemakaian))
+                $data->gst_waktu_pemakaian .= ' jam';
         }
         return $datas;
     }
@@ -299,7 +307,8 @@ class OrderVenueController extends Controller
                 'ov_down_payment' => $request->ov_down_payment,
                 'ov_remaining_payment' => $request->ov_remaining_payment,
                 'ov_status_order' => $request->ov_status_order, // 0: Dalam Proses; 1: Terverifikasi; 2: Sudah Down Payment; 3: Selesai(Lunas); 4: Ditolak;
-                'ov_contact_customer' => $request->ov_contact_customer
+                'ov_contact_customer' => $request->ov_contact_customer,
+                'ov_note_to_customer' => $request->ov_note_to_customer
             ];
             if ($request->hasFile('ov_bukti_transfer_file'))
             {

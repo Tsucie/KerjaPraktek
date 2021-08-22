@@ -94,7 +94,7 @@
                       <input class="form-control form-inputs" type="tel" name="ov_fee_catering" id="ov_fee_catering" placeholder="Biaya Catering">
                     </div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" id="pl_fee">
                     <label for="ov_fee_pelaminan">Fee Pelaminan</label>
                     <div class="col-sm-12">
                       <input class="form-control form-inputs" type="tel" name="ov_fee_pelaminan" id="ov_fee_pelaminan" placeholder="Biaya Pelaminan">
@@ -103,7 +103,7 @@
                   <div class="form-group">
                     <label for="ov_biaya_lain">Biaya Lain-lain</label>
                     <div class="col-sm-12">
-                      <input class="form-control form-inputs" type="tel" name="ov_biaya_lain" id="ov_biaya_lain" placeholder="Total Biaya lainnya">
+                      <input class="form-control form-inputs" type="tel" name="ov_biaya_lain" id="ov_biaya_lain" placeholder="Biaya tambahan lainnya">
                     </div>
                   </div>
                   <div class="form-group">
@@ -170,6 +170,12 @@
                       </select>
                     </div>
                   </div>
+                  <div class="form-group">
+                    <label for="ov_note_to_customer">Catatan untuk Customer</label>
+                    <div class="col-sm-12">
+                      <textarea class="form-control form-inputs" name="ov_note_to_customer" id="ov_note_to_customer" rows="5"></textarea>
+                    </div>
+                  </div>
               </div>
           </form>
         </div>
@@ -230,9 +236,8 @@
                             <tr>
                                 <td class="name">{{ $item->ov_vnu_nama }}</td>
                                 <td class="gst_nama">{{ $item->gst_nama }}</td>
-                                <td class="gst_rencana_pemakaian">{{ $item->gst_rencana_pemakaian.' - '.$item->gst_waktu_pemakaian }}</td>
+                                <td class="gst_rencana_pemakaian">{{ $item->gst_rencana_pemakaian.' - '. $item->gst_waktu_pemakaian }}</td>
                                 <td class="harga">Rp {{ number_format($item->ov_sum_biaya, 2) }}</td>
-                                <!-- ov_status_order -->
                                 <td>
                                     @switch($item->ov_status_order)
                                         @case(0)

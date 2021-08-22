@@ -2,7 +2,7 @@ $(document).ready(function () {
   getFacilities();
   getCsReview(parseInt($('#vnu_id').val()));
   $('.nav-item').removeClass('active');
-  $('a[href="#venue-section"]').parent().addClass('active');
+  $('a[href="'+appUrl+'/#venue-section"]').parent().addClass('active');
 
   $('#gedung_aula').click(function (e) {
     e.preventDefault();
@@ -128,11 +128,11 @@ function addFacility(jumlah) {
 function deleteFacility(jumlah) {
   if (isNaN(jumlah) || jumlah < 1) return false;
   let oldtext = $('#input-sewa-morefacility').find(':selected').text();
-  if (!fcs.text.includes(jumlah + ' ' + oldtext)) {
+  if (!fcs.text.includes(jumlah + ' ' + oldtext.split('/').pop() + ' ' + oldtext)) {
     alert("Fasilitas belum dipilih atau jumlah tidak sesuai");
     return false;
   }
-  fcs.text = fcs.text.replace(jumlah + ' ' + oldtext + '\n', '');
+  fcs.text = fcs.text.replace(jumlah + ' ' + oldtext.split('/').pop() + ' ' + oldtext + '\n', '');
   console.log(fcs.text);
   fcs.total -= (parseInt($('#input-sewa-morefacility').val()) * jumlah);
   console.log(fcs.total);
