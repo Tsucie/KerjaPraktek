@@ -26,12 +26,6 @@ class OrderVenueController extends Controller
     public function index()
     {
         $data = $this->selectListPartially(10);
-        foreach ($data as $ele) {
-            $ele->gst_rencana_pemakaian = date_format(
-                DateTime::createFromFormat('Y-m-d', $ele->gst_rencana_pemakaian),
-                'l, d F Y' // for references see: https://www.php.net/manual/en/datetime.format.php
-            );
-        }
         return view('order.venue', compact('data'));
     }
 
@@ -45,12 +39,6 @@ class OrderVenueController extends Controller
     {
         $request->validate(['cst_id' => 'required|numeric']);
         $data = $this->selectListPartially($request->pageLength ?? 15, $request->cst_id, $request->page ?? 1);
-        foreach ($data as $ele) {
-            $ele->gst_rencana_pemakaian = date_format(
-                DateTime::createFromFormat('Y-m-d', $ele->gst_rencana_pemakaian),
-                'l, d F Y' // for references see: https://www.php.net/manual/en/datetime.format.php
-            );
-        }
         return response()->json($data);
     }
 
@@ -115,6 +103,10 @@ class OrderVenueController extends Controller
                                 ->paginate($pageLength, ['*'], 'page', $page);
         
         foreach ($datas as $data) {
+            $data->gst_rencana_pemakaian = date_format(
+                DateTime::createFromFormat('Y-m-d', $data->gst_rencana_pemakaian),
+                'l, d F Y' // for references see: https://www.php.net/manual/en/datetime.format.php
+            );
             if ($data->ov_bukti_transfer_file != null)
                 $data->ov_bukti_transfer_file = base64_encode($data->ov_bukti_transfer_file);
             if (preg_match('~[0-9]+~', $data->gst_waktu_pemakaian))

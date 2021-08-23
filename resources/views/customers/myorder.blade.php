@@ -68,9 +68,7 @@
             <div class="tab-pane fade" id="explr-tb2">
               <div class="row">
                 <div class="col">
-                  <div class="explr-inf" id="pdct_orders">
-                    <p>Order Product</p>
-                  </div>
+                  <div class="explr-inf" id="pdct_orders"></div>
                 </div>
               </div>
             </div>

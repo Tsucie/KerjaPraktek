@@ -30,6 +30,12 @@ class CreateOrderProductsTable extends Migration
                 $table->decimal('op_sum_biaya',20,2,true);
                 $table->dateTime('op_tanggal_order');
                 $table->smallInteger('op_status_order');
+                $table->smallInteger('op_contact_customer');
+                $table->string('op_note_to_customer')->nullable();
+                $table->string('op_bukti_transfer_filename')->nullable();
+                $table->binary('op_bukti_transfer_file')->nullable();
+                $table->string('op_resi_filename')->nullable();
+                $table->binary('op_resi_file')->nullable();
                 $table->timestamps();
                 $table->primary('op_id');
                 $table->foreign('op_cst_id')

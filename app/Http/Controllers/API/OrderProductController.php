@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\DateTime as ModelsDateTime;
+use App\Models\ImageProcessor;
 use App\Models\OrderDetailProduct;
 use App\Models\OrderProduct;
 use App\Models\Product;
@@ -23,12 +24,6 @@ class OrderProductController extends Controller
     public function index()
     {
         $data = $this->selectListPartially(10);
-        foreach ($data as $ele) {
-            $ele->op_tanggal_order = date_format(
-                DateTime::createFromFormat('Y-m-d H:i:s', $ele->op_tanggal_order),
-                'D, d M Y H:i:s'
-            );
-        }
         return view('order.product', compact('data'));
     }
 
@@ -52,7 +47,7 @@ class OrderProductController extends Controller
      */
     private function selectListPartially($pageLength = 15, $cs_id = null)
     {
-        return DB::table('order_products')
+        $datas = DB::table('order_products')
                      ->join('customers', 'order_products.op_cst_id', '=', 'customers.cst_id')
                         ->select('order_products.*', 'customers.*')
                         ->selectSub(
@@ -65,6 +60,17 @@ class OrderProductController extends Controller
                             ->orderBy('order_products.op_tanggal_order')
                             ->where('op_cst_id', $cs_id == null ? '<>' : '=', $cs_id)
                                 ->paginate($pageLength);
+        foreach ($datas as $data) {
+            $data->op_tanggal_order = date_format(
+                DateTime::createFromFormat('Y-m-d H:i:s', $data->op_tanggal_order),
+                'D, d M Y H:i:s'
+            );
+            if ($data->op_bukti_transfer_file != null)
+                $data->op_bukti_transfer_file = base64_encode($data->op_bukti_transfer_file);
+            if ($data->op_resi_file != null)
+                $data->op_resi_file = base64_encode($data->op_resi_file);
+        }
+        return $datas;
     }
 
     /**
@@ -153,6 +159,10 @@ class OrderProductController extends Controller
                 DateTime::createFromFormat('Y-m-d H:i:s', $data[0]->op_tanggal_order),
                 'D, d M Y H:i:s'
             );
+            if ($data[0]->op_bukti_transfer_file != null)
+                $data[0]->op_bukti_transfer_file = base64_encode($data[0]->op_bukti_transfer_file);
+            if ($data[0]->op_resi_file != null)
+                $data[0]->op_resi_file = base64_encode($data[0]->op_resi_file);
             return response()->json($data);
         }
         catch (Exception $ex)
@@ -188,12 +198,14 @@ class OrderProductController extends Controller
             'op_persen_pajak' => 'numeric',
             'op_nominal_pajak' => 'numeric',
             'op_status_order' => 'required|numeric',
-            'op_contact_customer' => 'required|numeric'
+            'op_contact_customer' => 'required|numeric',
+            'op_bukti_transfer_file' => 'mimes:jpeg,png,jpg|max:2048',
+            'op_resi_file' => 'mimes:jpeg,png,jpg|max:2048'
         ]);
         try
         {
             if (preg_match("/[A-Za-z]/", $id)) throw new Exception("Data Tidak Valid", 0);
-            $existingOrder = OrderProduct::query()->where('op_id','=',$id)->with('detail')->get();
+            $existingOrder = OrderProduct::query()->where('op_id','=',$id)->with(['detail','customer'])->get();
             if ($existingOrder->count() == 0) throw new Exception("Data Order tidak ada", 0);
             $updateDetail = [
                 'odp_pdct_qty' => $request->pdct_qty ?? $existingOrder[0]->detail->odp_pdct_qty
@@ -222,8 +234,22 @@ class OrderProductController extends Controller
                 'op_alamat_pemesanan' => $request->alamat_pemesanan,
                 'op_sum_biaya' => $sumPdctPrice + $request->op_harga_ongkir + $pajak,
                 'op_status_order' => $request->op_status_order,
-                'op_contact_customer' => $request->op_contact_customer
+                'op_contact_customer' => $request->op_contact_customer,
+                'op_note_to_customer' => $request->op_note_to_customer
             ];
+            if ($request->hasFile('op_bukti_transfer_file'))
+            {
+                $file = $request->file('op_bukti_transfer_file');
+                $fileReq = ImageProcessor::getImageThumbnail($file,'BuktiTransfer','op_bukti_transfer_filename','op_bukti_transfer_file',$existingOrder[0]->customer->cst_name);
+                $updateOrder = array_merge($updateOrder, $fileReq->all());
+            }
+            if ($request->hasFile('op_resi_file'))
+            {
+                $file = $request->file('op_resi_file');
+                $fileReq = ImageProcessor::getImageThumbnail($file,'BuktiTransfer','op_resi_filename','op_resi_file',$existingOrder[0]->customer->cst_name);
+                $updateOrder = array_merge($updateOrder, $fileReq->all());
+            }
+
             DB::beginTransaction();
             try
             {

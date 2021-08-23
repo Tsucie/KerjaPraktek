@@ -28,7 +28,12 @@ class OrderProduct extends Model
         'op_sum_biaya',
         'op_tanggal_order',
         'op_status_order',
-        'op_contact_customer'
+        'op_contact_customer',
+        'op_note_to_customer',
+        'op_bukti_transfer_filename',
+        'op_bukti_transfer_file',
+        'op_resi_filename',
+        'op_resi_file'
     ];
 
     public function customer()

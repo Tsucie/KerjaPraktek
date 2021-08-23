@@ -158,7 +158,7 @@
                   </div>
                   <div class="form-group d-none" id="div-input-bukti">
                     <label for="images">Bukti Transfer</label>
-                      <input type="file" name="images" id="ov_bukti_transfer_file">
+                      <input type="file" name="images" id="ov_bukti_transfer_file" accept="image/*">
                       <div class="gallery" id="images-gallery"></div>
                   </div>
                   <div class="form-group">

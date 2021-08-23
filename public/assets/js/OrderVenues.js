@@ -39,6 +39,12 @@ $(function() {
     });
 });
 
+function clearImg() {
+    $('#ov_bukti_transfer_file').val(null);
+    $('div.gallery').html('');
+    $('#div-input-bukti').addClass('d-none');
+}
+
 // Modals for Show Details
 function ShowDetails(obj) {
     let actionTitle = 'Informasi Pemesanan';
@@ -127,6 +133,7 @@ function GetOrder(id) {
                         .attr('src', 'data:image/'+fileExt+';base64,'+data[0].ov_bukti_transfer_file)
                         .appendTo(gallery);
                 }
+                else { clearImg(); }
                 $("#AddEditModal").modal('show');
             }
         },
@@ -175,6 +182,8 @@ function EditOrder() {
         },
         complete: function () {
             $('#AddEditModal').modal('hide');
+            $('#btn-edit-ov').prop('disabled', false);
+            $('#btn-edit-ov').text('Simpan')
         }
     });
 }

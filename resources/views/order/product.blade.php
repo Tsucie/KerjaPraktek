@@ -131,6 +131,16 @@
                       </select>
                     </div>
                   </div>
+                  <div class="form-group d-none" id="input-bukti">
+                    <label for="op_bukti_transfer_file">Bukti Transfer</label>
+                    <input type="file" name="images" id="op_bukti_transfer_file" accept="image/*">
+                    <div class="gallery" id="bukti-gallery"></div>
+                  </div>
+                  <div class="form-group d-none" id="input-resi">
+                    <label for="op_resi_file">Upload Resi</label>
+                    <input type="file" name="images" id="op_resi_file" accept="image/*">
+                    <div class="gallery" id="resi-gallery"></div>
+                  </div>
                   <div class="form-group">
                     <label for="op_contact_customer">Sudah Contact Customer via WA/Telp?</label>
                     <div class="col-sm-12">
@@ -138,6 +148,12 @@
                         <option value="0">Belum</option>
                         <option value="1">Sudah</option>
                       </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="op_note_to_customer">Catatan untuk Customer</label>
+                    <div class="col-sm-12">
+                      <textarea class="form-control form-inputs" name="op_note_to_customer" id="op_note_to_customer" rows="5"></textarea>
                     </div>
                   </div>
               </div>

@@ -19,7 +19,7 @@
   <main>
     {{-- Include customer page main header --}}
     {{-- Tommorrow Tasks
-      1. Create Order Histories for Customer (100% - Tested(65%))
+      1. Create Order Histories for Customer (90% (Pagination) - Tested(65%))
       2. Create Review Histories for Customer ? (0%)
       3. Create Product Detail Page (24%)
       4. Make Welcome Page dynamic (78%)
