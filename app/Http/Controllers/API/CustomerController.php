@@ -22,7 +22,13 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $data = DB::table('customers')->orderBy('cst_name','asc')->paginate(10);
+        $data = DB::table('customers')
+                    ->select()
+                    ->selectSub("SELECT count(*) FROM dbsilungkang.order_venues
+                                    WHERE order_venues.ov_cst_id = customers.cst_id", "vnu_ord")
+                    ->selectSub("SELECT count(*) FROM dbsilungkang.order_products
+                                    WHERE order_products.op_cst_id = customers.cst_id", "pdct_ord")
+                    ->orderBy('cst_name','asc')->paginate(10);
         return view('customers.index', compact('data'));
     }
 

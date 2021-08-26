@@ -44,6 +44,18 @@ $(function() {
     });
 });
 
+$('#op_persen_pajak').on('change', function (e) {
+    $('#op_nominal_pajak').val(
+        parseInt($('#op_sum_harga_produk').val()) * parseInt($(this).val()) / 100
+    );
+});
+
+$('#op_sum_biaya').on('focus', function (e) {
+    $(this).val(
+        parseInt($('#op_sum_harga_produk').val()) + parseInt($('#op_harga_ongkir').val()) + parseInt($('#op_nominal_pajak').val())
+    );
+});
+
 function clearImg(divSelector) {
     $(divSelector+' > input').val(null);
     $(divSelector+' > div.gallery').html('');
@@ -102,6 +114,7 @@ function GetOrder(id) {
                 $('#pdct_kode').val(data[0].product.pdct_kode);
                 $('#pdct_harga').val(data[0].product.pdct_harga);
                 $('#odp_pdct_qty').val(data[0].detail.odp_pdct_qty);
+                $('#op_note_to_admin').val(data[0].op_note_to_admin);
                 $('#op_lokasi_pengiriman').val(data[0].op_lokasi_pengiriman);
                 $('#op_sum_harga_produk').val(data[0].op_sum_harga_produk);
                 $('#op_harga_ongkir').val(data[0].op_harga_ongkir);

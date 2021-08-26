@@ -18,12 +18,20 @@ class ImageProcessor
      */
     public static function getImageThumbnail($imgFile, $name, $filenameFieldname, $photoFieldname, $index = '')
     {
+        // Check image size
+        $size = filesize($imgFile->getRealPath());
+        
         $photo = new Request();
         $imgExt = $imgFile->getClientOriginalExtension();
         $filename = $name.'_'.DateTime::Now().'_'.$index.'.'.$imgExt;
-        $imageThumb = Image::make($imgFile->getRealPath())->resize(500, 500, function ($constraint) {
-            $constraint->aspectRatio();
-        });
+        $imageThumb = null;
+        // Check if size of image exceed the blob limit
+        if ($size > 65535) {
+            $imageThumb = ImageProcessor::compress($imgFile, 480, 480);
+        }
+        else {
+            $imageThumb = Image::make($imgFile->getRealPath());
+        }
         Response::make($imageThumb->encode($imgExt));
 
         $photo->merge([
@@ -32,5 +40,12 @@ class ImageProcessor
         ]);
 
         return $photo;
+    }
+
+    
+    private static function compress($image, $width, $height) {
+        return Image::make($image->getRealPath())->resize($width, $height, function ($constraint) {
+            $constraint->aspectRatio();
+        });
     }
 }

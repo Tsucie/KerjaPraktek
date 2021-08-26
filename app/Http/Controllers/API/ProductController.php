@@ -9,6 +9,7 @@ use App\Models\Inventory;
 use App\Models\ResponseMessage;
 use App\Models\Product;
 use App\Models\ProductPhoto;
+use App\Models\Promo;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,28 @@ class ProductController extends Controller
     {
         $data = $this->selectList();
         return view('product.index', compact('data'));
+    }
+
+    public function detail($id)
+    {
+        try {
+            if (preg_match("/[A-Za-z]/", $id)) throw new Exception("Data Tidak Valid", 0);
+
+            $data = Product::query()->where('pdct_id','=',$id)
+                    ->with(['promo','photos'])
+                    ->get();
+
+            return view('customers.productdetail', compact('data'));
+        }
+        catch (Exception $ex) {
+            #region Code Testing
+            $error = [
+                'code' => $ex->getCode(), 
+                'message' => $ex->getMessage()
+            ];
+            #endregion
+            return view('layouts.errors.ErrorPage', compact('error'));
+        }
     }
 
     /**
@@ -201,10 +224,11 @@ class ProductController extends Controller
     {
         $resmsg = new ResponseMessage();
         $request->validate([
+            'images.*' => 'mimes:jpeg,png,jpg|max:5120',
             'id' => 'required|integer',
-            'nama' => 'required',
-            'harga' => 'required',
-            'stock' => 'required'
+            'nama' => 'required|string',
+            'harga' => 'required|numeric',
+            'stock' => 'required|numeric'
         ]);
 
         $updateProduct = [
@@ -221,12 +245,49 @@ class ProductController extends Controller
             'ivty_cause' => $request->has('cause') ? $request->cause : null
         ];
 
+        $updatePromo = [];
+        $existPromo = Promo::query()->where('prm_pdct_id','=',$request->id)->get();
+        if ($existPromo->count() > 0) {
+            $updatePromo = [
+                'prm_harga_promo' => $request->harga - ($request->harga * ($existPromo[0]->prm_disc_percent/100))
+            ];
+        }
+
+        $photoData = [];
+        if ($request->has('imgLength') && $request->imgLength > 0)
+        {
+            for($i = 0; $i < $request->imgLength; $i++)
+            {
+                if ($request->hasFile('images'.$i))
+                {
+                    $file = $request->file('images'.$i);
+                    $photoRequest = ImageProcessor::getImageThumbnail($file, $request->nama, 'pp_filename', 'pp_photo',$i);
+                    array_push($photoData, $photoRequest);
+                }
+            }
+        }
+
         DB::beginTransaction();
         try
         {
-            $id = $request->id;
-            Product::query()->where('pdct_id','=',$id)->update($updateProduct);
-            Inventory::query()->where('ivty_pdct_id','=',$id)->update($updateInventory);
+            $pdct_id = $request->id;
+            Product::query()->where('pdct_id','=',$pdct_id)->update($updateProduct);
+            Inventory::query()->where('ivty_pdct_id','=',$pdct_id)->update($updateInventory);
+            if ($request->has('imgLength') && $request->imgLength > 0)
+            {
+                ProductPhoto::query()->where('pp_pdct_id','=',$pdct_id)->delete();
+                foreach ($photoData as $photo)
+                {
+                    $photo->merge([
+                        'pp_id' => rand(0,2147483647),
+                        'pp_pdct_id' => $pdct_id
+                    ]);
+                    ProductPhoto::query()->create($photo->all());
+                }
+            }
+            if ($existPromo->count() > 0) {
+                Promo::query()->where('prm_pdct_id','=',$pdct_id)->update($updatePromo);
+            }
 
             DB::commit();
             $resmsg->code = 1;
@@ -235,13 +296,21 @@ class ProductController extends Controller
         catch (Exception $ex)
         {
             DB::rollBack();
-            // $resmsg->code = 1;
-            // $resmsg->message = 'Data Gagal Diubah';
+            if ($ex->getCode() == 22001)
+            {
+                $resmsg->code = 0;
+                $resmsg->message = 'Ukuran foto tidak sesuai';
+            }
+            else
+            {
+                // $resmsg->code = 0;
+                // $resmsg->message = 'Data Gagal Ditambahkan';
 
-            #region Code Testing
-            $resmsg->code = $ex->getCode();
-            $resmsg->message = $ex->getMessage();
-            #endregion
+                #region Code Testing
+                $resmsg->code = $ex->getCode();
+                $resmsg->message = $ex->getMessage();
+                #endregion
+            }
         }
 
         return response()->json($resmsg);

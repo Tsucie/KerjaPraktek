@@ -327,13 +327,21 @@ class OrderVenueController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 0;
-            // $resmsg->message = 'Data Gagal Dihapus';
+            if ($ex->getCode() == 22001)
+            {
+                $resmsg->code = 0;
+                $resmsg->message = 'Ukuran file tidak sesuai';
+            }
+            else
+            {
+                // $resmsg->code = 0;
+                // $resmsg->message = 'Data Gagal Diubah';
 
-            #region Code Testing
-            $resmsg->code = $ex->getCode();
-            $resmsg->message = $ex->getMessage();
-            #endregion
+                #region Code Testing
+                $resmsg->code = $ex->getCode();
+                $resmsg->message = $ex->getMessage();
+                #endregion
+            }
         }
 
         return response()->json($resmsg);

@@ -65,7 +65,7 @@ function ShowEditModals(obj) {
     $("#AddEditModal").on('show.bs.modal', function (e) {
         var modal = $(this);
         modal.find('.modal-title').text(actionTitle);
-        $('#gallery-photo-add').hide();
+        $('#gallery-photo-add').show();
         $("#btn-edit-pdct").show();
         $("#btn-add-pdct").hide();
     });
@@ -128,7 +128,7 @@ function validasi() {
         $('#harga').css('border-color', 'lightgray');
         $('#harga-alrt').hide();
     }
-    if ($('#stock').val().trim() == "" || $('#stock').val().trim() == 0) {
+    if ($('#stock').val().trim() == "") {
         $('#stock').css('border-color', 'Red');
         $('#stock-alrt').show();
         isValid = false;
@@ -229,6 +229,14 @@ function EditProduct() {
     DisableBtn('#btn-edit-pdct');
 
     var formData = new FormData();
+    let input = $('#gallery-photo-add')[0];
+    if (input.files) {
+        let length = input.files.length;
+        for (let i = 0; i < length; i++) {
+            formData.append("images"+i, input.files[i]);
+        }
+        formData.append("imgLength", input.files.length);
+    }
     formData.append("id", edit);
     formData.append("nama", $('#nama').val());
     formData.append("desc", $('#desc').val());
@@ -257,6 +265,8 @@ function EditProduct() {
         complete: function () {
             $('#AddEditModal').modal('hide');
             ClearInput();
+            $('#btn-edit-pdct').prop('disabled', false);
+            $('#btn-edit-pdct').text('Simpan');
         }
     });
 }

@@ -32,6 +32,7 @@ class CreateOrderProductsTable extends Migration
                 $table->smallInteger('op_status_order');
                 $table->smallInteger('op_contact_customer');
                 $table->string('op_note_to_customer')->nullable();
+                $table->string('op_note_to_admin')->nullable();
                 $table->string('op_bukti_transfer_filename')->nullable();
                 $table->binary('op_bukti_transfer_file')->nullable();
                 $table->string('op_resi_filename')->nullable();

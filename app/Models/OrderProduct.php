@@ -30,6 +30,7 @@ class OrderProduct extends Model
         'op_status_order',
         'op_contact_customer',
         'op_note_to_customer',
+        'op_note_to_admin',
         'op_bukti_transfer_filename',
         'op_bukti_transfer_file',
         'op_resi_filename',

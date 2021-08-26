@@ -156,6 +156,15 @@ $('#regis-form').submit(function (e) {
 		return false;
 	}
 	let no_telp = $('#input-regis-telepon').val();
+	if (no_telp.match('/[A-Za-z]/')) {
+    notif({
+      msg: '<b style="color: white;">Nomor telpon tidak benar!</b>',
+      type: "error",
+      position: notifAlign
+    });
+    EnableBtn('#input-regis-submit','Sign Up');
+    return false;
+  }
 	var formData = new FormData();
 	formData.append("nama", $('#input-regis-nama').val());
 	formData.append("email", $('#input-regis-email').val());

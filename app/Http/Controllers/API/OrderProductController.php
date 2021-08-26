@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\DateTime as ModelsDateTime;
 use App\Models\ImageProcessor;
 use App\Models\OrderDetailProduct;
@@ -84,37 +85,46 @@ class OrderProductController extends Controller
         $resmsg = new ResponseMessage();
         $request->validate([
             'cst_id' => 'required|numeric',
+            'no_telp' => 'required',
             'pdct_id' => 'required|numeric',
             'pdct_qty' => 'required|numeric',
             'alamat_pemesanan' => 'required'
         ]);
         try 
         {
-            $existPdct = Product::query()->where('pdct_id','=',$request->pdct_id)->get();
+            $existPdct = Product::query()->where('pdct_id','=',$request->pdct_id)->with('promo')->get();
             if ($existPdct->count() == 0) throw new Exception("Data produk tidak ada",0);
+            $harga = $existPdct[0]->promo != null ? $existPdct[0]->promo->prm_harga_promo : $existPdct[0]->pdct_harga;
+            $biaya = intval($harga) * intval($request->pdct_qty);
             $orderProduct = [
                 'op_id' => rand(intval(date('ymdhis')),intval(date('ymdhis'))),
                 'op_cst_id' => $request->cst_id,
                 'op_lokasi_pengiriman' => 'Belum di isi',
-                'op_sum_harga_produk' => (int)$existPdct->pdct_harga * $request->pdct_qty,
+                'op_sum_harga_produk' => $biaya,
                 'op_alamat_pemesanan' => $request->alamat_pemesanan,
                 'op_tanggal_order' => ModelsDateTime::Now(),
                 'op_status_order' => 0,
-                'op_contact_customer' => 0
+                'op_contact_customer' => 0,
+                'op_note_to_admin' => $request->note,
+                'op_sum_biaya' => $biaya
             ];
             $orderDetail = [
                 'odp_id' => rand(intval(date('ymdhis')),intval(date('ymdhis'))),
                 'odp_op_id' => $orderProduct['op_id'],
-                'odp_pdct_id' => $existPdct['pdct_id'],
-                'odp_pdct_kode' => $existPdct['pdct_kode'],
-                'odp_pdct_harga' => $existPdct['pdct_harga'],
+                'odp_pdct_id' => $existPdct[0]->pdct_id,
+                'odp_pdct_kode' => $existPdct[0]->pdct_kode,
+                'odp_pdct_harga' => $existPdct[0]->pdct_harga,
                 'odp_pdct_qty' => $request->pdct_qty
+            ];
+            $csData = [
+                'cst_no_telp' => $request->no_telp
             ];
             DB::beginTransaction();
             try
             {
                 OrderProduct::query()->create($orderProduct);
                 OrderDetailProduct::query()->create($orderDetail);
+                Customer::query()->where('cst_id','=',$request->cst_id)->update($csData);
 
                 DB::commit();
                 $resmsg->code = 1;
@@ -268,13 +278,21 @@ class OrderProductController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 0;
-            // $resmsg->message = 'Data Gagal Dihapus';
+            if ($ex->getCode() == 22001)
+            {
+                $resmsg->code = 0;
+                $resmsg->message = 'Ukuran file tidak sesuai';
+            }
+            else
+            {
+                // $resmsg->code = 0;
+                // $resmsg->message = 'Data Gagal Diubah';
 
-            #region Code Testing
-            $resmsg->code = $ex->getCode();
-            $resmsg->message = $ex->getMessage();
-            #endregion
+                #region Code Testing
+                $resmsg->code = $ex->getCode();
+                $resmsg->message = $ex->getMessage();
+                #endregion
+            }
         }
 
         return response()->json($resmsg);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\ImageProcessor;
+use App\Models\Promo;
 use App\Models\ResponseMessage;
 use App\Models\Venue;
 use App\Models\VenuePhoto;
@@ -29,10 +30,24 @@ class VenueController extends Controller
 
     public function detail($id)
     {
-        $data = Venue::query()->where('vnu_id','=',$id)
+        try {
+            if (preg_match("/[A-Za-z]/", $id)) throw new Exception("Data Tidak Valid", 0);
+
+            $data = Venue::query()->where('vnu_id','=',$id)
                     ->with(['promo','photos'])
                     ->get();
-        return view('customers.venuedetail', compact('data'));
+
+            return view('customers.venuedetail', compact('data'));
+        }
+        catch (Exception $ex) {
+            #region Code Testing
+            $error = [
+                'code' => $ex->getCode(), 
+                'message' => $ex->getMessage()
+            ];
+            #endregion
+            return view('layouts.errors.ErrorPage', compact('error'));
+        }
     }
 
     /**
@@ -226,6 +241,14 @@ class VenueController extends Controller
             'updated_by' => auth()->user()->name ?? 'system'
         ];
 
+        $updatePromo = [];
+        $existPromo = Promo::query()->where('prm_vnu_id','=',$request->id)->get();
+        if ($existPromo->count() > 0) {
+            $updatePromo = [
+                'prm_harga_promo' => $request->harga - ($request->harga * ($existPromo[0]->prm_disc_percent/100))
+            ];
+        }
+
         $photoData = [];
         if ($request->has('imgLength') && $request->imgLength > 0)
         {
@@ -257,6 +280,9 @@ class VenueController extends Controller
                     VenuePhoto::query()->create($photo->all());
                 }
             }
+            if ($existPromo->count() > 0) {
+                Promo::query()->where('prm_vnu_id','=',$vnu_id)->update($updatePromo);
+            }
 
             DB::commit();
             $resmsg->code = 1;
@@ -273,7 +299,7 @@ class VenueController extends Controller
             else
             {
                 // $resmsg->code = 0;
-                // $resmsg->message = 'Data Gagal Ditambahkan';
+                // $resmsg->message = 'Data Gagal Diubah';
 
                 #region Code Testing
                 $resmsg->code = $ex->getCode();

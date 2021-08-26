@@ -176,13 +176,22 @@ function createOrd(obj) {
     notif({
       msg: '<b style="color: white;">Harap Login terlebih dahulu sebelum order!</b>',
       type: "warning",
-      position: "center"
+      position: notifAlign
     });
     $('#sewa-modal').modal('hide');
 		EnableBtn('#input-sewa-submit','Book Now');
     return false;
   }
   let no_telp = $(obj+' input[id="input-sewa-telepon"]').val();
+  if (no_telp.match('/[A-Za-z]/')) {
+    notif({
+      msg: '<b style="color: white;">Nomor telpon tidak benar!</b>',
+      type: "error",
+      position: notifAlign
+    });
+    EnableBtn('#input-sewa-submit','Book Now');
+    return false;
+  }
   var formData = new FormData();
   formData.append("cst_id", id);
   formData.append("ov_vnu_id", parseInt($(obj+' input[id="vnu_id"]').val()));
