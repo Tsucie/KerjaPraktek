@@ -40,7 +40,11 @@
                   <div class="form-group">
                       <label for="fasilitas">Fasilitas</label>
                       <div class="col-sm-12">
-                          <textarea class="form-control form-inputs" rows="5" name="fasilitas" id="fasilitas" placeholder="Detail fasilitas Gedung/Ruangannya"></textarea>
+                          <textarea class="form-control form-inputs" rows="5" name="fasilitas" id="fasilitas" placeholder="Contoh Format:
+- Gedung Full AC
+- Ruang rias pria dan wanita
+- Kursi 50 buah"
+                          required></textarea>
                       </div>
                   </div>
                   <div class="form-group">

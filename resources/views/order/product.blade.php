@@ -76,6 +76,12 @@
                     </div>
                   </div>
                   <div class="form-group">
+                    <label for="op_note_to_admin">Catatan dari Customer</label>
+                    <div class="col-sm-12">
+                      <textarea class="form-control form-inputs" name="op_note_to_admin" id="op_note_to_admin" rows="3"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
                     <label for="op_lokasi_pengiriman">Lokasi Pengiriman</label>
                     <div class="col-sm-12">
                       <textarea class="form-control form-inputs" name="op_lokasi_pengiriman" id="op_lokasi_pengiriman" rows="3"></textarea>
@@ -96,7 +102,7 @@
                   <div class="form-group">
                     <label for="op_nominal_pajak">Nominal Pajak (Rp)</label>
                     <div class="col-sm-12">
-                      <!-- Generated from (op_sum_harga_produk * op_persen_pajak / 100) -->
+                      {{-- <!-- Generated from (op_sum_harga_produk * op_persen_pajak / 100) --> --}}
                       <input class="form-control form-inputs" type="tel" name="op_nominal_pajak" id="op_nominal_pajak" placeholder="Nominal pajaknya dalam Rupiah">
                     </div>
                   </div>
@@ -115,7 +121,7 @@
                   <div class="form-group">
                     <label for="op_sum_biaya">Total Biaya</label>
                     <div class="col-sm-12">
-                      <!-- Generated from sum('op_sum_harga_produk','op_harga_ongkir','op_nominal_pajak') -->
+                      {{-- <!-- Generated from sum('op_sum_harga_produk','op_harga_ongkir','op_nominal_pajak') --> --}}
                       <input class="form-control form-inputs" type="tel" name="op_sum_biaya" id="op_sum_biaya" placeholder="Total Biaya">
                     </div>
                   </div>

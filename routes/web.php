@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 // Routes Global (guests)
 Route::get('/', function () { return view('welcome'); })->name('welcome');
 Route::get('/venue/{id}', [VenueController::class, 'detail'])->name('venuedetail');
-Route::get('/product/{id}', function() { return view('customers.productdetail'); })->name('productdetail');
+Route::get('/product/{id}', [ProductController::class, 'detail'])->name('productdetail');
 
 Route::get('/morefacilities', [MoreFacilityController::class, 'index']);
 
@@ -78,6 +78,7 @@ Route::group(['middleware' => 'auth:web'], function () {
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'App\Http\Controllers\ProfileController@update']);
     Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'App\Http\Controllers\ProfileController@password']);
     Route::get('/Customer/{id}', [CustomerController::class, 'show']);
+    Route::delete('/Customer/{id}', [CustomerController::class, 'destroy']);
     // Route Logout Admin (Direct)
     Route::post('/logout', 'App\Http\Controllers\Auth\AuthUserAdmin@logout')->name('logout');
 

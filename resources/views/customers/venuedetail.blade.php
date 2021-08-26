@@ -93,7 +93,7 @@
 							</div>
 						</div>
 						<div class="form-floating mb-3">
-							<input class="form-control" id="input-sewa-alamat" rows="3" placeholder="Alamat"
+							<input class="form-control" id="input-sewa-alamat" placeholder="Alamat"
 							@auth('customer')
 								value="{{ $cs->cst_alamat }}"
 							@endauth>
@@ -287,9 +287,9 @@
 						<div class="harga">
 						@if ($data[0]->vnu_status_tersedia == 1)
 							@if ($data[0]->promo)
-									<span style="text-shadow: 1px 2px 1px rgba(0,0,0,0.3);">Rp {{ number_format($data[0]->promo->prm_harga_promo, 2) }}</span>
+									<span style="text-shadow: 1px 2px 1px rgba(0,0,0,0.3);">Rp {{ number_format($data[0]->promo->prm_harga_promo) }}</span>
 									{{-- Desktop --}}
-									<span class="delet">Rp {{ number_format($data[0]->vnu_harga, 2) }}</span>
+									<span class="delet">Rp {{ number_format($data[0]->vnu_harga) }}</span>
 									{{-- Mobile --}}
 									<div id='promo-tag' class="mt-2">
 										<span class='me-0 ps-3 pe-3 pt-1 pb-1 shadow-sm rounded' style='background-color: #FFE3E3; color:#FF4848; border-radius: 10px; font-size:24px; transform: translate(0px, -5px);'>{{ $data[0]->promo->prm_disc_percent }}% OFF</span>
@@ -297,10 +297,10 @@
 									<div style='font-weight: lighter; font-size: 14px;' class='mt-2 mb-4' id="promo-price">
 										<span>from</span>
 										<br>
-										<span style='font-size: 20px; text-decoration: line-through;'>Rp {{ number_format($data[0]->vnu_harga, 2) }}</span>
+										<span style='font-size: 20px; text-decoration: line-through;'>Rp {{ number_format($data[0]->vnu_harga) }}</span>
 									</div>
 								@else
-									<span>Rp {{ number_format($data[0]->vnu_harga, 2) }} <small style="font-weight: 100">/jam</small> </span>
+									<span>Rp {{ number_format($data[0]->vnu_harga) }} <small style="font-weight: 100">/jam</small> </span>
 								@endif
 							</div>
 							<div class="btn-group-details" style="margin-top: 4rem !important;">
@@ -398,15 +398,15 @@
 																@case(0)
 																	<ul>
 																		<li>Senin - Jum'at</li>
-																		<li style="list-style: none">Siang : Rp {{ number_format($data[0]->promo->prm_harga_promo, 2) }}
+																		<li style="list-style: none">Siang : Rp {{ number_format($data[0]->promo->prm_harga_promo) }}
 																		</li>
-																		<li style="list-style: none">Malam : Rp {{ number_format($data[0]->promo->prm_harga_promo, 2) }}
+																		<li style="list-style: none">Malam : Rp {{ number_format($data[0]->promo->prm_harga_promo) }}
 																		</li>
 																		<br />
 																		<li>Sabtu, Minggu, & Hari Libur</li>
-																		<li style="list-style: none">Siang : Rp {{ number_format($data[0]->vnu_harga, 2) }}
+																		<li style="list-style: none">Siang : Rp {{ number_format($data[0]->vnu_harga) }}
 																		</li>
-																		<li style="list-style: none">Malam : Rp {{ number_format($data[0]->vnu_harga, 2) }}
+																		<li style="list-style: none">Malam : Rp {{ number_format($data[0]->vnu_harga) }}
 																		</li>
 																	</ul>
 																	@break
@@ -414,12 +414,12 @@
 																	<ul>
 																		@if ($data[0]->promo)
 																			<li>Harga</li>
-																			<li style="list-style: none"><span class="delet">Rp {{ number_format($data[0]->vnu_harga, 2) }}</span></li>
+																			<li style="list-style: none"><span class="delet">Rp {{ number_format($data[0]->vnu_harga) }}</span></li>
 																			<li>Harga Promo</li>
-																			<li style="list-style: none">Rp {{ number_format($data[0]->promo->prm_harga_promo, 2) }}</li>
+																			<li style="list-style: none">Rp {{ number_format($data[0]->promo->prm_harga_promo) }}</li>
 																		@else
 																			<li>Harga</li>
-																			<li style="list-style: none">Rp {{ number_format($data[0]->vnu_harga, 2) }}<small style="font-weight: 100">/jam</small></li>
+																			<li style="list-style: none">Rp {{ number_format($data[0]->vnu_harga) }}<small style="font-weight: 100">/jam</small></li>
 																		@endif
 																	</ul>
 																	@break
@@ -557,15 +557,15 @@
 										@case(0)
 											<ul>
 												<li>Senin - Jum'at</li>
-												<li style="list-style: none">Siang : Rp {{ number_format($data[0]->promo->prm_harga_promo, 2) }}
+												<li style="list-style: none">Siang : Rp {{ number_format($data[0]->promo->prm_harga_promo) }}
 												</li>
-												<li style="list-style: none">Malam : Rp {{ number_format($data[0]->promo->prm_harga_promo, 2) }}
+												<li style="list-style: none">Malam : Rp {{ number_format($data[0]->promo->prm_harga_promo) }}
 												</li>
 												<br />
 												<li>Sabtu, Minggu, & Hari Libur</li>
-												<li style="list-style: none">Siang : Rp {{ number_format($data[0]->vnu_harga, 2) }}
+												<li style="list-style: none">Siang : Rp {{ number_format($data[0]->vnu_harga) }}
 												</li>
-												<li style="list-style: none">Malam : Rp {{ number_format($data[0]->vnu_harga, 2) }}
+												<li style="list-style: none">Malam : Rp {{ number_format($data[0]->vnu_harga) }}
 												</li>
 											</ul>
 											@break
@@ -573,12 +573,12 @@
 											<ul>
 												@if ($data[0]->promo)
 													<li>Harga</li>
-													<li style="list-style: none"><span class="delet">Rp {{ number_format($data[0]->vnu_harga, 2) }}</span></li>
+													<li style="list-style: none"><span class="delet">Rp {{ number_format($data[0]->vnu_harga) }}</span></li>
 													<li>Harga Promo</li>
-													<li style="list-style: none">Rp {{ number_format($data[0]->promo->prm_harga_promo, 2) }}</li>
+													<li style="list-style: none">Rp {{ number_format($data[0]->promo->prm_harga_promo) }}</li>
 												@else
 													<li>Harga</li>
-													<li style="list-style: none">Rp {{ number_format($data[0]->vnu_harga, 2) }}<small style="font-weight: 100">/jam</small></li>
+													<li style="list-style: none">Rp {{ number_format($data[0]->vnu_harga) }}<small style="font-weight: 100">/jam</small></li>
 												@endif
 											</ul>
 											@break
@@ -687,63 +687,12 @@
 <section id="sec-ulasan">
 	<div class="remove-gap">
 		<div class="tem-wrp2 black-layer2 opc95">
-			<div class="fixed-bg" style="background-image: url(assets/images/details-gedung-head.jpg)"></div>
 			<div class="container">
 				<div class="sec-title text-center">
 					<h3 itemprop="headline">Ulasan</h3>
 					<span>Apa kata Mereka tentang Silungkang Venue</span>
 				</div>
-				<div class="row" id="venue-feedbacks">
-					{{-- <div class="col-md-4 col-sm-12 col-xs-12 clearfix align-left mb-3">
-						<div class="ce-feature-box-16 border margin-bottom">
-							<div class="text-box text-center">
-								<div class="imgbox-small round center overflow-hidden">
-									<img src="http://127.0.0.1:8000/assets/img/profiles/1.jpg" alt="" class="img-responsive"/>
-								</div>
-								<div class="text-box">
-									<h6 class="title less-mar-1 mt-1">Zikri</h6>
-									<p class="subtext">Gedung Aula PKS</p>
-								</div>
-								<br />
-								<p class="content">
-									Karena tempat yang mewah menjadikan acara wisuda saya sangat berkesan.
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-12 col-xs-12 clearfix align-left mb-3">
-						<div class="ce-feature-box-16 border primary margin-bottom">
-							<div class="text-box text-center">
-								<div class="imgbox-small round center overflow-hidden">
-									<img src="http://127.0.0.1:8000/assets/img/profiles/5.jpg" alt="" class="img-responsive" /></div>
-								<div class="text-box">
-									<h6 class="title less-mar-1 mt-1">Rizky</h6>
-									<p class="subtext">Gedung Aula PKS</p>
-								</div>
-								<br />
-								<p class="content">
-									Dengan fasilitas yang lengkap dan dekorasi yang mewah, acara saya menjadi momen yang sangat berkesan sekali.
-								</p>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-12 col-xs-12 clearfix align-left mb-3">
-						<div class="ce-feature-box-16 border margin-bottom">
-							<div class="text-box text-center">
-								<div class="imgbox-small round center overflow-hidden">
-									<img src="http://127.0.0.1:8000/assets/img/profiles/30.jpg" alt="" class="img-responsive" /></div>
-								<div class="text-box">
-									<h6 class="title less-mar-1 mt-1">Jenny</h6>
-									<p class="subtext">Gedung Aula PKS</p>
-								</div>
-								<br />
-								<p class="content">
-									Dekorasinya mewah dan instagramable sekali.
-								</p>
-							</div>
-						</div>
-					</div> --}}
-				</div>
+				<div class="row" id="venue-feedbacks"></div>
 			</div>
 		</div>
 	</div>
