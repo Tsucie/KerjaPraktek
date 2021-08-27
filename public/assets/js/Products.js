@@ -34,6 +34,7 @@ function ShowDetails(obj) {
     $("#AddEditModal").on('show.bs.modal', function (e) {
         var modal = $(this);
         modal.find('.modal-title').text(actionTitle);
+        $('#inventory-note').removeClass('d-none');
         $('#gallery-photo-add').hide();
         $("#btn-edit-pdct").hide();
         $("#btn-add-pdct").hide();
@@ -50,6 +51,7 @@ function ShowAddModals() {
     $("#AddEditModal").on('show.bs.modal', function (e) {
         var modal = $(this);
         modal.find('.modal-title').text(actionTitle);
+        $('#inventory-note').addClass('d-none');
         $('#gallery-photo-add').show();
         $("#btn-add-pdct").show();
         $("#btn-edit-pdct").hide();
@@ -65,6 +67,7 @@ function ShowEditModals(obj) {
     $("#AddEditModal").on('show.bs.modal', function (e) {
         var modal = $(this);
         modal.find('.modal-title').text(actionTitle);
+        $('#inventory-note').addClass('d-none');
         $('#gallery-photo-add').show();
         $("#btn-edit-pdct").show();
         $("#btn-add-pdct").hide();
@@ -160,6 +163,8 @@ function AddProduct() {
     formData.append("desc", $('#desc').val());
     formData.append("stock", $('#stock').val());
     formData.append("harga", $('#harga').val());
+    formData.append("kategori_id", parseInt($('#kategori').val()));
+    formData.append("kategori_nama", $('#kategori').find(':selected').text());
 
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -211,10 +216,13 @@ function GetProduct(id) {
                             .appendTo(gallery);
                     }
                 }
+                $('#ivty_cause').val(data.product[0].inventories.ivty_cause);
+                $('#kode').val(data.product[0].pdct_kode);
                 $('#nama').val(data.product[0].pdct_nama);
                 $('#desc').val(data.product[0].pdct_desc);
-                $('#stock').val(data.product[0].pdct_stock);
+                $('#stock').val(data.product[0].inventories.ivty_pdct_stock);
                 $('#harga').val(data.product[0].pdct_harga);
+                $('#kategori').val(data.product[0].pdct_kategori_id);
                 $("#AddEditModal").modal('show');
             }
         },
@@ -242,6 +250,8 @@ function EditProduct() {
     formData.append("desc", $('#desc').val());
     formData.append("stock", $('#stock').val());
     formData.append("harga", $('#harga').val());
+    formData.append("kategori_id", parseInt($('#kategori').val()));
+    formData.append("kategori_nama", $('#kategori').find(':selected').text());
 
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },

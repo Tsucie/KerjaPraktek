@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\DateTime as ModelsDateTime;
 use App\Models\ImageProcessor;
+use App\Models\Inventory;
 use App\Models\OrderDetailProduct;
 use App\Models\OrderProduct;
 use App\Models\Product;
@@ -217,6 +218,7 @@ class OrderProductController extends Controller
             if (preg_match("/[A-Za-z]/", $id)) throw new Exception("Data Tidak Valid", 0);
             $existingOrder = OrderProduct::query()->where('op_id','=',$id)->with(['detail','customer'])->get();
             if ($existingOrder->count() == 0) throw new Exception("Data Order tidak ada", 0);
+
             $updateDetail = [
                 'odp_pdct_qty' => $request->pdct_qty ?? $existingOrder[0]->detail->odp_pdct_qty
             ];
@@ -256,8 +258,18 @@ class OrderProductController extends Controller
             if ($request->hasFile('op_resi_file'))
             {
                 $file = $request->file('op_resi_file');
-                $fileReq = ImageProcessor::getImageThumbnail($file,'BuktiTransfer','op_resi_filename','op_resi_file',$existingOrder[0]->customer->cst_name);
+                $fileReq = ImageProcessor::getImageThumbnail($file,'Resi','op_resi_filename','op_resi_file',$existingOrder[0]->customer->cst_name);
                 $updateOrder = array_merge($updateOrder, $fileReq->all());
+            }
+            $updateInven = null;
+            if ($updateOrder['op_status_order'] == 3) {
+                $invenData = Inventory::query()->where('ivty_pdct_id','=',$existingOrder[0]->detail->odp_pdct_id)->get();
+                $pdctStockLeft = $invenData[0]->ivty_pdct_stock - $updateDetail['odp_pdct_qty'];
+                if ($pdctStockLeft < 0) throw new Exception("Stock Produk Kurang", 0);
+                $updateInven = [
+                    'ivty_pdct_stock' => $pdctStockLeft,
+                    'ivty_cause' => $updateDetail['odp_pdct_qty'] . " produk telah dikirim ke " . $existingOrder[0]->customer->cst_name
+                ];
             }
 
             DB::beginTransaction();
@@ -265,6 +277,9 @@ class OrderProductController extends Controller
             {
                 OrderProduct::query()->where('op_id','=',$existingOrder[0]->op_id)->update($updateOrder);
                 OrderDetailProduct::query()->where('odp_id','=',$existingOrder[0]->detail->odp_id)->update($updateDetail);
+                if ($updateOrder['op_status_order'] == 3) {
+                    Inventory::query()->where('ivty_pdct_id','=',$existingOrder[0]->detail->odp_pdct_id)->update($updateInven);
+                }
 
                 DB::commit();
                 $resmsg->code = 1;

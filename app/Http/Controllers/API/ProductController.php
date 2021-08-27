@@ -70,12 +70,13 @@ class ProductController extends Controller
      */
     private function selectList()
     {
-        $datas = DB::select(
-            "SELECT pdct.*,".
-                " (SELECT pp_filename FROM product_photos WHERE pp_pdct_id=pdct_id LIMIT 1) AS pp_filename,".
-                " (SELECT pp_photo FROM product_photos WHERE pp_pdct_id=pdct_id LIMIT 1) AS pp_photo".
-            " FROM dbsilungkang.products pdct ORDER BY pdct.pdct_nama;"
-        );
+        $datas = DB::table('products')
+                    ->select()
+                    ->selectSub("SELECT ivty_pdct_stock FROM inventories WHERE ivty_pdct_id=pdct_id", 'pdct_stock')
+                    ->selectSub("SELECT pp_filename FROM product_photos WHERE pp_pdct_id=pdct_id LIMIT 1", 'pp_filename')
+                    ->selectSub("SELECT pp_photo FROM product_photos WHERE pp_pdct_id=pdct_id LIMIT 1", 'pp_photo')
+                    ->orderBy('pdct_nama')
+                    ->get();
         foreach ($datas as $data)
         {
             $data->pp_photo = base64_encode($data->pp_photo);
@@ -95,6 +96,8 @@ class ProductController extends Controller
         $resmsg = new ResponseMessage();
         $request->validate([
             'images.*' => 'mimes:jpeg,png,jpg|max:5120',
+            'kategori_id' => 'required',
+            'kategori_nama' => 'required',
             'nama' => 'required',
             'harga' => 'required',
             'stock' => 'required'
@@ -102,6 +105,8 @@ class ProductController extends Controller
 
         $productData = [
             'pdct_id' => rand(0,2147483647),
+            'pdct_kategori_id' => $request->kategori_id,
+            'pdct_kategori_nama' => $request->kategori_nama,
             'pdct_kode' => "PD#".date('Ymd').rand(0,2147483647),
             'pdct_nama' => $request->nama,
             'pdct_desc' => $request->has('desc') ? $request->desc : null,
@@ -186,7 +191,7 @@ class ProductController extends Controller
         {
             if (preg_match("/[A-Za-z]/", $id)) throw new Exception("Data Tidak Valid", 0);
 
-            $product = Product::query()->where('pdct_id','=',$id)->get();
+            $product = Product::query()->where('pdct_id','=',$id)->with('inventories')->get();
             $photos = ProductPhoto::query()->where('pp_pdct_id','=',$id)->get();
             foreach ($photos as $photo)
             {
@@ -226,12 +231,16 @@ class ProductController extends Controller
         $request->validate([
             'images.*' => 'mimes:jpeg,png,jpg|max:5120',
             'id' => 'required|integer',
+            'kategori_id' => 'required',
+            'kategori_nama' => 'required',
             'nama' => 'required|string',
             'harga' => 'required|numeric',
             'stock' => 'required|numeric'
         ]);
 
         $updateProduct = [
+            'pdct_kategori_id' => $request->kategori_id,
+            'pdct_kategori_nama' => $request->kategori_nama,
             'pdct_nama' => $request->nama,
             'pdct_desc' => $request->has('desc') ? $request->desc : null,
             'pdct_harga' => $request->harga,
@@ -239,10 +248,17 @@ class ProductController extends Controller
             'updated_by' => auth()->user()->name ?? 'system'
         ];
 
+        $inventoryData = Inventory::query()->where('ivty_pdct_id','=',$request->id)->get();
         $updateInventory = [
             'ivty_pdct_nama' => $updateProduct['pdct_nama'],
             'ivty_pdct_stock' => $updateProduct['pdct_stock'],
-            'ivty_cause' => $request->has('cause') ? $request->cause : null
+            'ivty_cause' => (
+                $updateProduct['pdct_nama'] == $inventoryData[0]->ivty_pdct_nama ?
+                    "" : $updateProduct['updated_by'] . " mengubah nama produk menjadi " . $updateProduct['pdct_nama']
+            ).(
+                $updateProduct['pdct_stock'] == $inventoryData[0]->ivty_pdct_stock ?
+                    "" : "\n" . $updateProduct['updated_by'] . " mengubah stok produk menjadi " . $updateProduct['pdct_stock']
+            )
         ];
 
         $updatePromo = [];

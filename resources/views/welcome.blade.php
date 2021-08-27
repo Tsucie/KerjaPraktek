@@ -221,78 +221,15 @@
 				</div>
 				<div class="prtfl-fltrs-wrp text-center">
 					<ul class="fltr-btns">
-						<li class="active"><a data-filter="*" href="#" id="produk-all" itemprop="url">ALL<i>04</i></a></li>
-						<li><a data-filter=".fltr-itm1" href="#" id="produk-kain" itemprop="url">Kain<i>02</i></a></li>
-						<li><a data-filter=".fltr-itm2" href="#" id="produk-hiasan" itemprop="url">Hiasan<i>02</i></a></li>
-						<li><a data-filter=".fltr-itm3" href="#" id="produk-batik" itemprop="url">Batik<i>0</i></a></li>
+						<li class="active"><a data-filter="*" href="#" id="produk-all" itemprop="url">Semua<i></i></a></li>
+						<li><a data-filter=".fltr-itm1" href="#" id="produk-songket" itemprop="url">Songket<i></i></a></li>
+						<li><a data-filter=".fltr-itm2" href="#" id="produk-hiasan" itemprop="url">Hiasan<i></i></a></li>
+						<li><a data-filter=".fltr-itm3" href="#" id="produk-batik" itemprop="url">Batik<i></i></a></li>
+						<li><a data-filter=".fltr-itm4" href="#" id="produk-food" itemprop="url">Makanan Khas<i></i></a></li>
+						<li><a data-filter=".fltr-itm5" href="#" id="produk-lainnya" itemprop="url">Lainnya<i></i></a></li>
 					</ul>
 					<div class="fltr-dta style3 remove-ext3">
-						<div class="row masonry mrg20">
-							<div class="col-md-3 col-sm-6 col-lg-3 fltr-itm fltr-itm2">
-								<div class="prtfl-box6">
-									<div class="prtfl-thmb6">
-										<img src="{{ asset('assets') }}/images/produk1.jpg" alt="toko1.jpg" itemprop="image">
-										<div class="prtfl-btns">
-											<a href="{{ asset('assets') }}/images/produk1.jpg" data-fancybox="gallery-produk" title="" itemprop="url"><i
-													class="fa fa-search"></i></a>
-											<a href="{{ route('productdetail',921684137) }}" title="" itemprop="url"><i class="fa fa-link"></i></a>
-										</div>
-									</div>
-									<div class="prtfl-inf6 text-left">
-										<h4 itemprop="headline"><a href="{{ route('productdetail',921684137) }}" title="" itemprop="url">Topeng</a></h4>
-										<span>Hiasan</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-6 col-lg-3 fltr-itm fltr-itm1">
-								<div class="prtfl-box6">
-									<div class="prtfl-thmb6">
-										<img src="{{ asset('assets') }}/images/produk2.png" alt="toko2.jpg" itemprop="image">
-										<div class="prtfl-btns">
-											<a href="{{ asset('assets') }}/images/produk2.png" data-fancybox="gallery-produk" title="" itemprop="url"><i
-													class="fa fa-search"></i></a>
-											<a href="{{ route('productdetail',769919983) }}" title="" itemprop="url"><i class="fa fa-link"></i></a>
-										</div>
-									</div>
-									<div class="prtfl-inf6 text-left">
-										<h4 itemprop="headline"><a href="{{ route('productdetail',769919983) }}" title="" itemprop="url">Kain Songket Merah</a></h4>
-										<span>Kain</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-6 col-lg-3 fltr-itm fltr-itm2">
-								<div class="prtfl-box6">
-									<div class="prtfl-thmb6">
-										<img src="{{ asset('assets') }}/images/produk3.jpg" alt="toko3.jpg" itemprop="image">
-										<div class="prtfl-btns">
-											<a href="{{ asset('assets') }}/images/produk3.jpg" data-fancybox="gallery-produk" title="" itemprop="url"><i
-													class="fa fa-search"></i></a>
-											<a href="{{ route('productdetail',45132664) }}" title="" itemprop="url"><i class="fa fa-link"></i></a>
-										</div>
-									</div>
-									<div class="prtfl-inf6 text-left">
-										<h4 itemprop="headline"><a href="{{ route('productdetail',45132664) }}" title="" itemprop="url">Lampu Hias</a></h4>
-										<span>Hiasan</span>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-3 col-sm-6 col-lg-3 fltr-itm fltr-itm1">
-								<div class="prtfl-box6">
-									<div class="prtfl-thmb6">
-										<img src="{{ asset('assets') }}/images/produk4.jpg" alt="toko4.jpg" itemprop="image">
-										<div class="prtfl-btns">
-											<a href="{{ asset('assets') }}/images/produk4.jpg" data-fancybox="gallery-produk" title="" itemprop="url"><i
-													class="fa fa-search"></i></a>
-											<a href="{{ route('productdetail',1729797270) }}" title="" itemprop="url"><i class="fa fa-link"></i></a>
-										</div>
-									</div>
-									<div class="prtfl-inf6 text-left">
-										<h4 itemprop="headline"><a href="{{ route('productdetail',1729797270) }}" title="" itemprop="url">Kain Songket</a></h4>
-										<span>Kain</span>
-									</div>
-								</div>
-							</div>
-						</div>
+						<div class="row masonry mrg20" id="pdct-list"></div>
 					</div>
 				</div>
 			</div>

@@ -201,6 +201,8 @@ function getProductOrderDetail(op_id) {
           modal.find('.modal-title').text('Detail Pemesanan Gedung/Ruangan');
           let status = { bg: '', text: '' };
           decideStatus(data[0].op_status_order, status);
+          if (data[0].op_status_order == 2) status.text = 'Sudah Bayar';
+          else if (data[0].op_status_order == 3) status.text = 'Sudah Dikirim';
           modal.find('.modal-body').html(
             '<button type="button" class="btn-close position-absolute top-0 start-100 translate-middle" data-bs-dismiss="modal" aria-label="Close">&times;</button>' +
             '<h5 style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">'+data[0].product.pdct_nama+'</h5>' +

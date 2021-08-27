@@ -82,8 +82,59 @@ var notifAlign = "bottom";
 			error: function () {
 				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
 				$('#venue-section').hide();
+			}
+		});
+	};
+	var productList = function () {
+		let pdctList = $('#pdct-list');
+		$.ajax({
+			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+			type: "GET",
+			url: appUrl+'/ProductGetList',
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function (data) {
+				try {
+					if (data.code == null) {
+						if (data.length > 0) {
+							$('#produk-all > i').text(data.length);
+							$('#produk-songket > i').text(data.filter(d => d.pdct_kategori_id == 1).length);
+							$('#produk-hiasan > i').text(data.filter(d => d.pdct_kategori_id == 2).length);
+							$('#produk-batik > i').text(data.filter(d => d.pdct_kategori_id == 3).length);
+							$('#produk-food > i').text(data.filter(d => d.pdct_kategori_id == 4).length);
+							$('#produk-lainnya > i').text(data.filter(d => d.pdct_kategori_id == 5).length);
+							let rowHtml = '';
+							for (let i = 0; i < data.length; i++) {
+								let imgSrc = 'data:image/'+data[i].pp_filename.split('.').pop()+';base64,'+data[i].pp_photo;
+								rowHtml = 
+								'<div class="col-md-3 col-sm-6 col-lg-3 fltr-itm fltr-itm'+data[i].pdct_kategori_id+'">' +
+								'<div class="prtfl-box6">' +
+									'<div class="prtfl-thmb6" style="height: 15rem;">' +
+										'<img src="'+imgSrc+'" alt="'+data[i].pp_filename+'" itemprop="image">' +
+										'<div class="prtfl-btns">' +
+											'<a href="'+imgSrc+'" data-fancybox="gallery-produk" title="" itemprop="url"><i class="fa fa-search"></i></a>' +
+											'<a href="'+appUrl+'/product/'+data[i].pdct_id+'" title="" itemprop="url"><i class="fa fa-link"></i></a>' +
+										'</div>' +
+									'</div>' +
+									'<div class="prtfl-inf6 text-left">' +
+										'<h4 itemprop="headline"><a href="'+appUrl+'/product/'+data[i].pdct_id+'" title="" itemprop="url">'+data[i].pdct_nama+'</a></h4>' +
+											'<span>'+data[i].pdct_kategori_nama+'</span>' +
+										'</div>' +
+									'</div>' +
+								'</div>';
+								pdctList.append(rowHtml);
+							}
+						}
+						else { throw new Error(); }
+					} else { throw new Error(); }
+				} catch (error) {
+					$('#produk-section').hide();
+				}
 			},
-			complete: function () {}
+			error: function () {
+				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
+				$('#produk-section').hide();
+			}
 		});
 	};
 	if (window.location.href == appUrl ||
@@ -95,6 +146,7 @@ var notifAlign = "bottom";
 			window.location.href === appUrl+'/#produk-section' ||
 			window.location.href === appUrl+'/#kontak-section') {
 		venueList();
+		productList();
 	}
 
 	$('a[href="#"]').attr('href', appUrl+'/#');

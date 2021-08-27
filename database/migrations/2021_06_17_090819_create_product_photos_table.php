@@ -29,6 +29,7 @@ class CreateProductPhotosTable extends Migration
                         ->onUpdate('CASCADE')
                         ->onDelete('CASCADE');
             });
+            DB::statement("ALTER TABLE product_photos ADD pp_photo MEDIUMBLOB NOT NULL");
         }
     }
 

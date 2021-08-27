@@ -16,11 +16,12 @@ class Product extends Model
 
     protected $fillable = [
         'pdct_id',
+        'pdct_kategori_id',
+        'pdct_kategori_nama',
         'pdct_kode',
         'pdct_nama',
         'pdct_desc',
         'pdct_harga',
-        'pdct_stock',
         'created_by',
         'updated_by'
     ];
@@ -42,5 +43,10 @@ class Product extends Model
     public function reviews()
     {
         return $this->hasMany(Feedback::class, 'fb_pdct_id', 'pdct_id');
+    }
+
+    public function inventories()
+    {
+        return $this->hasOne(Inventory::class, 'ivty_pdct_id', 'pdct_id');
     }
 }

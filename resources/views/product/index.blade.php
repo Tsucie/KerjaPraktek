@@ -20,6 +20,12 @@
                       <div class="gallery" id="images-gallery"></div>
                   </div>
                   <div class="form-group">
+                      <label for="kode">Kode Produk</label>
+                      <div class="col-sm-12">
+                          <input type="text" class="form-control form-inputs" id="kode" name="kode" disabled>
+                      </div>
+                  </div>
+                  <div class="form-group">
                       <label for="nama">Nama Produk</label>
                       <div class="col-sm-12">
                           <input type="text" class="form-control form-inputs" placeholder="Nama Produknya" id="nama" name="nama">
@@ -34,6 +40,18 @@
                       <label for="desc">Deskripsi</label>
                       <div class="col-sm-12">
                           <input type="text" class="form-control form-inputs" placeholder="Detail deskripsi Produknya" id="desc" name="desc">
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="kategori">Kategori Produk</label>
+                      <div class="col-sm-12">
+                          <select class="form-control form-inputs" name="kategori" id="kategori">
+                              <option value="1">Songket</option>
+                              <option value="2">Hiasan</option>
+                              <option value="3">Batik</option>
+                              <option value="4">Makanan Khas</option>
+                              <option value="5">Lainnya</option>
+                          </select>
                       </div>
                   </div>
                   <div class="form-group">
@@ -58,6 +76,12 @@
                         </div>
                     </div>
                   </div>
+                  <div class="form-group d-none" id="inventory-note">
+                      <label for="ivty_cause">Catatan Inventory Produk</label>
+                      <div class="col-sm-12">
+                          <textarea class="form-control form-inputs" name="ivty_cause" id="ivty_cause" rows="3" placeholder="Tidak ada catatan" disabled></textarea>
+                      </div>
+                  </div>
               </div>
           </form>
         </div>
@@ -72,7 +96,6 @@
     <!-- /.modal-dialog -->
   </div>
 <!-- /.modal -->
-
 <!-- .modal-dialog -->
 <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -112,7 +135,7 @@
                         <th scope="col" class="sort" data-sort="photo">Photo
                             <span class="sort" data-sort="name">&nbsp;&nbsp;&nbsp;&nbsp;Nama</span>
                         </th>
-                        <th scope="col" class="sort" data-sort="kode">Kode</th>
+                        <th scope="col" class="sort" data-sort="kategori">Kategori</th>
                         <th scope="col" class="sort" data-sort="price">Harga</th>
                         <th scope="col" class="sort" data-sort="stock">Stok</th>
                         <th scope="col" class="sort" data-sort="action">Actions</th>
@@ -135,7 +158,7 @@
                                         </div>
                                     </div>
                                 </th>
-                                <td class="kode">{{ $item->pdct_kode }}</td>
+                                <td class="kategori">{{ $item->pdct_kategori_nama }}</td>
                                 <td class="harga">Rp {{ number_format($item->pdct_harga, 2) }}</td>
                                 <td class="stock">{{ $item->pdct_stock }}</td>
                                 <td class="action">
