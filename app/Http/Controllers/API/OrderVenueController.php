@@ -138,6 +138,8 @@ class OrderVenueController extends Controller
         ]);
         try
         {
+            if (preg_match('/[A-Za-z]/', $request->gst_no_telp))
+                throw new Exception("Nomor telpon tidak benar!", 0);
             $guestData = [
                 'gst_id' => rand(intval(date('ymdhis')),intval(date('ymdhis'))),
                 'gst_nama' => $request->gst_nama,

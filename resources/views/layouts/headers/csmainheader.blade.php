@@ -33,9 +33,6 @@
             <li class="nav-item">
               <a href="#kontak-section" class="nav-link">Contact</a>
             </li>
-            {{-- <li class="notif-btn mx-3 pt-3" style="display: inline-block !important;">
-              <a href="#"><img src="{{ asset('assets') }}/images/notif.svg" alt="notif" itemprop="image"></a>
-            </li> --}}
             @auth('customer')
               <li class="nav-item" style="margin-top: 17px;">
                 <a class="btn btn-yellow btn-sm text-white shadow" href="{{ route('myorder') }}" style="font-weight: bold; text-shadow: 1px 1px rgb(0 0 0 / 20%);">MyOrder</a>
@@ -81,9 +78,6 @@
           <li class="nav-item">
             <a href="#kontak-section" class="nav-link">Contact</a>
           </li>
-          {{-- <li class="notif-btn mx-3 pt-3" style="display: inline-block !important;">
-            <a href="#"><img src="{{ asset('assets') }}/images/notif.svg" alt="notif" itemprop="image"></a>
-          </li> --}}
           @auth('customer')
             <li class="nav-item" style="margin-top: 17px;">
               <a class="btn btn-yellow btn-sm text-white shadow" href="{{ route('myorder') }}" style="font-weight: bold; text-shadow: 1px 1px rgb(0 0 0 / 20%);">MyOrder</a>

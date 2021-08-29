@@ -36,7 +36,7 @@ class ProductController extends Controller
             if (preg_match("/[A-Za-z]/", $id)) throw new Exception("Data Tidak Valid", 0);
 
             $data = Product::query()->where('pdct_id','=',$id)
-                    ->with(['promo','photos'])
+                    ->with(['inventories','promo','photos'])
                     ->get();
 
             return view('customers.productdetail', compact('data'));

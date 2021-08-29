@@ -93,6 +93,8 @@ class OrderProductController extends Controller
         ]);
         try 
         {
+            if (preg_match('/[A-Za-z]/', $request->no_telp))
+                throw new Exception("Nomor telpon tidak benar!", 0);
             $existPdct = Product::query()->where('pdct_id','=',$request->pdct_id)->with('promo')->get();
             if ($existPdct->count() == 0) throw new Exception("Data produk tidak ada",0);
             $harga = $existPdct[0]->promo != null ? $existPdct[0]->promo->prm_harga_promo : $existPdct[0]->pdct_harga;

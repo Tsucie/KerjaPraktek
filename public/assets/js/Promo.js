@@ -191,6 +191,7 @@ function AddPromo() {
     formData.append(ctx_col, ctx_id);
     formData.append("harga", $('#harga').val());
     formData.append("nama", $('#nama').val());
+    formData.append("desc", $('#desc').val());
     formData.append("diskon", $('#diskon').val());
 
     $.ajax({
@@ -237,6 +238,7 @@ function GetPromo(id) {
                 let value = data[0].prm_pdct_id == null ? data[0].prm_vnu_id : data[0].prm_pdct_id;
                 $('#select-services').val(context);
                 $('#nama').val(data[0].prm_nama);
+                $('#desc').val(data[0].prm_desc);
                 $('#diskon').val(data[0].prm_disc_percent);
                 $('#prm_harga').val(data[0].prm_harga_promo);
                 setTimeout(function () {
@@ -257,6 +259,7 @@ function EditPromo() {
     var formData = new FormData();
     formData.append("harga", $('#harga').val());
     formData.append("nama", $('#nama').val());
+    formData.append("desc", $('#desc').val());
     formData.append("diskon", $('#diskon').val());
 
     $.ajax({

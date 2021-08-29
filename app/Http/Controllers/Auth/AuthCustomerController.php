@@ -52,17 +52,21 @@ class AuthCustomerController extends Controller
      */
     public function login(Request $request)
     {
+        $resmsg = new ResponseMessage();
+
         $this->validateLogin($request);
-        // if ($request->has('toPage'))
-        //     $this->redirectTo = $request->toPage;
 
         $this->attemptLogin($request);
 
         if (Auth::guard('customer')->check()) {
-            return $this->sendLoginResponse($request);
+            $resmsg->code = 1;
+            $resmsg->message = 'Login Berhasil. Hai '.auth()->guard('customer')->user()->cst_name.'!';
+            return $this->sendLoginResponse($request, $resmsg);
         }
 
-        return $this->sendFailedLoginResponse($request);
+        $resmsg->code = 0;
+        $resmsg->message = 'Email atau Password Salah';
+        return $this->sendFailedLoginResponse($resmsg);
     }
 
     /**
@@ -85,9 +89,6 @@ class AuthCustomerController extends Controller
         $resmsg->code = 1;
         $resmsg->message = 'Logout Berhasil. Bye '.$name.'';
         return response()->json($resmsg);
-        // return $request->wantsJson()
-        //     ? new JsonResponse([], 204)
-        //     : redirect('/');
     }
 
     /**
@@ -101,7 +102,7 @@ class AuthCustomerController extends Controller
     protected function validateLogin(Request $request)
     {
         $request->validate([
-            'email' => 'required|string',
+            'email' => 'required|email',
             'password' => 'required|string',
         ]);
     }
@@ -132,40 +133,29 @@ class AuthCustomerController extends Controller
             'password' => $request->password
         ];
         return $data;
-        // return $request->only($this->username(), 'cst_password');
     }
 
     /**
      * Send the response after the user was authenticated.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  App\Models\ResponseMessage $resmsg
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-    protected function sendLoginResponse(Request $request)
+    protected function sendLoginResponse(Request $request, $resmsg)
     {
         $request->session()->regenerate();
-        $resmsg = new ResponseMessage();
-        $resmsg->code = 1;
-        $resmsg->message = 'Login Berhasil. Hai '.auth()->guard('customer')->user()->cst_name.'!';
         return response()->json($resmsg);
-        // return $request->wantsJson() ? new JsonResponse([], 204) : redirect()->intended($this->redirectTo);
     }
 
     /**
      * Get the failed login response instance.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Models\ResponseMessage $resmsg
      * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @throws \Illuminate\Validation\ValidationException
      */
-    protected function sendFailedLoginResponse(Request $request)
+    protected function sendFailedLoginResponse($resmsg)
     {
-        // Session::flash('error', 'Email atau Password Salah');
-        // return redirect()->route('signin');
-        $resmsg = new ResponseMessage();
-        $resmsg->code = 0;
-        $resmsg->message = 'Email atau Password Salah';
         return response()->json($resmsg);
     }
 

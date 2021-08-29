@@ -132,69 +132,14 @@
 		<section>
 			<div class="gap" id="promo-section">
 				<div class="tem-wrp2 black-layer2 opc95">
-					<div class="fixed-bg" style="background-image: url({{ asset('assets') }}/images/promo.jpg)"></div>
+					<div class="fixed-bg"></div>
 					<div class="container">
 						<div class="sec-title text-center">
 							<h3 itemprop="headline">Promo</h3>
 							<span>Penawaran Terbaru untuk anda</span>
 						</div>
 						<div class="srv-wrp2 remove-ext3">
-							<div class="row">
-								<div class="col-md-4 col-sm-6 col-lg-4 slideInUp wow" data-wow-duration=".8s" data-wow-delay=".1s">
-									<div class="srv-box3">
-										<div class="srv-thmb3">
-											<img src="{{ asset('assets') }}/images/promo1.png" alt="srv-img1-1.jpg" itemprop="image" />
-											<h6 class="position-absolute top-50 start-50 translate-middle text-thumb">Discount <span>10% off</span></h3>
-												<a href="{{ route('venuedetail',891141429) }}" title="" itemprop="url">See Promo</a>
-										</div>
-										<div class="srv-inf3">
-											<h4 itemprop="headline">
-												<a href="{{ route('venuedetail',891141429) }}" title="" itemprop="url">Diskon 10% Sewa Gedung</a>
-											</h4>
-											<p itemprop="description">
-												Dapatkan potongan biaya sewa Gedung Aula PKS sebesar
-												<b>10%</b><br /><br /><em>*Syarat dan Ketentuan Berlaku</em>
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6 col-lg-4 slideInUp wow" data-wow-duration=".8s" data-wow-delay=".2s">
-									<div class="srv-box3">
-										<div class="srv-thmb3">
-											<img src="{{ asset('assets') }}/images/promo2.png" alt="srv-img1-2.jpg" itemprop="image" />
-											<h6 class="position-absolute top-50 start-50 translate-middle text-thumb"><span>Free</span> catering</h3>
-												<a href="{{ route('venuedetail',891141429) }}" title="" itemprop="url">See Promo</a>
-										</div>
-										<div class="srv-inf3">
-											<h4 itemprop="headline">
-												<a href="{{ route('venuedetail',891141429) }}" title="" itemprop="url">Free Catering</a>
-											</h4>
-											<p itemprop="description">
-												Dapatkan <b>Gratis</b> biaya Catering untuk 100 Pax
-												<br /><br /><em>*Syarat dan Ketentuan Berlaku</em>
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4 col-sm-6 col-lg-4 slideInUp wow" data-wow-duration=".8s" data-wow-delay=".3s">
-									<div class="srv-box3">
-										<div class="srv-thmb3">
-											<img src="{{ asset('assets') }}/images/promo3.png" alt="srv-img1-3.jpg" itemprop="image" />
-											<h6 class="position-absolute top-50 start-50 translate-middle text-thumb">Discount <span>40% off</span></h3>
-												<a href="workspace.html" title="" itemprop="url">See Promo</a>
-										</div>
-										<div class="srv-inf3">
-											<h4 itemprop="headline">
-												<a href="workspace.html" title="" itemprop="url">Diskon 40% Membership</a>
-											</h4>
-											<p itemprop="description">
-												Dapatkan potongan biaya sewa Workspace sebesar
-												<b>40%</b><br /><br /><em>*Syarat dan Ketentuan Berlaku</em>
-											</p>
-										</div>
-									</div>
-								</div>
-							</div>
+							<div class="row" id="promo-list"></div>
 						</div>
 					</div>
 				</div>

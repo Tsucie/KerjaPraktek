@@ -184,7 +184,7 @@
 									<img src="data:image/{{ pathinfo($ph->pp_filename, PATHINFO_EXTENSION) }};base64,{{ base64_encode($ph->pp_photo) }}" class="d-block w-100" alt="Gambar Venue" />
 								</div>
 								@endforeach
-								@if ($data[0]->pdct_stock == 0)
+								@if ($data[0]->inventories->ivty_pdct_stock == 0)
 								<h3 class="position-absolute top-50 start-50 translate-middle text-thumb"><span>Stok Habis</span></h3>
 								@endif
 							</div>
@@ -207,11 +207,11 @@
 					<div class="col-md-5">
 						<h2 class="font-weight-bold text-start">{{ $data[0]->pdct_nama }}</h2>
 						<p>{{ $data[0]->pdct_desc }}</p>
-            <p>Stock : {{ $data[0]->pdct_stock }}</p>
+            <p>Stock : {{ $data[0]->inventories->ivty_pdct_stock }}</p>
             <br />
 						<span>Harga</span>
 						<div class="harga">
-						@if ($data[0]->pdct_stock > 0)
+						@if ($data[0]->inventories->ivty_pdct_stock > 0)
 							@if ($data[0]->promo)
 									<span style="text-shadow: 1px 2px 1px rgba(0,0,0,0.3);">Rp {{ number_format($data[0]->promo->prm_harga_promo) }}</span>
 									{{-- Desktop --}}

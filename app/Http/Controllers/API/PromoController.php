@@ -91,6 +91,7 @@ class PromoController extends Controller
         $resmsg = new ResponseMessage();
         $request->validate([
             'nama' => 'required',
+            'desc' => 'required',
             'diskon' => 'required',
             'harga' => 'required'
         ]);
@@ -106,6 +107,7 @@ class PromoController extends Controller
                 'prm_pdct_id' => $request->has('pdct_id') ? $request->pdct_id : null,
                 'prm_vnu_id' => $request->has('vnu_id') ? $request->vnu_id : null,
                 'prm_nama' => $request->nama,
+                'prm_desc' => $request->desc,
                 'prm_disc_percent' => $request->diskon,
                 'prm_harga_promo' => $hargaPromo,
                 'created_by' => auth()->user()->name ?? 'system'
@@ -187,6 +189,7 @@ class PromoController extends Controller
 
             $updatedPromo = [
                 'prm_nama' => $request->nama,
+                'prm_desc' => $request->has('desc') ? $request->desc : null,
                 'prm_disc_percent' => $request->has('diskon') ? $request->diskon : null,
                 'prm_harga_promo' => $hargaPromo,
                 'updated_by' => auth()->user()->name ?? 'system'

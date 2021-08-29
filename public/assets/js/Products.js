@@ -35,6 +35,7 @@ function ShowDetails(obj) {
         var modal = $(this);
         modal.find('.modal-title').text(actionTitle);
         $('#inventory-note').removeClass('d-none');
+        $('#div-kode').show();
         $('#gallery-photo-add').hide();
         $("#btn-edit-pdct").hide();
         $("#btn-add-pdct").hide();
@@ -52,6 +53,7 @@ function ShowAddModals() {
         var modal = $(this);
         modal.find('.modal-title').text(actionTitle);
         $('#inventory-note').addClass('d-none');
+        $('#div-kode').hide();
         $('#gallery-photo-add').show();
         $("#btn-add-pdct").show();
         $("#btn-edit-pdct").hide();
@@ -68,6 +70,7 @@ function ShowEditModals(obj) {
         var modal = $(this);
         modal.find('.modal-title').text(actionTitle);
         $('#inventory-note').addClass('d-none');
+        $('#div-kode').hide();
         $('#gallery-photo-add').show();
         $("#btn-edit-pdct").show();
         $("#btn-add-pdct").hide();

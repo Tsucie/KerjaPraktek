@@ -52,6 +52,12 @@
                       </div>
                   </div>
                   <div class="form-group">
+                      <label for="desc">Deskripsi Promo</label>
+                      <div class="col-sm-12">
+                          <textarea class="form-control form-inputs" name="desc" id="desc" rows="4" placeholder="Deskripsi detail promonya" required></textarea>
+                      </div>
+                  </div>
+                  <div class="form-group">
                     <label for="diskon">Diskon Promo</label>
                     <div class="col-sm-12">
                         <input type="tel" class="form-control form-inputs" placeholder="diskonnya dalam persen. Contoh: 50% maka ditulis 50" id="diskon" name="diskon">

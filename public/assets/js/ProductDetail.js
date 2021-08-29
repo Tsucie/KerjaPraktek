@@ -56,11 +56,6 @@ function createOrd(obj) {
     return false;
   }
   let no_telp = $(obj+' input[id="input-beli-telepon"]').val();
-  if (no_telp.match('/[A-Za-z]/')) {
-    notif({msg: '<b style="color: white;">Nomor telpon tidak benar!</b>',type: "error",position: notifAlign});
-    EnableBtn('#input-beli-submit','Pesan');
-    return false;
-  }
   while (no_telp.includes('-')) {
     no_telp = no_telp.replace('-','');
   }

@@ -22,6 +22,7 @@ class CreatePromosTable extends Migration
                 $table->integer('prm_pdct_id')->nullable();
                 $table->integer('prm_vnu_id')->nullable();
                 $table->string('prm_nama');
+                $table->string('prm_desc');
                 $table->integer('prm_disc_percent');
                 $table->decimal('prm_harga_promo', 20, 2, true);
                 $table->string('created_by')->nullable();

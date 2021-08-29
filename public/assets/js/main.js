@@ -41,7 +41,59 @@ var notifAlign = "bottom";
 
 	};
 	carousel();
-
+	var promoList = function () {
+		let promoList = $('#promo-list');
+		$.ajax({
+			headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+			type: "GET",
+			url: appUrl+'/PromoGetList',
+			contentType: 'application/json',
+			dataType: 'json',
+			success: function (data) {
+				try {
+					if (data.code == null) {
+						if (data.length > 0) {
+							let rowHtml = '';
+							for (let i = 0; i < data.length; i++) {
+								rowHtml = 
+								'<div class="col-md-4 col-sm-6 col-lg-4 slideInUp wow" data-wow-duration=".8s" data-wow-delay=".'+(i+1)+'s">' +
+									'<div class="srv-box3">' +
+										'<div class="srv-thmb3" style="max-height: 18rem;">' +
+											'<img src="data:image/'+data[i].filename.split('.').pop()+';base64,'+data[i].photo+'" alt="'+data[i].filename+'" itemprop="image" />' +
+											'<h6 class="position-absolute top-50 start-50 translate-middle text-thumb">Discount <span>'+data[i].prm_disc_percent+'% off</span></h3>' +
+												'<a href="'+appUrl+(
+													data[i].prm_vnu_id == null ?
+														'/product/' + data[i].prm_pdct_id : '/venue/' + data[i].prm_vnu_id
+												)+'" title="" itemprop="url">See Promo</a>' +
+										'</div>' +
+										'<div class="srv-inf3">' +
+											'<h4 itemprop="headline">' +
+												'<a href="'+appUrl+(
+													data[i].prm_vnu_id == null ?
+														'/product/' + data[i].prm_pdct_id : '/venue/' + data[i].prm_vnu_id
+												)+'" title="" itemprop="url">'+data[i].prm_nama+'</a>' +
+											'</h4>' +
+											'<p itemprop="description">' + data[i].prm_desc +
+												'<br /><br /><em>*Syarat dan Ketentuan Berlaku</em>' +
+											'</p>' +
+										'</div>' +
+									'</div>' +
+								'</div>';
+								promoList.append(rowHtml);
+							}
+						}
+						else { throw new Error(); }
+					} else { throw new Error(); }
+				} catch (error) {
+					$('#promo-section').hide();
+				}
+			},
+			error: function () {
+				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
+				$('#promo-section').hide();
+			}
+		});
+	};
 	var venueList = function() {
 		let venueList = $('#venue-list');
 		$.ajax({
@@ -145,6 +197,7 @@ var notifAlign = "bottom";
 			window.location.href === appUrl+'/#venue-section' ||
 			window.location.href === appUrl+'/#produk-section' ||
 			window.location.href === appUrl+'/#kontak-section') {
+		promoList();
 		venueList();
 		productList();
 	}
@@ -208,15 +261,6 @@ $('#regis-form').submit(function (e) {
 		return false;
 	}
 	let no_telp = $('#input-regis-telepon').val();
-	if (no_telp.match('/[A-Za-z]/')) {
-    notif({
-      msg: '<b style="color: white;">Nomor telpon tidak benar!</b>',
-      type: "error",
-      position: notifAlign
-    });
-    EnableBtn('#input-regis-submit','Sign Up');
-    return false;
-  }
 	var formData = new FormData();
 	formData.append("nama", $('#input-regis-nama').val());
 	formData.append("email", $('#input-regis-email').val());
@@ -232,13 +276,17 @@ $('#regis-form').submit(function (e) {
 		processData: false,
 		contentType: false,
 		success: function (data) {
-			pesanAlert(data, notifAlign);
+			if (data.code == 1) {
+				pesanAlert(data, notifAlign);
+				$('#regis-modal').modal('hide');
+			} else {
+				pesanAlert(data, notifAlign);
+			}
 		},
 		error: function () {
 				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
 		},
 		complete: function () {
-				$('#regis-modal').modal('hide');
 				EnableBtn('#input-regis-submit','Sign Up');
 		}
 	});
@@ -267,11 +315,13 @@ $("#login-form").submit(function(e) {
 				}
 				else {
 					pesanAlert(data);
-					EnableBtn('#input-login-submit','Login');
 				}
 			},
 			error: function () {
-					notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
+				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
+			},
+			complete: function () {
+				EnableBtn('#input-login-submit','Login');
 			}
 		});
 });

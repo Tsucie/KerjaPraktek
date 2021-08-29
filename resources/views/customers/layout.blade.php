@@ -21,12 +21,12 @@
       1. Create Order Histories for Customer (90% (Pagination) - Tested(65%))
       2. Create Review Histories for Customer ? (0%)
       3. Create Product Detail Page (100% - Tested(75%))
-      4. Make Welcome Page dynamic (87% (Promo))
+      4. Make Welcome Page dynamic (100%)
       5. Create Change Password for Customer ? (0%)
       6. Make review only can be made if a customer has ordered specified venue ? (0%)
-      7. Apply Regex to Form Inputs (43%)
+      7. Apply Regex to Form Inputs (100%)
       8. Optimize Check availability for Ruangan (23%)
-      9. Make concern for Pemakaian Ruangan (0%)
+      9. Buat Fiiled baru pada table venue untuk data Ketentuan Sewa (0%)
     --}}
     {{-- Include customer page main header --}}
 		@include('layouts.headers.csmainheader')

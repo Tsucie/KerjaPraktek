@@ -20,6 +20,7 @@ class Promo extends Model
         'prm_pdct_id',
         'prm_vnu_id',
         'prm_nama',
+        'prm_desc',
         'prm_disc_percent',
         'prm_harga_promo',
         'created_by',

@@ -19,7 +19,7 @@
                       <input type="file" name="images" id="gallery-photo-add" multiple>
                       <div class="gallery" id="images-gallery"></div>
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" id="div-kode">
                       <label for="kode">Kode Produk</label>
                       <div class="col-sm-12">
                           <input type="text" class="form-control form-inputs" id="kode" name="kode" disabled>

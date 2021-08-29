@@ -44,16 +44,19 @@ class CustomerController extends Controller
         $request->validate([
             'nama' => 'required',
             'email' => 'required',
-            'password' => 'required|string'
+            'password' => 'required|string',
+            'no_telp' => 'required'
         ]);
 
         try
         {
+            if (preg_match('/[A-Za-z]/', $request->no_telp))
+                throw new Exception("Nomor telpon tidak benar!", 0);
             $csData = [
                 'cst_id' => rand(intval(date('ymdhis')),intval(date('ymdhis'))),
                 'cst_name' => $request->nama,
                 'cst_alamat' => $request->has('alamat') ? $request->alamat : null,
-                'cst_no_telp' => $request->has('no_telp') ? $request->no_telp : null,
+                'cst_no_telp' => $request->no_telp,
                 'cst_email' => $request->email,
                 'cst_password' => Hash::make($request->password)
             ];
