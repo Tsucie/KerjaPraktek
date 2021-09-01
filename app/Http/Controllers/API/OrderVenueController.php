@@ -53,18 +53,26 @@ class OrderVenueController extends Controller
         $request->validate([
             'vnu_id' => 'required|numeric',
             'tanggal' => 'required',
-            'waktu' => 'required'
+            'waktu' => 'required|string'
         ]);
         $resmsg = new ResponseMessage();
         try {
-            $data = DB::table('order_venues')
-                        ->join('guests', 'order_venues.ov_gst_id', '=', 'guests.gst_id')
-                        ->where('ov_vnu_id','=',$request->vnu_id)
-                        ->where('guests.gst_rencana_pemakaian','=',$request->tanggal)
-                        ->where('guests.gst_waktu_pemakaian','=',$request->waktu)
-                        ->where('ov_status_order','>',1)
-                        ->get();
-            if ($data->count() > 0) {
+            $time = explode('-', $request->waktu);
+            $data = DB::select(
+                "SELECT * FROM order_venues
+                INNER JOIN guests ON order_venues.ov_gst_id = guests.gst_id
+                WHERE (
+                    ov_vnu_id=".$request->vnu_id." AND
+                    gst_rencana_pemakaian='".$request->tanggal."' AND
+                    ov_status_order > 1 AND
+                    (
+                        ".(count($time) == 2 ?
+                            "gst_waktu_pemakaian LIKE '%".$time[0]."%' OR gst_waktu_pemakaian LIKE '%".$time[1]."%'" :
+                            "gst_waktu_pemakaian='".$time[0]."'"
+                        )."
+                    )
+                )");
+            if (count($data) > 0) {
                 $resmsg->code = 0;
                 $resmsg->message = 'Venue sudah di booking';
             }
@@ -109,8 +117,8 @@ class OrderVenueController extends Controller
             );
             if ($data->ov_bukti_transfer_file != null)
                 $data->ov_bukti_transfer_file = base64_encode($data->ov_bukti_transfer_file);
-            if (preg_match('~[0-9]+~', $data->gst_waktu_pemakaian))
-                $data->gst_waktu_pemakaian .= ' jam';
+            // if (preg_match('~[0-9]+~', $data->gst_waktu_pemakaian))
+            //     $data->gst_waktu_pemakaian .= ' jam';
         }
         return $datas;
     }
@@ -134,7 +142,8 @@ class OrderVenueController extends Controller
             'gst_no_telp' => 'required',
             'gst_rencana_pemakaian' => 'required',
             'gst_waktu_pemakaian' => 'required',
-            'ov_lain_lain' => 'numeric'
+            'ov_lain_lain' => 'numeric',
+            'waktu_sewa' => 'numeric'
         ]);
         try
         {
@@ -157,8 +166,8 @@ class OrderVenueController extends Controller
             if ($venue[0]->vnu_tipe_waktu == 1) {
                 // Assign hargaSewa for venue that has normal promo?
                 $hargaSewa = $venue[0]->promo == null ?
-                    $venue[0]->vnu_harga * $guestData['gst_waktu_pemakaian'] :
-                    $venue[0]->promo->prm_harga_promo * $guestData['gst_waktu_pemakaian'];
+                    $venue[0]->vnu_harga * $request->waktu_sewa :
+                    $venue[0]->promo->prm_harga_promo * $request->waktu_sewa;
             }
             // Assign hargaSewa for venue that has per half-day based pricing
             else {

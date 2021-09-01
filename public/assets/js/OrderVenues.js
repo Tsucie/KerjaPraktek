@@ -96,15 +96,14 @@ function GetOrder(id) {
                 $('#gst_no_telp').val(data[0].guest.gst_no_telp);
                 $('#gst_rencana_pemakaian').val(data[0].guest.gst_rencana_pemakaian);
                 $('#gst_keperluan_pemakaian').val(data[0].guest.gst_keperluan_pemakaian);
+                $('#gst_waktu_pemakaian').val(data[0].guest.gst_waktu_pemakaian);
                 if (data[0].venue.vnu_tipe_waktu == 1) {
                     $('div#pl_fee').hide();
-                    $('#gst_waktu_pemakaian').val(data[0].guest.gst_waktu_pemakaian + ' jam');
                     $('#vnu_jam_pemakaian_siang').val('Dari jam   : ' + data[0].venue.vnu_jam_pemakaian_siang);
                     $('#vnu_jam_pemakaian_malam').val('Sampai jam : ' + data[0].venue.vnu_jam_pemakaian_malam);
                 }
                 else {
                     $('div#pl_fee').show();
-                    $('#gst_waktu_pemakaian').val(data[0].guest.gst_waktu_pemakaian);
                     $('#vnu_jam_pemakaian_siang').val('Siang : ' +  data[0].venue.vnu_jam_pemakaian_siang);
                     $('#vnu_jam_pemakaian_malam').val('Malam : ' + data[0].venue.vnu_jam_pemakaian_malam);
                 }

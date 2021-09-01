@@ -111,6 +111,7 @@ class VenueController extends Controller
             'vnu_tipe_waktu' => $request->tipe_waktu,
             'vnu_jam_pemakaian_siang' => $request->has('jam_siang') ? $request->jam_siang : null,
             'vnu_jam_pemakaian_malam' => $request->has('jam_malam') ? $request->jam_malam : null,
+            'vnu_ketentuan_sewa' => $request->ketentuan_sewa ?? '- Belum ditentukan',
             'vnu_status_tersedia' => $request->status_tersedia,
             'created_by' => auth()->user()->name ?? 'system'
         ];
@@ -237,6 +238,7 @@ class VenueController extends Controller
             'vnu_tipe_waktu' => $request->tipe_waktu,
             'vnu_jam_pemakaian_siang' => $request->has('jam_siang') ? $request->jam_siang : null,
             'vnu_jam_pemakaian_malam' => $request->has('jam_malam') ? $request->jam_malam : null,
+            'vnu_ketentuan_sewa' => $request->ketentuan_sewa,
             'vnu_status_tersedia' => $request->status_tersedia,
             'updated_by' => auth()->user()->name ?? 'system'
         ];

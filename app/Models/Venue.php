@@ -23,6 +23,7 @@ class Venue extends Model
         'vnu_tipe_waktu',
         'vnu_jam_pemakaian_siang',
         'vnu_jam_pemakaian_malam',
+        'vnu_ketentuan_sewa',
         'vnu_status_tersedia',
         'created_by',
         'updated_by'

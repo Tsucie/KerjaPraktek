@@ -23,7 +23,7 @@ class CreateGuestsTable extends Migration
                 $table->string('gst_alamat');
                 $table->string('gst_no_telp', 20);
                 $table->date('gst_rencana_pemakaian');
-                $table->string('gst_waktu_pemakaian',20);
+                $table->string('gst_waktu_pemakaian',100);
                 $table->string('gst_keperluan_pemakaian')->nullable();
                 $table->timestamps();
                 $table->primary('gst_id');

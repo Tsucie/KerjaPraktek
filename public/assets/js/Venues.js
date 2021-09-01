@@ -173,6 +173,7 @@ function AddVenue() {
     formData.append("jam_siang", $('#jam_siang').val());
     formData.append("jam_malam", $('#jam_malam').val());
     formData.append("status_tersedia", $('#status_tersedia').val());
+    formData.append("ketentuan_sewa", $('#ketentuan_sewa').val());
 
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -238,6 +239,7 @@ function GetVenue(id) {
                 }
                 $('#jam_siang').val(data.venue[0].vnu_jam_pemakaian_siang);
                 $('#jam_malam').val(data.venue[0].vnu_jam_pemakaian_malam);
+                $('#ketentuan_sewa').val(data.venue[0].vnu_ketentuan_sewa == null ? 'Belum ditentukan' : data.venue[0].vnu_ketentuan_sewa);
                 $('#status_tersedia').val(data.venue[0].vnu_status_tersedia);
                 setTimeout(function () { $("#AddEditModal").modal('show'); }, 1000);
             }
@@ -269,6 +271,7 @@ function EditVenue() {
     formData.append("jam_siang", $('#jam_siang').val());
     formData.append("jam_malam", $('#jam_malam').val());
     formData.append("status_tersedia", $('#status_tersedia').val());
+    formData.append("ketentuan_sewa", $('#ketentuan_sewa').val());
 
     $.ajax({
         headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
@@ -291,6 +294,8 @@ function EditVenue() {
         },
         complete: function () {
             $('#AddEditModal').modal('hide');
+            $('#btn-edit-vnu').prop('disabled', false);
+            $('#btn-edit-vnu').text('Simpan');
             ClearInput();
         }
     });

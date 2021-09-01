@@ -143,10 +143,15 @@ function deleteFacility(jumlah) {
 //-- Check Availability API --//
 function checkVenue(obj) {
   DisableBtn('#input-cek-submit');
+  let tipe_waktu = parseInt($('#title-vnu-page').attr('data_time'));
   var formData = new FormData();
   formData.append("vnu_id",parseInt($(obj + ' input[id="cek-vnu_id"]').val()));
   formData.append("tanggal",$(obj + ' input[id="input-cek-tanggal"]').val());
-  formData.append("waktu",$(obj + ' select[id="input-cek-waktu"]').val());
+  if (tipe_waktu == 1) {
+    formData.append("waktu", $('#dari_jam').val() + " - " + $('#sampai_jam').val());
+  } else {
+    formData.append("waktu",$(obj + ' select[id="input-cek-waktu"]').val());
+  }
   $.ajax({
 		headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
 		type: $('#form-cek-gedung').attr('method'),
@@ -192,6 +197,7 @@ function createOrd(obj) {
     EnableBtn('#input-sewa-submit','Book Now');
     return false;
   }
+  let tipe_waktu = parseInt($('#title-vnu-page').attr('data_time'));
   var formData = new FormData();
   formData.append("cst_id", id);
   formData.append("ov_vnu_id", parseInt($(obj+' input[id="vnu_id"]').val()));
@@ -201,9 +207,17 @@ function createOrd(obj) {
   formData.append("gst_alamat", $(obj+' input[id="input-sewa-alamat"]').val());
   formData.append("gst_no_telp", no_telp.charAt(0) === '0' ? no_telp : '+62'+no_telp);
   formData.append("gst_rencana_pemakaian", $(obj+' input[id="input-sewa-tanggal"]').val());
-  formData.append("gst_waktu_pemakaian", $('#input-sewa-waktu').val());
+
+  if (tipe_waktu == 1) {
+    formData.append("waktu_sewa", parseInt($('#input-sewa-waktu').val()));
+    formData.append("gst_waktu_pemakaian", "Jam: "+$('#dari_jam').val()+" - "+$('#sampai_jam').val()+" ("+$('#input-sewa-waktu').val()+" Jam)");
+  } else {
+    formData.append("gst_waktu_pemakaian", $('#input-sewa-waktu').val());
+  }
+
   if ($(obj+' input[id="input-sewa-keperluan"]').val() != "")
     formData.append("gst_keperluan_pemakaian", $(obj+' input[id="input-sewa-keperluan"]').val());
+
   if (fcs.text !== "" && fcs.total !== 0) {
     formData.append("ov_more_facilities", fcs.text);
     formData.append("ov_lain_lain", fcs.total);

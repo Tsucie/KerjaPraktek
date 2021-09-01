@@ -40,11 +40,9 @@
                   <div class="form-group">
                       <label for="fasilitas">Fasilitas</label>
                       <div class="col-sm-12">
-                          <textarea class="form-control form-inputs" rows="5" name="fasilitas" id="fasilitas" placeholder="Contoh Format:
-- Gedung Full AC
-- Ruang rias pria dan wanita
-- Kursi 50 buah"
-                          required></textarea>
+                        <textarea class="form-control form-inputs" rows="5" name="fasilitas" id="fasilitas" placeholder="Contoh Format:
+- Gedung Full AC"
+                        required></textarea>
                       </div>
                   </div>
                   <div class="form-group">
@@ -78,6 +76,14 @@
                     <div class="col-sm-12">
                         <input type="tel" class="form-control form-inputs" placeholder="Jam Pemakaian waktu Malam" id="jam_malam" name="jam_malam">
                     </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="ketentuan_sewa">Ketentuan Sewa Gedung</label>
+                      <div class="col-sm-12">
+                        <textarea class="form-control form-inputs" name="ketentuan_sewa" id="ketentuan_sewa" rows="5" placeholder="Contoh Format:
+- DP (Down Payment) sewa Gedung minimal Rp. 2.000.000"
+                        ></textarea>
+                      </div>
                   </div>
                   <div class="form-group">
                       <label for="status_tersedia">Status Tersedia</label>

@@ -134,7 +134,7 @@ class AuthUserAdmin extends Controller
     {
         $request->session()->regenerate();
 
-        return $request->wantsJson() ? new JsonResponse([], 204) : redirect()->intended('/home');
+        return $request->wantsJson() ? new JsonResponse([], 204) : redirect()->route('home');
     }
 
     /**

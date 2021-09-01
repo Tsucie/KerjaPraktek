@@ -47,7 +47,7 @@
                   <div class="form-group">
                     <label for="gst_rencana_pemakaian">Waktu Pemakaian</label>
                     <div class="col-sm-12">
-                        <input class="form-control form-inputs" type="text" name="gst_rencana_pemakaian" id="gst_waktu_pemakaian" disabled>
+                        <input class="form-control form-inputs" type="text" name="gst_waktu_pemakaian" id="gst_waktu_pemakaian" disabled>
                     </div>
                   </div>
                   <div class="form-group">

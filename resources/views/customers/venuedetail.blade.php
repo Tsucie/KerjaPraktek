@@ -4,6 +4,7 @@
 	{{-- PHP Script --}}
 	@php
 		$fasilitas = explode('-', $data[0]->vnu_fasilitas);
+		$ketentuan = explode('-', $data[0]->vnu_ketentuan_sewa);
 	@endphp
 	@auth('customer')
 		@php
@@ -34,13 +35,24 @@
 							<input type="date" class="form-control" id="input-cek-tanggal" placeholder="Name" required>
 							<label for="input-cek-tanggal">Tanggal</label>
 						</div>
-						<div class="form-floating mb-3 col">
-							<select class="form-select" id="input-cek-waktu" aria-label="Floating label select example">
-								<option selected value="Siang">Siang</option>
-								<option value="Malam">Malam</option>
-							</select>
-							<label for="input-cek-waktu">Waktu</label>
-						</div>
+						@if ($data[0]->vnu_tipe_waktu == 1)
+							<div class="form-floating mb-3 col">
+								<input type="time" class="form-control" name="dari_jam" id="dari_jam" required>
+								<label for="dari_jam">Dari Jam</label>
+							</div>
+							<div class="form-floating mb-3 col">
+								<input type="time" class="form-control" name="sampai_jam" id="sampai_jam">
+								<label for="sampai_jam">Sampai Jam</label>
+							</div>
+						@else
+							<div class="form-floating mb-3 col">
+								<select class="form-select" id="input-cek-waktu" aria-label="Floating label select example">
+									<option selected value="Siang">Siang</option>
+									<option value="Malam">Malam</option>
+								</select>
+								<label for="input-cek-waktu">Waktu</label>
+							</div>
+						@endif
 					</div>
 					<button class="thm-btn btn-yellow position-absolute bottom-0 start-50 translate-middle-x" id="input-cek-submit" type="submit">
 						Check
@@ -127,6 +139,18 @@
 								@endif
 							</div>
 						</div>
+						@if ($data[0]->vnu_tipe_waktu == 1)
+							<div class="row" id="div-hours-input">
+								<div class="form-floating mb-3 col">
+									<input type="time" class="form-control" name="dari_jam" id="dari_jam">
+									<label for="dari_jam">Dari Jam</label>
+								</div>
+								<div class="form-floating mb-3 col">
+									<input type="time" class="form-control" name="sampai_jam" id="sampai_jam">
+									<label for="sampai_jam">Sampai Jam</label>
+								</div>
+							</div>
+						@endif
 						<div class="row" id="div-sewa-fasilitas">
 							<label class="mb-1">Fasilitas Tambahan</label>
 							<div class="form-floating mb-3 col-10">
@@ -235,7 +259,7 @@
 						<li class="breadcrumb-item">
 							<a href="{{ route('welcome') }}" title="" itemprop="url">Home</a>
 						</li>
-						<li class="breadcrumb-item active" id="title-vnu-page">{{ $data[0]->vnu_nama }}</li>
+						<li class="breadcrumb-item active" id="title-vnu-page" data_time="{{ $data[0]->vnu_tipe_waktu }}">{{ $data[0]->vnu_nama }}</li>
 					</ol>
 				</div>
 			</div>
@@ -481,43 +505,13 @@
 											<div class="col">
 												<div class="explr-inf">
 													@if ($data[0]->vnu_status_tersedia == 1)
-														@switch($data[0]->vnu_tipe_waktu)
-																@case(0)
-																	<ul>
-																		<li>
-																			Biaya pemakaian Gedung dan biaya lain-lain harus
-																			dilunasi palng lambat 30 (tiga
-																			puluh) hari sebelung tanggal pemakaian Gedung.
-																		</li>
-																		<li>DP (Down Payment) sewa Gedung minimal Rp. 2.000.000
-																		</li>
-																		<li>
-																			Pembatalan sewa Gedung 4 bulan sebelum acara, maka
-																			DP dikembalikan sebesar 50%
-																		</li>
-																		<li>
-																			Pembatalan sewa Gedung 2 bulan sebelum acara, maka
-																			DP dikembalikan sebesar 25%
-																		</li>
-																		<li>Pembatalan sewa Gedung kurang dari 2 bulan sebelum
-																			acara, maka DP Hangus</li>
-																		<li>
-																			Pembayaran sewa hanya melalui Rekening Mandiri a/n
-																			Perkumpulan Persatuan Keluarga
-																			Silungkang
-																		</li>
-																		<li>
-																			Kelebihan pemakaian sewa Gedung maksimal 2 jam akan
-																			dikenakan denda atau charge 50%
-																			dari biaya sewa Gedung
-																		</li>
-																	</ul>
-																	@break
-																@case(1)
-																	<h2>Comming Soon !!!</h2>
-																	@break
-																@default
-														@endswitch
+													<ul>
+														@foreach ($ketentuan as $item)
+															@if ($loop->index != 0)
+																<li>{{ $item }}</li>
+															@endif
+														@endforeach
+													</ul>
 													@else
 														<h2>Comming Soon !!!</h2>
 													@endif
@@ -573,7 +567,7 @@
 											<ul>
 												@if ($data[0]->promo)
 													<li>Harga</li>
-													<li style="list-style: none"><span class="delet">Rp {{ number_format($data[0]->vnu_harga) }}</span></li>
+													<li style="list-style: none">Rp {{ number_format($data[0]->vnu_harga) }}</li>
 													<li>Harga Promo</li>
 													<li style="list-style: none">Rp {{ number_format($data[0]->promo->prm_harga_promo) }}</li>
 												@else
@@ -626,43 +620,13 @@
 						<h4>Ketentuan Lainnya<i class="fa fa-plus"></i></h4>
 						<div class="tgl-cnt">
 							@if ($data[0]->vnu_status_tersedia == 1)
-								@switch($data[0]->vnu_tipe_waktu)
-										@case(0)
-											<ul>
-												<li>
-													Biaya pemakaian Gedung dan biaya lain-lain harus
-													dilunasi palng lambat 30 (tiga
-													puluh) hari sebelung tanggal pemakaian Gedung.
-												</li>
-												<li>DP (Down Payment) sewa Gedung minimal Rp. 2.000.000
-												</li>
-												<li>
-													Pembatalan sewa Gedung 4 bulan sebelum acara, maka
-													DP dikembalikan sebesar 50%
-												</li>
-												<li>
-													Pembatalan sewa Gedung 2 bulan sebelum acara, maka
-													DP dikembalikan sebesar 25%
-												</li>
-												<li>Pembatalan sewa Gedung kurang dari 2 bulan sebelum
-													acara, maka DP Hangus</li>
-												<li>
-													Pembayaran sewa hanya melalui Rekening Mandiri a/n
-													Perkumpulan Persatuan Keluarga
-													Silungkang
-												</li>
-												<li>
-													Kelebihan pemakaian sewa Gedung maksimal 2 jam akan
-													dikenakan denda atau charge 50%
-													dari biaya sewa Gedung
-												</li>
-											</ul>
-											@break
-										@case(1)
-											<h2>Coming Soon !!!</h2>
-											@break
-										@default
-								@endswitch
+								<ul>
+									@foreach ($ketentuan as $item)
+										@if ($loop->index != 0)
+											<li>{{ $item }}</li>
+										@endif
+									@endforeach
+								</ul>
 							@else
 								<h2>Comming Soon !!!</h2>
 							@endif

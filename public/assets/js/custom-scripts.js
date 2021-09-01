@@ -18,6 +18,7 @@ $(document).ready(function(){
     // $('.harga').append("<div style='font-weight: lighter; font-size: 16px;'>Deskripsi &nbsp; <i class='fa fa-chevron-down' style='color: #2A93F6;' aria-hidden='true'></i></div>");
     $('.srv-dtl-inr .col-md-5 p').css("text-align", "justify");
     $('#vnu_imgs').removeClass('pt-5');
+    $('#div-hours-input').removeClass('row');
     $('#div-sewa-contact').removeClass('row');
     $('#div-sewa-fasilitas').removeClass('row');
     $('#div-tgl-wkt-inputs').removeClass('row');
