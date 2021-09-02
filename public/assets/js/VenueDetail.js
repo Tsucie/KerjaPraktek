@@ -148,7 +148,7 @@ function checkVenue(obj) {
   formData.append("vnu_id",parseInt($(obj + ' input[id="cek-vnu_id"]').val()));
   formData.append("tanggal",$(obj + ' input[id="input-cek-tanggal"]').val());
   if (tipe_waktu == 1) {
-    formData.append("waktu", $('#dari_jam').val() + " - " + $('#sampai_jam').val());
+    formData.append("waktu", $(obj + ' input[id="dari_jam"]').val() + " - " + $(obj + ' input[id="sampai_jam"]').val());
   } else {
     formData.append("waktu",$(obj + ' select[id="input-cek-waktu"]').val());
   }
@@ -160,14 +160,18 @@ function checkVenue(obj) {
 		processData: false,
 		contentType: false,
 		success: function (data) {
-			pesanAlert(data,notifAlign);
+      pesanAlert(data,notifAlign);
+      $('#cek-modal').modal('hide');
 		},
-		error: function () {
-				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
+		error: function (data) {
+			if (data.responseJSON.errors != null) {
+        notif({msg: '<b style="color: white;">Data input tidak valid!</b>', type: "error", position: notifAlign});
+      } else {
+        notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
+      }
 		},
 		complete: function () {
-				$('#cek-modal').modal('hide');
-				EnableBtn('#input-cek-submit','Check');
+			EnableBtn('#input-cek-submit','Check');
 		}
 	});
 }
@@ -188,16 +192,13 @@ function createOrd(obj) {
     return false;
   }
   let no_telp = $(obj+' input[id="input-sewa-telepon"]').val();
-  if (no_telp.match('/[A-Za-z]/')) {
-    notif({
-      msg: '<b style="color: white;">Nomor telpon tidak benar!</b>',
-      type: "error",
-      position: notifAlign
-    });
-    EnableBtn('#input-sewa-submit','Book Now');
-    return false;
+  while (no_telp.includes('-')) {
+    no_telp = no_telp.replace('-','');
   }
   let tipe_waktu = parseInt($('#title-vnu-page').attr('data_time'));
+  let dari_jam = $(obj + ' input[id="dari_jam"]').val();
+  let sampai_jam = $(obj + ' input[id="sampai_jam"]').val();
+  console.log(dari_jam, sampai_jam);
   var formData = new FormData();
   formData.append("cst_id", id);
   formData.append("ov_vnu_id", parseInt($(obj+' input[id="vnu_id"]').val()));
@@ -205,12 +206,12 @@ function createOrd(obj) {
   formData.append("ov_no_telp", "Khairul Hasan : 0812 8109 8822 & Nurul : 0895 6367 50473");
   formData.append("gst_nama", $(obj+' input[id="input-sewa-nama"]').val());
   formData.append("gst_alamat", $(obj+' input[id="input-sewa-alamat"]').val());
-  formData.append("gst_no_telp", no_telp.charAt(0) === '0' ? no_telp : '+62'+no_telp);
+  formData.append("gst_no_telp", no_telp.charAt(0) === '0' ? no_telp : no_telp.charAt(0) === '+' ? no_telp : '+62 '+no_telp);
   formData.append("gst_rencana_pemakaian", $(obj+' input[id="input-sewa-tanggal"]').val());
 
   if (tipe_waktu == 1) {
     formData.append("waktu_sewa", parseInt($('#input-sewa-waktu').val()));
-    formData.append("gst_waktu_pemakaian", "Jam: "+$('#dari_jam').val()+" - "+$('#sampai_jam').val()+" ("+$('#input-sewa-waktu').val()+" Jam)");
+    formData.append("gst_waktu_pemakaian", "Jam: " + dari_jam + " - " + sampai_jam + " ("+$('#input-sewa-waktu').val()+" Jam)");
   } else {
     formData.append("gst_waktu_pemakaian", $('#input-sewa-waktu').val());
   }

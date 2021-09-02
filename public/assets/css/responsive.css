@@ -675,7 +675,7 @@ blockquote {padding-left: 30px;font-size: 22px;}
 }
 
 @media (max-width: 500px) {
-  #rvw-btn, #avl-btn, #gedung_aula {
+  #rvw-btn, #avl-btn, #gedung_aula, #order-btn {
     width: 100% !important;
   }
 }

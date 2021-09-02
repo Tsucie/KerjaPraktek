@@ -22,6 +22,7 @@ $(document).ready(function(){
     $('#div-sewa-contact').removeClass('row');
     $('#div-sewa-fasilitas').removeClass('row');
     $('#div-tgl-wkt-inputs').removeClass('row');
+    $('#product-input').removeClass('row');
     $('#input-sewa-morefacility').parent().removeClass('col-10');
     $('#input-sewa-jumlah').parent().removeClass('col-2');
     $('#div-feedback-user').removeClass('row');

@@ -148,7 +148,7 @@
                     <div class="gallery" id="resi-gallery"></div>
                   </div>
                   <div class="form-group">
-                    <label for="op_contact_customer">Sudah Contact Customer via WA/Telp?</label>
+                    <label for="op_contact_customer">Sudah Menghubungi Customer via WA/Telp?</label>
                     <div class="col-sm-12">
                       <select class="form-control form-inputs" name="op_contact_customer" id="op_contact_customer">
                         <option value="0">Belum</option>
@@ -200,11 +200,11 @@
     <div class="row">
         <div class="col">
             <div class="card bg-default shadow shadow-dark">
-                <!-- Card header -->
+                {{-- <!-- Card header --> --}}
                 <div class="card-header bg-transparent border-0">
                     <h3 class="text-white mb-0">Order Produk</h3>
                 </div>
-                <!-- Dark table -->
+                {{-- <!-- Dark table --> --}}
                 <div class="table-responsive">
                     <table class="table align-items-center table-dark table-flush">
                     <thead class="thead-dark">
@@ -223,8 +223,8 @@
                                 <td class="name">{{ $item->pdct_nama }}</td>
                                 <td class="cst_name">{{ $item->cst_name }}</td>
                                 <td class="op_tanggal_order">{{ $item->op_tanggal_order }}</td>
-                                <td class="price">Rp {{ number_format($item->op_sum_biaya, 2) }}</td>
-                                <!-- op_status_order -->
+                                <td class="price">Rp {{ $item->op_sum_biaya }}</td>
+                                {{-- <!-- op_status_order --> --}}
                                 <td>
                                     @switch($item->op_status_order)
                                         @case(0)

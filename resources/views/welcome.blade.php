@@ -166,12 +166,12 @@
 				</div>
 				<div class="prtfl-fltrs-wrp text-center">
 					<ul class="fltr-btns">
-						<li class="active"><a data-filter="*" href="#" id="produk-all" itemprop="url">Semua<i></i></a></li>
-						<li><a data-filter=".fltr-itm1" href="#" id="produk-songket" itemprop="url">Songket<i></i></a></li>
-						<li><a data-filter=".fltr-itm2" href="#" id="produk-hiasan" itemprop="url">Hiasan<i></i></a></li>
-						<li><a data-filter=".fltr-itm3" href="#" id="produk-batik" itemprop="url">Batik<i></i></a></li>
-						<li><a data-filter=".fltr-itm4" href="#" id="produk-food" itemprop="url">Makanan Khas<i></i></a></li>
-						<li><a data-filter=".fltr-itm5" href="#" id="produk-lainnya" itemprop="url">Lainnya<i></i></a></li>
+						<li class="active"><a data-filter="*" href="" id="produk-all" itemprop="url">Semua<i></i></a></li>
+						<li><a data-filter=".fltr-itm1" href="" id="produk-songket" itemprop="url">Songket<i></i></a></li>
+						<li><a data-filter=".fltr-itm2" href="" id="produk-hiasan" itemprop="url">Hiasan<i></i></a></li>
+						<li><a data-filter=".fltr-itm3" href="" id="produk-batik" itemprop="url">Batik<i></i></a></li>
+						<li><a data-filter=".fltr-itm4" href="" id="produk-food" itemprop="url">Makanan Khas<i></i></a></li>
+						<li><a data-filter=".fltr-itm5" href="" id="produk-lainnya" itemprop="url">Lainnya<i></i></a></li>
 					</ul>
 					<div class="fltr-dta style3 remove-ext3">
 						<div class="row masonry mrg20" id="pdct-list"></div>

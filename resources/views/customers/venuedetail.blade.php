@@ -32,7 +32,7 @@
 					</div>
 					<div class="row">
 						<div class="form-floating mb-3 col">
-							<input type="date" class="form-control" id="input-cek-tanggal" placeholder="Name" required>
+							<input type="date" class="form-control" id="input-cek-tanggal" placeholder="Tanggal" required>
 							<label for="input-cek-tanggal">Tanggal</label>
 						</div>
 						@if ($data[0]->vnu_tipe_waktu == 1)
@@ -41,7 +41,7 @@
 								<label for="dari_jam">Dari Jam</label>
 							</div>
 							<div class="form-floating mb-3 col">
-								<input type="time" class="form-control" name="sampai_jam" id="sampai_jam">
+								<input type="time" class="form-control" name="sampai_jam" id="sampai_jam" required>
 								<label for="sampai_jam">Sampai Jam</label>
 							</div>
 						@else
@@ -142,11 +142,11 @@
 						@if ($data[0]->vnu_tipe_waktu == 1)
 							<div class="row" id="div-hours-input">
 								<div class="form-floating mb-3 col">
-									<input type="time" class="form-control" name="dari_jam" id="dari_jam">
+									<input type="time" class="form-control" name="dari_jam" id="dari_jam" required>
 									<label for="dari_jam">Dari Jam</label>
 								</div>
 								<div class="form-floating mb-3 col">
-									<input type="time" class="form-control" name="sampai_jam" id="sampai_jam">
+									<input type="time" class="form-control" name="sampai_jam" id="sampai_jam" required>
 									<label for="sampai_jam">Sampai Jam</label>
 								</div>
 							</div>

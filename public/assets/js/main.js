@@ -164,8 +164,8 @@ var notifAlign = "bottom";
 									'<div class="prtfl-thmb6" style="height: 15rem;">' +
 										'<img src="'+imgSrc+'" alt="'+data[i].pp_filename+'" itemprop="image">' +
 										'<div class="prtfl-btns">' +
-											'<a href="'+imgSrc+'" data-fancybox="gallery-produk" title="" itemprop="url"><i class="fa fa-search"></i></a>' +
-											'<a href="'+appUrl+'/product/'+data[i].pdct_id+'" title="" itemprop="url"><i class="fa fa-link"></i></a>' +
+											'<a href="'+imgSrc+'" data-fancybox="gallery-produk" title="lihat photo" itemprop="url"><i class="fa fa-search-plus"></i></a>' +
+											'<a href="'+appUrl+'/product/'+data[i].pdct_id+'" title="lihat produk" itemprop="url"><i class="fa fa-info"></i></a>' +
 										'</div>' +
 									'</div>' +
 									'<div class="prtfl-inf6 text-left">' +

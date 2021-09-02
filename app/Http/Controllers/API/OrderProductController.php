@@ -63,6 +63,7 @@ class OrderProductController extends Controller
                             ->where('op_cst_id', $cs_id == null ? '<>' : '=', $cs_id)
                                 ->paginate($pageLength);
         foreach ($datas as $data) {
+            $data->op_sum_biaya = number_format($data->op_sum_biaya, 2);
             $data->op_tanggal_order = date_format(
                 DateTime::createFromFormat('Y-m-d H:i:s', $data->op_tanggal_order),
                 'D, d M Y H:i:s'

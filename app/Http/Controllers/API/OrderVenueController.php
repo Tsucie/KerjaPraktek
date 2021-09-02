@@ -57,7 +57,7 @@ class OrderVenueController extends Controller
         ]);
         $resmsg = new ResponseMessage();
         try {
-            $time = explode('-', $request->waktu);
+            $time = explode(' - ', $request->waktu);
             $data = DB::select(
                 "SELECT * FROM order_venues
                 INNER JOIN guests ON order_venues.ov_gst_id = guests.gst_id
@@ -67,7 +67,7 @@ class OrderVenueController extends Controller
                     ov_status_order > 1 AND
                     (
                         ".(count($time) == 2 ?
-                            "gst_waktu_pemakaian LIKE '%".$time[0]."%' OR gst_waktu_pemakaian LIKE '%".$time[1]."%'" :
+                            "gst_waktu_pemakaian LIKE '%".explode(':',$time[0])[0]."%' OR gst_waktu_pemakaian LIKE '%".$time[1]."%'" :
                             "gst_waktu_pemakaian='".$time[0]."'"
                         )."
                     )
@@ -111,14 +111,13 @@ class OrderVenueController extends Controller
                                 ->paginate($pageLength, ['*'], 'page', $page);
         
         foreach ($datas as $data) {
+            $data->ov_sum_biaya = number_format($data->ov_sum_biaya, 2);
             $data->gst_rencana_pemakaian = date_format(
                 DateTime::createFromFormat('Y-m-d', $data->gst_rencana_pemakaian),
                 'l, d F Y' // for references see: https://www.php.net/manual/en/datetime.format.php
             );
             if ($data->ov_bukti_transfer_file != null)
                 $data->ov_bukti_transfer_file = base64_encode($data->ov_bukti_transfer_file);
-            // if (preg_match('~[0-9]+~', $data->gst_waktu_pemakaian))
-            //     $data->gst_waktu_pemakaian .= ' jam';
         }
         return $datas;
     }

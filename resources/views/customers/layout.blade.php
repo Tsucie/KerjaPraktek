@@ -18,14 +18,15 @@
 <body>
   <main>
     {{-- Tommorrow Tasks
-      -. Create Order Histories for Customer (90% (Pagination) - Tested(65%))
-      -. Create Product Detail Page (100% - Tested(75%))
+      -. Create Order Histories for Customer (90% (Pagination) - Tested(75%))
+      -. Create Product Detail Page (100% - Tested(85%))
       -. Make Welcome Page dynamic (100%)
       -. Create Change Password for Customer ? (0%)
       -. Make review only can be made if a customer has ordered specified venue ? (0%)
       -. Apply Regex to Form Inputs (100%)
-      -. Optimize Check availability for Ruangan (100%)
+      -. Optimize Check availability for Ruangan (100% - Tested(85%))
       -. Buat Field baru pada table venue untuk data Ketentuan Sewa (100%)
+      -. Admin Dashboard Graphic (0%)
     --}}
     {{-- Include customer page main header --}}
 		@include('layouts.headers.csmainheader')

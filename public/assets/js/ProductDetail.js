@@ -61,7 +61,7 @@ function createOrd(obj) {
   }
   var formData = new FormData();
   formData.append("cst_id", id);
-  formData.append("no_telp", no_telp.charAt(0) === '0' ? no_telp : no_telp.charAt(0) === '+' ? no_telp : '+62'+no_telp);
+  formData.append("no_telp", no_telp.charAt(0) === '0' ? no_telp : no_telp.charAt(0) === '+' ? no_telp : '+62 '+no_telp);
   formData.append("pdct_id", parseInt($(obj+' input[id="pdct_id"]').val()));
   formData.append("pdct_qty", qty);
   formData.append("alamat_pemesanan", $(obj+' input[id="input-beli-alamat"]').val());
