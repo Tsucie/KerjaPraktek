@@ -171,8 +171,8 @@ var notifAlign = "bottom";
 									'<div class="prtfl-inf6 text-left">' +
 										'<h4 itemprop="headline"><a href="'+appUrl+'/product/'+data[i].pdct_id+'" title="" itemprop="url">'+data[i].pdct_nama+'</a></h4>' +
 											'<span>'+data[i].pdct_kategori_nama+'</span>' +
-										'</div>' +
 									'</div>' +
+								'</div>' +
 								'</div>';
 								pdctList.append(rowHtml);
 							}
@@ -314,7 +314,7 @@ $("#login-form").submit(function(e) {
 					setTimeout(function () { window.location.reload() }, 1500);
 				}
 				else {
-					pesanAlert(data);
+					pesanAlert(data, notifAlign);
 				}
 			},
 			error: function () {
@@ -388,6 +388,43 @@ function show_pass_regis(idselector) {
 		$('#'+idselector+' + label + a > .fa').removeClass("fa-eye");
 	}
 };
+
+$('#reset-form').submit(function (e) {
+	e.preventDefault();
+	DisableBtn('#input-reset-submit');
+	if (!validatePass($('#input-reset-password').val(), $('#input-reset-confirm-password').val())) {
+		notif({msg: '<b style="color: white;">Password dan Confirm Password tidak sama!</b>', type: "error", position: notifAlign});
+		EnableBtn('#input-reset-submit','Reset');
+		return false;
+	}
+	var formData = new FormData();
+	formData.append("nama", $('#input-reset-nama').val());
+	formData.append("email", $('#input-reset-email').val());
+	formData.append("new_password", $('#input-reset-password').val());
+	formData.append("telp", $('#input-reset-telp').val());
+	$.ajax({
+		headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+		type: $('#reset-form').attr('method'),
+		url: appUrl+'/Customer/reset-pw',
+		data: formData,
+		processData: false,
+		contentType: false,
+		success: function (data) {
+			if (data.code == 1) {
+				pesanAlert(data, notifAlign);
+				$('#reset-modal').modal('hide');
+			} else {
+				pesanAlert(data, notifAlign);
+			}
+		},
+		error: function () {
+				notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
+		},
+		complete: function () {
+				EnableBtn('#input-reset-submit','Reset');
+		}
+	});
+});
 
 $('.nav-link').click(function () {
 	let parent = $(this).parent();

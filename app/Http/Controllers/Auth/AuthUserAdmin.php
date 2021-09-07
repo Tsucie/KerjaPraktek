@@ -76,7 +76,7 @@ class AuthUserAdmin extends Controller
         $request->session()->regenerateToken();
 
         return $request->wantsJson()
-            ? new JsonResponse([], 204)
+            ? new JsonResponse(['code' => 1, 'message' => 'Logout Success'], 204)
             : redirect('/login');
     }
 
@@ -133,8 +133,9 @@ class AuthUserAdmin extends Controller
     protected function sendLoginResponse(Request $request)
     {
         $request->session()->regenerate();
-
-        return $request->wantsJson() ? new JsonResponse([], 204) : redirect()->route('home');
+        return $request->wantsJson() ?
+            new JsonResponse(['code' => 1, 'message' => 'Login Success'], 204) : 
+            redirect()->intended('/home');
     }
 
     /**
@@ -148,7 +149,9 @@ class AuthUserAdmin extends Controller
     protected function sendFailedLoginResponse(Request $request)
     {
         Session::flash('error', 'Email atau Password Salah');
-        return redirect()->route('login');
+        return $request->wantsJson() ?
+            new JsonResponse(['code' => 0, 'message' => 'Login Failed, Email atau Password Salah']) :
+            redirect()->route('login');
     }
 
     /**

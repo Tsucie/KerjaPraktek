@@ -98,6 +98,8 @@ Route::group(['middleware' => 'auth:web'], function () {
 Route::post('/Customer/signup', [CustomerController::class, 'store']);
 // Route SignIn Customer (API)
 Route::post('/Customer/signin', 'App\Http\Controllers\Auth\AuthCustomerController@login');
+// Route Reset Password Customer (API)
+Route::post('/Customer/reset-pw', 'App\Http\Controllers\Auth\AuthCustomerController@resetPass');
 // Route Cek Available for Venue (API)
 Route::post('/CheckVenue', [OrderVenueController::class, 'checkAvailable']);
 // Route CS Reviews (API)

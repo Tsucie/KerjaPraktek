@@ -26,7 +26,6 @@ class Customer extends Authenticatable implements MustVerifyEmail
     ];
 
     protected $hidden = [
-        // 'cst_password',
         'remember_token',
     ];
 

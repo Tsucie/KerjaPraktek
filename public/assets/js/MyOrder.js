@@ -51,7 +51,6 @@ function getVenueOrders(id) {
           }
         } else { throw new Error(); }
       } catch (error) {
-        // console.log(error);
         vnu_list.append('<p>Belum ada Pesanan nih ...</p>');
       }
     },
@@ -176,13 +175,12 @@ function getProductOrders(id) {
           }
         } else { throw new Error(); }
       } catch (error) {
-        // console.log(error);
-        vnu_list.append('<p>Belum ada Pesanan nih ...</p>');
+        pdct_list.append('<p>Belum ada Pesanan nih ...</p>');
       }
     },
     error: function () {
       notif({msg: '<b style="color: white;">Connection Error!</b>', type: "error", position: notifAlign});
-      vnu_list.append('<p>Belum ada Pesanan nih ...</p>');
+      pdct_list.append('<p>Belum ada Pesanan nih ...</p>');
     },
     complete: function () {}
   });
@@ -229,7 +227,17 @@ function getProductOrderDetail(op_id) {
                 '<li><b>Total Biaya : Rp '+data[0].op_sum_biaya+'</b></li><hr class="dotted-hr">' : ''
               ) +
               (data[0].op_resi_file != null ?
-                '<li><b>Resi Pembayaran : </b><br><img src="data:image/'+data[0].op_resi_filename.split('.').pop()+';base64,'+data[0].op_resi_file+'" width="200" height="auto" style="padding: 4px; margin: 8px;border-radius: 4px; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);"/></li><hr class="dotted-hr">' : ''
+                '<li>'+
+                  '<b>Resi Pembayaran : </b><br>'+
+                  '<div class="prtfl-box6">' +
+                    '<div class="prtfl-thmb6" style="padding: 4px; margin: 8px; border-radius: 4px; box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2); width: 200px !important">' +
+                      '<img src="data:image/'+data[0].op_resi_filename.split('.').pop()+';base64,'+data[0].op_resi_file+'" alt="'+data[0].op_resi_filename+'" width="200" height="auto" itemprop="image">' +
+                      '<div class="prtfl-btns" style="text-align: center;">' +
+                        '<a href="data:image/'+data[0].op_resi_filename.split('.').pop()+';base64,'+data[0].op_resi_file+'" data-fancybox="gallery-produk" title="lihat photo" itemprop="url"><i class="fa fa-search-plus"></i></a>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>' +
+                '</li><hr class="dotted-hr">' : ''
               ) +
               '<li><b>Status Order : </b>' +
                 '<button class="btn btn-sm '+status.bg+' text-white rounded" role="button">' + status.text + '</button>' +

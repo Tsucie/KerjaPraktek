@@ -70,6 +70,8 @@ function ShowDetails(obj) {
     $("#AddEditModal").on('show.bs.modal', function (e) {
         var modal = $(this);
         modal.find('.modal-title').text(actionTitle);
+        $('#op_bukti_transfer_file').hide();
+        $('#op_resi_file').hide();
         $("#btn-edit-op").hide();
     });
     GetOrder(parseInt(obj.attributes.data_id.value));
@@ -85,6 +87,10 @@ function ShowEditModals(obj) {
         var modal = $(this);
         modal.find('.modal-title').text(actionTitle);
         $("#btn-edit-op").show();
+        $('#input-bukti').removeClass('d-none');
+        $('#input-resi').removeClass('d-none');
+        $('#op_bukti_transfer_file').show();
+        $('#op_resi_file').show();
     });
     GetOrder(edit);
 }
@@ -130,7 +136,6 @@ function GetOrder(id) {
                     parseInt($('#op_nominal_pajak').val())
                 );
                 if (data[0].op_bukti_transfer_file != null) {
-                    $('#input-bukti').removeClass('d-none');
                     var gallery = 'div.gallery';
                     $('#input-bukti > '+gallery).html("");
                     let fileExt = data[0].op_bukti_transfer_filename.split('.').pop();
@@ -140,7 +145,6 @@ function GetOrder(id) {
                 }
                 else { clearImg('#input-bukti'); }
                 if (data[0].op_resi_file != null) {
-                    $('#input-resi').removeClass('d-none');
                     var gallery = 'div.gallery';
                     $('#input-resi > '+gallery).html("");
                     let fileExt = data[0].op_resi_filename.split('.').pop();

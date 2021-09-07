@@ -7,7 +7,7 @@
   @endphp
 @endauth
 
-<!-- Header -->
+{{-- <!-- Header --> --}}
 <header class="ftco-section">
   <div class="container d-flex justify-content-center">
     <nav class="navbar navbar-expand-lg ftco-navbar-light fly-high">
@@ -53,7 +53,7 @@
   </div>
 </header>
 
-<!-- Header Sticky -->
+{{-- <!-- Header Sticky --> --}}
 <div class="" id="tetap">
   <nav class="navbar fixed-top navbar-expand-lg ftco-navbar-light" style="border-radius: 0;">
     <div class="container">
@@ -97,7 +97,7 @@
   </nav>
 </div>
 
-<!-- Header Responsive -->
+{{-- <!-- Header Responsive --> --}}
 <div class="rspn-hdr" id="respon-header">
   <div class="lg-mn">
     <div class="logo">
@@ -148,7 +148,7 @@
   </div>
 </div>
 
-<!-- Modal login -->
+{{-- <!-- Modal login --> --}}
 <div class="modal fade" id="login-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -164,12 +164,13 @@
             <input type="email" class="form-control" id="input-login-email" placeholder="name@example.com" required>
             <label for="input-login-email">Email</label>
           </div>
-          <div class="form-floating">
+          <div class="form-floating mb-3">
             <input type="password" class="form-control" id="input-login-password" placeholder="Password" required>
             <label for="input-login-password">Password</label>
             <a onclick="show_pass_login()" class="position-absolute top-50 end-0 translate-middle-y show-pass"><i
                 class="fa fa-eye-slash position-absolute top-50 start-50 translate-middle" aria-hidden="true"></i></a>
           </div>
+          <a class="link-info pb-5" data-bs-toggle="modal" data-bs-target="#reset-modal" data-bs-dismiss="modal">lupa password ?</a>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="" id="input-login-remember">
             <label class="form-check-label" for="input-login-remember"> Remember Me </label>
@@ -190,7 +191,7 @@
   </div>
 </div>
 
-<!-- Modal Register -->
+{{-- <!-- Modal Register --> --}}
 <div class="modal fade" id="regis-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -214,7 +215,7 @@
           </div>
           <div class="form-floating mb-3">
             <input type="password" class="form-control" id="input-regis-confirm-password" placeholder="Password" required>
-            <label for="input-regis-password">Confirm Password</label>
+            <label for="input-regis-confirm-password">Confirm Password</label>
             <a onclick="show_pass_regis('input-regis-confirm-password')" class="position-absolute top-50 end-0 translate-middle-y show-pass">
               <i class="fa fa-eye-slash position-absolute top-50 start-50 translate-middle" aria-hidden="true"></i>
             </a>
@@ -237,6 +238,60 @@
             <button class="thm-btn position-absolute bottom-0 start-50 translate-middle-x" id="input-regis-submit" type="submit">
               Sign Up
             </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- <!-- Modal ResetPw --> --}}
+<div class="modal fade" id="reset-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body pb-5">
+        <button type="button" class="btn-close position-absolute top-0 start-100 translate-middle" data-bs-dismiss="modal" aria-label="Close">
+          &times;
+        </button>
+        <p>Input data akun yang anda ingat untuk mengubah password!</p>
+        <h2>Reset Password</h2>
+          <form id="reset-form" method="POST">
+          @csrf
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="input-reset-nama" placeholder="name" required>
+            <label for="input-reset-nama">Nama</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="email" class="form-control" id="input-reset-email" placeholder="name@example.com" required>
+            <label for="input-reset-email">Email</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="tel" class="form-control" id="input-reset-telp" value="+62 " required>
+            <label for="input-reset-telp">No. Telpon</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="input-reset-password" placeholder="Password" required>
+            <label for="input-reset-password">Password</label>
+            <a onclick="show_pass_regis('input-reset-password')" class="position-absolute top-50 end-0 translate-middle-y show-pass">
+              <i class="fa fa-eye-slash position-absolute top-50 start-50 translate-middle" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="input-reset-confirm-password" placeholder="Password" required>
+            <label for="input-reset-confirm-password">Confirm Password</label>
+            <a onclick="show_pass_regis('input-reset-confirm-password')" class="position-absolute top-50 end-0 translate-middle-y show-pass">
+              <i class="fa fa-eye-slash position-absolute top-50 start-50 translate-middle" aria-hidden="true"></i>
+            </a>
+          </div>
+          <div class="row mt-4">
+            <div class="col d-flex justify-content-center media-phone">
+              <button type="button" class="thm-btn btn-grey mb-10px" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#regis-modal">
+                Sign&nbsp;Up
+              </button>
+            </div>
+            <div class="col d-flex justify-content-center">
+              <button class="thm-btn" id="input-reset-submit" type="submit">&nbsp;Reset&nbsp;</button>
+            </div>
           </div>
         </form>
       </div>

@@ -67,13 +67,21 @@ class CustomerController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
-            // $resmsg->message = 'Registrasi Gagal';
+           if ($ex->getCode() == "23000")
+           {
+                $resmsg->code = "0";
+                $resmsg->message = "Email sudah digunakan!";
+           }
+           else
+           {
+                // $resmsg->code = 1;
+                // $resmsg->message = 'Registrasi Gagal';
 
-            #region Code Testing
-            $resmsg->code = $ex->getCode();
-            $resmsg->message = $ex->getMessage();
-            #endregion
+                #region Code Testing
+                $resmsg->code = $ex->getCode();
+                $resmsg->message = $ex->getMessage();
+                #endregion
+           }
         }
 
         return response()->json($resmsg);

@@ -6,8 +6,12 @@
         <div class="row">
           <div class="col-md-5">
             <div class="wdgt">
-              <div class="logo"><a href="index.html" title="" itemprop="url"><img src="{{ asset('assets') }}/images/logo.png" alt="logo.png"
-                    itemprop="image"></a></div>
+              <h2 class="text-white" style="text-align: left;" itemprop="headline">Contact Us</h2>
+              <div class="logo">
+                <a href="{{ route('welcome') }}" title="" itemprop="url">
+                  <img src="{{ asset('assets') }}/images/logo.png" alt="logo.png" itemprop="image">
+                </a>
+              </div>
               <p itemprop="description">Yayasan ini memiliki sebuah usaha, yaitu penyewaan gedung serbaguna dan penjualan barang-barang
                 khas daerah.</p>
               <ul class="abt-cnt-lst">
@@ -28,6 +32,6 @@
 <!-- Botom Bar -->
 <div class="btm-br text-center">
   <div class="container">
-    <p itemprop="description">&copy; Team KKP Unpam 06TPLE005. Made with love, coffee, and passion on {{ now()->year }}</p>
+    <p itemprop="description"><a href="https://github.com/Tsucie">&copy;</a> Team KKP Unpam 06TPLE005. Made with love, coffee, and passion on {{ now()->year }}</p>
   </div>
 </div>

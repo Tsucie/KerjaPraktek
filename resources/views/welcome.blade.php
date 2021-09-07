@@ -212,7 +212,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="cnt-frm-dta">
+					{{-- <div class="cnt-frm-dta">
 						<h2 itemprop="headline">Contact Us</h2>
 						<div class="cnt-frm">
 							<form>
@@ -235,7 +235,7 @@
 								</div>
 							</form>
 						</div>
-					</div>
+					</div> --}}
 				</div>
 			</div>
 		</section>

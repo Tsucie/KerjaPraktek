@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\ResponseMessage;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
 class AuthCustomerController extends Controller
@@ -73,7 +76,7 @@ class AuthCustomerController extends Controller
      * Log the user out of the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function logout(Request $request)
     {
@@ -88,6 +91,48 @@ class AuthCustomerController extends Controller
         $resmsg = new ResponseMessage();
         $resmsg->code = 1;
         $resmsg->message = 'Logout Berhasil. Bye '.$name.'';
+        return response()->json($resmsg);
+    }
+
+    /**
+     * Reset the customer account password
+     * 
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function resetPass(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'telp' => 'required|string',
+            'nama' => 'required|string',
+            'new_password' => 'required|string'
+        ]);
+        $resmsg = new ResponseMessage();
+        try
+        {
+            $csQuery = Customer::query()->where('cst_email','=',$request->email);
+            $cs = $csQuery->get();
+            if ($cs->count() == 0) throw new Exception("Email tidak terdaftar!", 0);
+            if ($cs[0]->cst_no_telp != $request->telp) throw new Exception("Nomor Telpon tidak terdaftar!", 0);
+            if ($cs[0]->cst_name != $request->nama) throw new Exception("Nama tidak sesuai!", 0);
+            
+            if ($csQuery->update(['cst_password' => Hash::make($request->new_password)]) === 0)
+                throw new Exception("Reset password gagal", 0);
+            
+            $resmsg->code = 1;
+            $resmsg->message = "Password berhasil diubah";
+        }
+        catch (Exception $ex)
+        {
+            // $resmsg->code = 1;
+            // $resmsg->message = 'Data Gagal Diubah';
+
+            #region Code Testing
+            $resmsg->code = $ex->getCode();
+            $resmsg->message = $ex->getMessage();
+            #endregion
+        }
         return response()->json($resmsg);
     }
 

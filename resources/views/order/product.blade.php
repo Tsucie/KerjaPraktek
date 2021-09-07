@@ -264,12 +264,11 @@
                                     @if ($item->op_status_order == 0)
                                         <a class="btn btn-sm btn-success btn-table" data-toggle="tooltip" data-html="true" title="Proses Order" id="btnedit{{ $loop->index }}" role="button" data_id="{{ $item->op_id }}" data_text="Proses pemesanan" onclick="ShowEditModals(this)">Proses Order</a>
                                     @endif
-                                    @if ($item->op_status_order == 1 || $item->op_status_order == 2)
+                                    @if ($item->op_status_order > 0)
                                         <a class="btn btn-sm btn-info btn-table" data-toggle="tooltip" data-html="true" title="Lihat Detail Data" id="btndetail{{ $loop->index }}" role="button" data_id="{{ $item->op_id }}" onclick="ShowDetails(this)">Detail Order</a>
                                         <a class="btn btn-sm btn-primary btn-table" data-toggle="tooltip" data-html="true" title="Ubah Data" id="btnedit{{ $loop->index }}" role="button" data_id="{{ $item->op_id }}" data_text="Ubah pemesanan" onclick="ShowEditModals(this)">Ubah Order</a>
                                     @endif
                                     @if ($item->op_status_order == 3 || $item->op_status_order == 4)
-                                        <a class="btn btn-sm btn-info btn-table" data-toggle="tooltip" data-html="true" title="Lihat Detail Data" id="btndetail{{ $loop->index }}" role="button" data_id="{{ $item->op_id }}" onclick="ShowDetails(this)">Detail Order</a>
                                         <a class="btn btn-sm btn-danger btn-table" data-toggle="tooltip" data-html="true" title="Hapus Data" id="btndelete{{ $loop->index }}" role="button" data_id="{{ $item->op_id }}" data_name="{{ $item->cst_name }}" onclick="DeleteOrder(this)">Hapus</a>
                                     @endif
                                 </td>
