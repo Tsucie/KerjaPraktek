@@ -935,8 +935,7 @@ var OrdersChart = (function() {
 					yAxes: [{
 						ticks: {
 							callback: function(value) {
-								if (!(value % 10)) {
-									//return '$' + value + 'k'
+								if (!(value % 5)) {
 									return value
 								}
 							}
@@ -962,10 +961,10 @@ var OrdersChart = (function() {
 				}
 			},
 			data: {
-				labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				labels: orderlabels,
 				datasets: [{
 					label: 'Sales',
-					data: [25, 20, 30, 22, 17, 29]
+					data: orderdatas
 				}]
 			}
 		});
@@ -1039,10 +1038,10 @@ var SalesChart = (function() {
 				}
 			},
 			data: {
-				labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				labels: valuationlabels,
 				datasets: [{
 					label: 'Performance',
-					data: [0, 20, 10, 30, 15, 40, 20, 60, 60]
+					data: valuationdatas
 				}]
 			}
 		});
