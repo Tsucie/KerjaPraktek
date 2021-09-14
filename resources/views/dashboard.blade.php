@@ -26,7 +26,7 @@
                                         }
                                     }'
                                     data-prefix="Rp " data-suffix="k">
-                                        <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
+                                        <a href="#" class="nav-link py-2 px-3 active" title="Venue" data-toggle="tab">
                                             <span class="d-none d-md-block">Venue</span>
                                             <span class="d-md-none">V</span>
                                         </a>
@@ -43,7 +43,7 @@
                                         }
                                     }'
                                     data-prefix="Rp " data-suffix="k">
-                                        <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
+                                        <a href="#" class="nav-link py-2 px-3" title="Produk" data-toggle="tab">
                                             <span class="d-none d-md-block">Produk</span>
                                             <span class="d-md-none">P</span>
                                         </a>
@@ -82,7 +82,7 @@
                                             ]
                                         }
                                     }'>
-                                        <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
+                                        <a href="#" class="nav-link py-2 px-3 active" title="Venue" data-toggle="tab">
                                             <span class="d-none d-md-block">V</span>
                                             <span class="d-md-none">V</span>
                                         </a>
@@ -98,7 +98,7 @@
                                             ]
                                         }
                                     }'>
-                                        <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
+                                        <a href="#" class="nav-link py-2 px-3" title="Produk" data-toggle="tab">
                                             <span class="d-none d-md-block">P</span>
                                             <span class="d-md-none">P</span>
                                         </a>

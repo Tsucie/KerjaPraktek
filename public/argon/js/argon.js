@@ -1008,8 +1008,8 @@ var SalesChart = (function() {
 				scales: {
 					yAxes: [{
 						gridLines: {
-							color: Charts.colors.gray[900],
-							zeroLineColor: Charts.colors.gray[900]
+							color: Charts.colors.gray[500],
+							zeroLineColor: Charts.colors.gray[500]
 						},
 						ticks: {
 							callback: function(value) {

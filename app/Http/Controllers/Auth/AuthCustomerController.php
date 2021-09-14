@@ -59,7 +59,9 @@ class AuthCustomerController extends Controller
 
         $this->validateLogin($request);
 
-        if ($this->attemptLogin($request)) {
+        $this->attemptLogin($request);
+
+        if (Auth::guard('customer')->check()) {
             $resmsg->code = 1;
             $resmsg->message = 'Login Berhasil. Hai '.auth()->guard('customer')->user()->cst_name.'!';
             return $this->sendLoginResponse($request, $resmsg);

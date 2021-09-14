@@ -52,7 +52,9 @@ class AuthUserAdmin extends Controller
     {
         $this->validateLogin($request);
 
-        if ($this->attemptLogin($request)) {
+        $this->attemptLogin($request);
+
+        if (Auth::guard('web')->check()) {
             return $this->sendLoginResponse($request);
         }
 
