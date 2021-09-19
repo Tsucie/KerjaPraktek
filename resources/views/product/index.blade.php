@@ -48,9 +48,8 @@
                           <select class="form-control form-inputs" name="kategori" id="kategori">
                               <option value="1">Songket</option>
                               <option value="2">Hiasan</option>
-                              <option value="3">Batik</option>
-                              <option value="4">Makanan Khas</option>
-                              <option value="5">Lainnya</option>
+                              <option value="3">Makanan Khas</option>
+                              <option value="4">Lainnya</option>
                           </select>
                       </div>
                   </div>

@@ -693,13 +693,13 @@ window.onresize = function(event){
   }
 
   var scrollTop = $(window).scrollTop();
-  if ( scrollTop > 900 && $(window).width() > 992) { 
+  if ( scrollTop > 500 && $(window).width() > 992) { 
 		$('#tetap').show();
 		$('.ftco-section').hide();
 		// $('.fly-high').css('margin-top', '0');
 		console.log($('.ftco-section').offset().top);
 		console.log(scrollTop);
-	}else if (scrollTop < 900 && $(window).width() > 992) {
+	}else if (scrollTop < 500 && $(window).width() > 992) {
 		$('#tetap').hide();
 		$('.ftco-section').show();
 		// $('.fly-high').css('margin-top', '50');

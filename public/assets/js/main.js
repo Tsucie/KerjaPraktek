@@ -152,9 +152,8 @@ var notifAlign = "bottom";
 							$('#produk-all > i').text(data.length);
 							$('#produk-songket > i').text(data.filter(d => d.pdct_kategori_id == 1).length);
 							$('#produk-hiasan > i').text(data.filter(d => d.pdct_kategori_id == 2).length);
-							$('#produk-batik > i').text(data.filter(d => d.pdct_kategori_id == 3).length);
-							$('#produk-food > i').text(data.filter(d => d.pdct_kategori_id == 4).length);
-							$('#produk-lainnya > i').text(data.filter(d => d.pdct_kategori_id == 5).length);
+							$('#produk-food > i').text(data.filter(d => d.pdct_kategori_id == 3).length);
+							$('#produk-lainnya > i').text(data.filter(d => d.pdct_kategori_id == 4).length);
 							let rowHtml = '';
 							for (let i = 0; i < data.length; i++) {
 								let imgSrc = 'data:image/'+data[i].pp_filename.split('.').pop()+';base64,'+data[i].pp_photo;
@@ -219,10 +218,10 @@ $('#tetap').hide();
 
 $(window).scroll(function() {
 	var scrollTop = $(window).scrollTop();
-	if ( scrollTop > 900 && $(window).width() > 992) { 
+	if ( scrollTop > 500 && $(window).width() > 992) { 
 		$('#tetap').show();
 		$('.ftco-section').hide();
-	}else if (scrollTop < 900 && $(window).width() > 992) {
+	}else if (scrollTop < 500 && $(window).width() > 992) {
 		$('#tetap').hide();
 		$('.ftco-section').show();
 	}

@@ -51,7 +51,7 @@ class PromoController extends Controller
                 " (SELECT vnu_harga FROM venues WHERE vnu_id=prm.prm_vnu_id) AS vnu_harga,".
                 " (SELECT vp_filename FROM venue_photos WHERE vp_vnu_id=prm.prm_vnu_id LIMIT 1) AS vp_filename,".
                 " (SELECT vp_photo FROM venue_photos WHERE vp_vnu_id=prm.prm_vnu_id LIMIT 1) AS vp_photo".
-            " FROM dbsilungkang.promos prm;"
+            " FROM promos prm;"
         );
         $datas = [];
         foreach ($rawDatas as $data)
@@ -120,13 +120,21 @@ class PromoController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 0;
-            // $resmsg->message = 'Data Gagal Dibuat';
+            if ($ex->getCode() == "23000")
+           {
+                $resmsg->code = "0";
+                $resmsg->message = "Promo sudah ada!";
+           }
+           else
+           {
+                // $resmsg->code = 1;
+                // $resmsg->message = 'Registrasi Gagal';
 
-            #region Code Testing
-            $resmsg->code = $ex->getCode();
-            $resmsg->message = $ex->getMessage();
-            #endregion
+                #region Code Testing
+                $resmsg->code = $ex->getCode();
+                $resmsg->message = $ex->getMessage();
+                #endregion
+           }
         }
 
         return response()->json($resmsg);

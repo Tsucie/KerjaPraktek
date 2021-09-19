@@ -324,7 +324,11 @@
 										<span style='font-size: 20px; text-decoration: line-through;'>Rp {{ number_format($data[0]->vnu_harga) }}</span>
 									</div>
 								@else
-									<span>Rp {{ number_format($data[0]->vnu_harga) }} <small style="font-weight: 100">/jam</small> </span>
+									<span>Rp {{ number_format($data[0]->vnu_harga) }}
+										@if ($data[0]->vnu_tipe_waktu == 1)
+											<small style="font-weight: 100">/jam</small>
+										@endif
+									</span>
 								@endif
 							</div>
 							<div class="btn-group-details" style="margin-top: 4rem !important;">
@@ -421,11 +425,13 @@
 														@switch($data[0]->vnu_tipe_waktu)
 																@case(0)
 																	<ul>
+																		@if ($data[0]->promo)
 																		<li>Senin - Jum'at</li>
 																		<li style="list-style: none">Siang : Rp {{ number_format($data[0]->promo->prm_harga_promo) }}
 																		</li>
 																		<li style="list-style: none">Malam : Rp {{ number_format($data[0]->promo->prm_harga_promo) }}
 																		</li>
+																		@endif
 																		<br />
 																		<li>Sabtu, Minggu, & Hari Libur</li>
 																		<li style="list-style: none">Siang : Rp {{ number_format($data[0]->vnu_harga) }}
@@ -550,11 +556,13 @@
 								@switch($data[0]->vnu_tipe_waktu)
 										@case(0)
 											<ul>
+												@if ($data[0]->promo)
 												<li>Senin - Jum'at</li>
 												<li style="list-style: none">Siang : Rp {{ number_format($data[0]->promo->prm_harga_promo) }}
 												</li>
 												<li style="list-style: none">Malam : Rp {{ number_format($data[0]->promo->prm_harga_promo) }}
 												</li>
+												@endif
 												<br />
 												<li>Sabtu, Minggu, & Hari Libur</li>
 												<li style="list-style: none">Siang : Rp {{ number_format($data[0]->vnu_harga) }}

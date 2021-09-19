@@ -12,7 +12,7 @@
   <div class="container d-flex justify-content-center">
     <nav class="navbar navbar-expand-lg ftco-navbar-light fly-high">
       <div class="container">
-        <a class="navbar-brand" href="index.html"><img src="{{ asset('assets') }}/images/logo.png" alt="logo.png" itemprop="image" /></a>
+        <a class="navbar-brand" href="{{ route('welcome') }}"><img src="{{ asset('assets') }}/images/logo.png" alt="logo.png" itemprop="image" /></a>
         <div class="collapse navbar-collapse" id="ftco-nav">
           <ul class="navbar-nav ml-auto mr-md-3">
             <li class="nav-item home active">
@@ -57,7 +57,7 @@
 <div class="" id="tetap">
   <nav class="navbar fixed-top navbar-expand-lg ftco-navbar-light" style="border-radius: 0;">
     <div class="container">
-      <a class="navbar-brand" href="index.html"><img src="{{ asset('assets') }}/images/logo.png" alt="logo.png" itemprop="image" /></a>
+      <a class="navbar-brand" href="{{ route('welcome') }}"><img src="{{ asset('assets') }}/images/logo.png" alt="logo.png" itemprop="image" /></a>
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav m-auto">
           <li class="nav-item active">
@@ -101,7 +101,7 @@
 <div class="rspn-hdr" id="respon-header">
   <div class="lg-mn">
     <div class="logo">
-      <a href="#" title="Logo" itemprop="url">
+      <a href="{{ route('welcome') }}" title="Logo" itemprop="url">
         <img src="{{ asset('assets') }}/images/logo.png" alt="logo.png" itemprop="image">
       </a>
     </div>

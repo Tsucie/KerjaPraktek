@@ -72,7 +72,7 @@ class VenueController extends Controller
             "SELECT vnu.*,".
                 " (SELECT vp_filename FROM venue_photos WHERE vp_vnu_id=vnu_id LIMIT 1) AS vp_filename,".
                 " (SELECT vp_photo FROM venue_photos WHERE vp_vnu_id=vnu_id LIMIT 1) AS vp_photo".
-            " FROM dbsilungkang.venues vnu ORDER BY vnu.vnu_nama;"
+            " FROM venues vnu ORDER BY vnu.vnu_nama;"
         );
 
         foreach ($datas as $data)

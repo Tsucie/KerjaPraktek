@@ -27,12 +27,7 @@ class ImageProcessor
         $imageThumb = null;
         // Check if size of image exceed the blob limit
         if (strpos($photoFieldname, "bukti_transfer") !== false || strpos($photoFieldname, "resi") !== false) {
-            if ($size > 65535) {
-                $imageThumb = ImageProcessor::compress($imgFile, 480, 480); // Not exceed BLOB Size
-            }
-            else {
-                $imageThumb = Image::make($imgFile->getRealPath());
-            }
+            $imageThumb = ImageProcessor::compress($imgFile, 480, 480); // Not exceed BLOB Size
         }
         else {
             $imageThumb = ImageProcessor::compress($imgFile, 1024, 768); // Desktop Web Standard
