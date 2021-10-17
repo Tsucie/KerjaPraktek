@@ -64,6 +64,17 @@ class ProductController extends Controller
     }
 
     /**
+     * Return a list of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSelectList()
+    {
+        $data = Product::orderBy('pdct_nama')->get();
+        return response()->json($data);
+    }
+
+    /**
      * Get a list of the resource from database.
      *
      * @return array $datas
@@ -111,7 +122,6 @@ class ProductController extends Controller
             'pdct_nama' => $request->nama,
             'pdct_desc' => $request->has('desc') ? $request->desc : null,
             'pdct_harga' => $request->harga,
-            'pdct_stock' => $request->stock,
             'created_by' => auth()->user()->name ?? 'system'
         ];
 
@@ -119,7 +129,7 @@ class ProductController extends Controller
             'ivty_id' => rand(0,2147483647),
             'ivty_pdct_id' => $productData['pdct_id'],
             'ivty_pdct_nama' => $productData['pdct_nama'],
-            'ivty_pdct_stock' => $productData['pdct_stock'],
+            'ivty_pdct_stock' => $request->stock,
             'ivty_cause' => 'Pembuatan Product oleh ' . $productData['created_by'] . ' pada tanggal ' . DateTime::Now()
         ];
 
@@ -244,20 +254,19 @@ class ProductController extends Controller
             'pdct_nama' => $request->nama,
             'pdct_desc' => $request->has('desc') ? $request->desc : null,
             'pdct_harga' => $request->harga,
-            'pdct_stock' => $request->stock,
             'updated_by' => auth()->user()->name ?? 'system'
         ];
 
         $inventoryData = Inventory::query()->where('ivty_pdct_id','=',$request->id)->get();
         $updateInventory = [
             'ivty_pdct_nama' => $updateProduct['pdct_nama'],
-            'ivty_pdct_stock' => $updateProduct['pdct_stock'],
+            'ivty_pdct_stock' => $request->stock,
             'ivty_cause' => (
                 $updateProduct['pdct_nama'] == $inventoryData[0]->ivty_pdct_nama ?
                     "" : $updateProduct['updated_by'] . " mengubah nama produk menjadi " . $updateProduct['pdct_nama']
             ).(
-                $updateProduct['pdct_stock'] == $inventoryData[0]->ivty_pdct_stock ?
-                    "" : "\n" . $updateProduct['updated_by'] . " mengubah stok produk menjadi " . $updateProduct['pdct_stock']
+                $request->stock == $inventoryData[0]->ivty_pdct_stock ?
+                    "" : "\n" . $updateProduct['updated_by'] . " mengubah stok produk menjadi " . $request->stock
             )
         ];
 
@@ -400,13 +409,21 @@ class ProductController extends Controller
         } 
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
-            // $resmsg->message = 'Data Gagal Dihapus';
+            if ($ex->getCode() == 23000)
+            {
+                $resmsg->code = 0;
+                $resmsg->message = 'Gagal hapus, Product mempunyai Feedback';
+            }
+            else
+            {
+                // $resmsg->code = 0;
+                // $resmsg->message = 'Data Gagal Dihapus';
 
-            #region Code Testing
-            $resmsg->code = $ex->getCode();
-            $resmsg->message = $ex->getMessage();
-            #endregion
+                #region Code Testing
+                $resmsg->code = $ex->getCode();
+                $resmsg->message = $ex->getMessage();
+                #endregion
+            }
         }
 
         return response()->json($resmsg);

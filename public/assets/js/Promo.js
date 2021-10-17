@@ -41,7 +41,7 @@ function ShowDetails(obj) {
         $("#btn-edit-prm").hide();
         $("#btn-add-prm").hide();
     });
-    GetPromo(parseInt(obj.attributes.data_id.value));
+    GetPromo(parseInt(obj.attributes.data_id.value)); // << Revision main promise
     setTimeout(function () { $("#AddEditModal").modal('show'); }, 2000);
 }
 
@@ -64,7 +64,7 @@ function ShowAddModals() {
     setTimeout(function () {
         ctx_col = $('#services').find(':selected').attr('data_col');
         ctx_id = $('#services').val();
-    }, 3000);
+    }, 1500);
 }
 
 // Modals for Edit Data
@@ -144,7 +144,7 @@ function GetServicesList(context) {
     let comboBox = $('#services');
     $.ajax({
         type: "GET",
-        url: appUrl + "/" + context + "GetList",
+        url: appUrl + "/" + context + "SelectList",
         contentType: "application/json",
         dataType: "json",
         data: null,

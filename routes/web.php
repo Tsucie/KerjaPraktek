@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth:web'], function () {
     // [Layanan Menu]
     // Routes Venue (Direct & API)
     Route::get('/Venue', [VenueController::class, 'index'])->name('venues');
+    Route::get('/VenueSelectList', [VenueController::class, 'getSelectList']);
     Route::post('/Venue', [VenueController::class, 'store']);
     Route::put('/Venue', [VenueController::class, 'update']);
     Route::delete('/Venue', [VenueController::class, 'destroy']);
@@ -59,6 +60,7 @@ Route::group(['middleware' => 'auth:web'], function () {
     Route::delete('/VenuePhoto', [VenueController::class, 'destroyPhoto']);
     // Routes Product (Direct & API)
     Route::get('/Product', [ProductController::class, 'index'])->name('products');
+    Route::get('/ProductSelectList', [ProductController::class, 'getSelectList']);
     Route::post('/Product', [ProductController::class, 'store']);
     Route::put('/Product', [ProductController::class, 'update']);
     Route::delete('/Product', [ProductController::class, 'destroy']);

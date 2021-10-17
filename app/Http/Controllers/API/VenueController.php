@@ -62,6 +62,17 @@ class VenueController extends Controller
     }
 
     /**
+     * Return a list of the resource as json.
+     *
+     * @return \Illuminate\Http\Response::json
+     */
+    public function getSelectList()
+    {
+        $data = Venue::orderBy('vnu_nama')->get();
+        return response()->json($data);
+    }
+
+    /**
      * Get a list of the resource from database.
      *
      * @return array $datas
@@ -381,13 +392,21 @@ class VenueController extends Controller
         } 
         catch (Exception $ex)
         {
-            // $resmsg->code = 0;
-            // $resmsg->message = 'Data Gagal Dihapus';
+            if ($ex->getCode() == 23000)
+            {
+                $resmsg->code = 0;
+                $resmsg->message = 'Gagal hapus, Venue mempunyai Feedback';
+            }
+            else
+            {
+                // $resmsg->code = 0;
+                // $resmsg->message = 'Data Gagal Dihapus';
 
-            #region Code Testing
-            $resmsg->code = $ex->getCode();
-            $resmsg->message = $ex->getMessage();
-            #endregion
+                #region Code Testing
+                $resmsg->code = $ex->getCode();
+                $resmsg->message = $ex->getMessage();
+                #endregion
+            }
         }
 
         return response()->json($resmsg);
