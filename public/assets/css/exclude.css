@@ -2018,7 +2018,7 @@ body.sticky-active .sticky-header {
   width: 100%;
 }
 .rsnp-mnu.slidein {
-  opacity: 0.9;
+  opacity: 1;
   right: 0;
   visibility: visible;
 }

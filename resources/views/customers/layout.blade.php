@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <meta name="route" content="{{ __('http://127.0.0.1:8000') }}">
+  <meta name="route" content="{{ url('/') }}">
 	<title>{{ $title ?? 'Silungkang Venue' }}</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 	<link rel="stylesheet" href="{{ asset('assets') }}/css/plugins.min.css" />

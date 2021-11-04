@@ -195,7 +195,7 @@ var notifAlign = "bottom";
 			window.location.href === appUrl+'/#promo-section' ||
 			window.location.href === appUrl+'/#venue-section' ||
 			window.location.href === appUrl+'/#produk-section' ||
-			window.location.href === appUrl+'/#kontak-section') {
+			window.location.href === appUrl+'/#contactUs') {
 		promoList();
 		venueList();
 		productList();
@@ -216,6 +216,10 @@ var notifAlign = "bottom";
 
 $('#tetap').hide();
 
+$('a[data-title="pc-link"]').on('click', function(e) {
+    e.preventDefault();
+});
+
 $(window).scroll(function() {
 	var scrollTop = $(window).scrollTop();
 	if ( scrollTop > 500 && $(window).width() > 992) { 
@@ -228,14 +232,14 @@ $(window).scroll(function() {
 });
 
 $('.modal').on('shown.bs.modal', function (e) {
-	if ($(window).width() < 450) { 
+if ($(window).width() < 993 && $(window).height() < 880) { 
 		$('#respon-header').hide();
 	}
 });
 
 //modal on close
 $(".modal").on("hidden.bs.modal", function () {
-	if ($(window).width() < 450) { 
+	if ($(window).width() < 993 && $(window).height() < 880) { 
 		$('#respon-header').show();
 	}
 

@@ -7,7 +7,7 @@
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <meta name="route" content="{{ __('http://127.0.0.1:8000') }}">
+        <meta name="route" content="{{ url('/') }}">
 
         <title>{{ config('app.name', 'Silungkang App') }}</title>
         <!-- Favicon -->

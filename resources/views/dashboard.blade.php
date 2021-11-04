@@ -25,7 +25,7 @@
                                             ]
                                         }
                                     }'
-                                    data-prefix="Rp " data-suffix="k">
+                                    data-prefix="Rp " data-suffix="">
                                         <a href="#" class="nav-link py-2 px-3 active" title="Venue" data-toggle="tab">
                                             <span class="d-none d-md-block">Venue</span>
                                             <span class="d-md-none">V</span>
@@ -42,7 +42,7 @@
                                             ]
                                         }
                                     }'
-                                    data-prefix="Rp " data-suffix="k">
+                                    data-prefix="Rp " data-suffix="">
                                         <a href="#" class="nav-link py-2 px-3" title="Produk" data-toggle="tab">
                                             <span class="d-none d-md-block">Produk</span>
                                             <span class="d-md-none">P</span>

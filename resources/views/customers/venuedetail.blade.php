@@ -22,8 +22,8 @@
 				<button type="button" class="btn-close position-absolute top-0 start-100 translate-middle" data-bs-dismiss="modal" aria-label="Close">
 					&times;
 				</button>
-				<p>Cek ketersediaan dulu yuk</p>
-				<h2>Check Availability</h2>
+				<p>Cek ketersediaan venue dulu yuk</p>
+				<h2>Cek Ketersediaan</h2>
 				<form method="POST" id="form-cek-gedung">
 					<input type="hidden" id="cek-vnu_id" value="{{ $data[0]->vnu_id }}">
 					<div class="form-floating mb-3">
@@ -325,9 +325,9 @@
 									</div>
 								@else
 									<span>Rp {{ number_format($data[0]->vnu_harga) }}
-										@if ($data[0]->vnu_tipe_waktu == 1)
-											<small style="font-weight: 100">/jam</small>
-										@endif
+									@if ($data[0]->vnu_tipe_waktu == 1)
+										<small style="font-weight: 100">/jam</small>
+									@endif
 									</span>
 								@endif
 							</div>
@@ -339,7 +339,7 @@
 								@endauth
 								<div class="">
 									<button type="button" class="thm-btn mb-2 btn-warning" title="Cek Ketersediaan venue" data-bs-toggle="modal" data-bs-target="#cek-modal" id="avl-btn">
-										Check Availability
+										Cek Ketersediaan
 									</button>
 									<button class="thm-btn mb-2 shadow shadow-lg--hover btn-success" id="gedung_aula" type="button">
 										Pesan
@@ -425,7 +425,7 @@
 														@switch($data[0]->vnu_tipe_waktu)
 																@case(0)
 																	<ul>
-																		@if ($data[0]->promo)
+								                                        @if ($data[0]->promo)
 																		<li>Senin - Jum'at</li>
 																		<li style="list-style: none">Siang : Rp {{ number_format($data[0]->promo->prm_harga_promo) }}
 																		</li>

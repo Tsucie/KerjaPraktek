@@ -41,7 +41,7 @@ function ShowDetails(obj) {
         $("#btn-edit-prm").hide();
         $("#btn-add-prm").hide();
     });
-    GetPromo(parseInt(obj.attributes.data_id.value)); // << Revision main promise
+    GetPromo(parseInt(obj.attributes.data_id.value));
     setTimeout(function () { $("#AddEditModal").modal('show'); }, 2000);
 }
 

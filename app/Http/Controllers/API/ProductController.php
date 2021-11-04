@@ -62,7 +62,7 @@ class ProductController extends Controller
         $data = $this->selectList();
         return response()->json($data);
     }
-
+    
     /**
      * Return a list of the resource.
      *
@@ -175,9 +175,6 @@ class ProductController extends Controller
             }
             else
             {
-                // $resmsg->code = 0;
-                // $resmsg->message = 'Data Gagal Ditambahkan';
-
                 #region Code Testing
                 $resmsg->code = $ex->getCode();
                 $resmsg->message = $ex->getMessage();
@@ -217,9 +214,6 @@ class ProductController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 0;
-            // $resmsg->message = 'Data Tidak Ditemukan';
-
             #region Code Testing
             $resmsg->code = $ex->getCode();
             $resmsg->message = $ex->getMessage();
@@ -328,9 +322,6 @@ class ProductController extends Controller
             }
             else
             {
-                // $resmsg->code = 0;
-                // $resmsg->message = 'Data Gagal Ditambahkan';
-
                 #region Code Testing
                 $resmsg->code = $ex->getCode();
                 $resmsg->message = $ex->getMessage();
@@ -374,9 +365,6 @@ class ProductController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
-            // $resmsg->message = 'Photo Gagal Diubah';
-
             #region Code Testing
             $resmsg->code = $ex->getCode();
             $resmsg->message = $ex->getMessage();
@@ -416,9 +404,6 @@ class ProductController extends Controller
             }
             else
             {
-                // $resmsg->code = 0;
-                // $resmsg->message = 'Data Gagal Dihapus';
-
                 #region Code Testing
                 $resmsg->code = $ex->getCode();
                 $resmsg->message = $ex->getMessage();
@@ -450,9 +435,6 @@ class ProductController extends Controller
         }
         catch (Exception $ex)
         {
-            // $resmsg->code = 1;
-            // $resmsg->message = 'Photo Gagal Dihapus';
-
             #region Code Testing
             $resmsg->code = $ex->getCode();
             $resmsg->message = $ex->getMessage();

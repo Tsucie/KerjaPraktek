@@ -12,7 +12,7 @@
   <div class="container d-flex justify-content-center">
     <nav class="navbar navbar-expand-lg ftco-navbar-light fly-high">
       <div class="container">
-        <a class="navbar-brand" href="{{ route('welcome') }}"><img src="{{ asset('assets') }}/images/logo.png" alt="logo.png" itemprop="image" /></a>
+        <a class="navbar-brand" href="http://silungkang.id/public/"><img src="{{ asset('assets') }}/images/logo.png" alt="logo.png" itemprop="image" /></a>
         <div class="collapse navbar-collapse" id="ftco-nav">
           <ul class="navbar-nav ml-auto mr-md-3">
             <li class="nav-item home active">
@@ -31,14 +31,14 @@
               <a href="#produk-section" class="nav-link">Products</a>
             </li>
             <li class="nav-item">
-              <a href="#kontak-section" class="nav-link">Contact</a>
+              <a href="#contactUs" class="nav-link">Contact</a>
             </li>
             @auth('customer')
-              <li class="nav-item" style="margin-top: 17px;">
-                <a class="btn btn-yellow btn-sm text-white shadow" href="{{ route('myorder') }}" style="font-weight: bold; text-shadow: 1px 1px rgb(0 0 0 / 20%);">MyOrder</a>
-              </li>
               <li class="login-btn">
-                <button type="button" class="btn btn-danger btn-sm" id="logout-btn">Logout</button>
+                <a role="button" class="btn btn-primary btn-sm shadow" href="{{ route('myorder') }}" style="padding: 5px 10px;">My&nbsp;Order</a>
+              </li>
+              <li class="login-btn ms-0">
+                <button type="button" class="btn btn-outline-dark btn-sm" id="logout-btn">Logout</button>
               </li>
             @endauth
             @guest('customer')
@@ -57,7 +57,7 @@
 <div class="" id="tetap">
   <nav class="navbar fixed-top navbar-expand-lg ftco-navbar-light" style="border-radius: 0;">
     <div class="container">
-      <a class="navbar-brand" href="{{ route('welcome') }}"><img src="{{ asset('assets') }}/images/logo.png" alt="logo.png" itemprop="image" /></a>
+      <a class="navbar-brand" href="http://silungkang.id/public/"><img src="{{ asset('assets') }}/images/logo.png" alt="logo.png" itemprop="image" /></a>
       <div class="collapse navbar-collapse" id="ftco-nav">
         <ul class="navbar-nav m-auto">
           <li class="nav-item active">
@@ -76,14 +76,14 @@
             <a href="#produk-section" class="nav-link">Products</a>
           </li>
           <li class="nav-item">
-            <a href="#kontak-section" class="nav-link">Contact</a>
+            <a href="#contactUs" class="nav-link">Contact</a>
           </li>
           @auth('customer')
-            <li class="nav-item" style="margin-top: 17px;">
-              <a class="btn btn-yellow btn-sm text-white shadow" href="{{ route('myorder') }}" style="font-weight: bold; text-shadow: 1px 1px rgb(0 0 0 / 20%);">MyOrder</a>
-            </li>
             <li class="login-btn">
-              <button type="button" class="btn btn-danger btn-sm" onclick="logout()">Logout</button>
+                <a role="button" class="btn btn-primary btn-sm shadow" href="{{ route('myorder') }}" style="padding: 5px 10px;">My&nbsp;Order</a>
+            </li>
+            <li class="login-btn ms-0">
+                <button type="button" class="btn btn-outline-dark btn-sm" onclick="logout()">Logout</button>
             </li>
           @endauth
           @guest('customer')
@@ -101,23 +101,24 @@
 <div class="rspn-hdr" id="respon-header">
   <div class="lg-mn">
     <div class="logo">
-      <a href="{{ route('welcome') }}" title="Logo" itemprop="url">
+      <a href="http://silungkang.id/public/" title="Logo" itemprop="url">
         <img src="{{ asset('assets') }}/images/logo.png" alt="logo.png" itemprop="image">
       </a>
     </div>
     <span class="rspn-mnu-btn rounded" style="margin-right: 1rem;"><i class="fa fa-align-justify"></i></span>
   </div>
-  <div class="rsnp-mnu" id="respon-menu">
-    <span class="rspn-mnu-cls bg-danger rounded m-1"><i class="fa fa-times"></i></span>
+  <div class="rsnp-mnu" id="respon-menu" style="opacity:1;">
+    <span class="rspn-mnu-cls"><i class="fa fa-times"></i></span>
     <ul>
       @auth('customer')
         <li>
-          <div class="card bg-dark" style="flex-direction: row !important;">
-            <i class="fa fa-user" style="font-size: 2rem !important;"></i>
+            <i class="fa fa-user-circle-o" aria-hidden="true" style="font-size: 1.5rem !important;"></i>
             <span style="font-size: 1.2rem !important;">&nbsp;{{ $cs->cst_name }}</span>
+          <div class="card bg-dark" style="flex-direction: row !important;">
+            
           </div>
         </li>
-        <li><a class="btn btn-sm btn-yellow text-dark" href="{{ route('myorder') }}" style="font-weight: bold; text-shadow: 1px 1px rgb(0 0 0 / 20%);">My Order</a></li>
+        <li><a class="btn btn-sm btn-primary" href="{{ route('myorder') }}">My Order</a></li>
       @endauth
       <li><a href="#" title="" itemprop="url">Home</a>
       </li>
@@ -129,7 +130,7 @@
       </li>
       <li><a href="#produk-section" title="" itemprop="url">Product</a>
       </li>
-      <li><a href="#kontak-section" title="" itemprop="url">Contact Us</a>
+      <li><a href="#contactUs" title="" itemprop="url">Contact Us</a>
       </li>
       <li class="notif-btn">
         <a href="#">Notification<i class="fa fa-circle notif-dot" aria-hidden="true"></i>

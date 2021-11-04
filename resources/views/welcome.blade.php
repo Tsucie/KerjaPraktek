@@ -5,7 +5,7 @@
 	<meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <meta name="route" content="{{ __('http://127.0.0.1:8000') }}">
+  <meta name="route" content="{{ url('/') }}">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet" />
 	<link rel="stylesheet" href="{{ asset('assets') }}/css/owl.carousel.min.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css" />
@@ -17,6 +17,9 @@
 	<link rel="stylesheet" href="{{ asset('assets') }}/css/style.css" />
   <link rel="stylesheet" href="{{ asset('assets') }}/css/responsive.css" />
   <link type="text/css" href="{{ asset('assets') }}/vendor/notifIt/css/notifIt.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Stardos+Stencil&display=swap" rel="stylesheet">
 </head>
 <body>
 	<main>
@@ -132,7 +135,7 @@
 		<section>
 			<div class="gap" id="promo-section">
 				<div class="tem-wrp2 black-layer2 opc95">
-					<div class="fixed-bg"></div>
+					<div class="fixed-bg" style="background-image: url({{ asset('assets') }}/images/promo.jpg)"></div>
 					<div class="container">
 						<div class="sec-title text-center">
 							<h3 itemprop="headline">Promo</h3>
@@ -161,16 +164,20 @@
 		<!-- Produk Section -->
 		<section>
 			<div class="gap gray-bg2" id="produk-section">
-				<div class="sec-title text-center">
-					<h3 itemprop="headline">Product</h3>
+				<div class="text-center" style="display: flex; justify-content: center;">
+					<h4 style="font-family: 'Italianno', cursive; font-style: oblique;">La </h4>
+					<h1 itemprop="headline" style="font-family: 'Stardos Stencil', cursive;">&nbsp;T A C O N A</h1>
 				</div>
+				<div class="sec-title text-center">
+                  <h4 style="font-family: 'Italianno', cursive;">&nbsp;&nbsp;&nbsp;&nbsp; Kuliner &amp; Oleh-oleh Silungkang</h4>
+                </div>
 				<div class="prtfl-fltrs-wrp text-center">
 					<ul class="fltr-btns">
-						<li class="active"><a data-filter="*" href="#" id="produk-all" itemprop="url">Semua<i></i></a></li>
-						<li><a data-filter=".fltr-itm1" href="#" id="produk-songket" itemprop="url">Songket<i></i></a></li>
-						<li><a data-filter=".fltr-itm2" href="#" id="produk-hiasan" itemprop="url">Hiasan<i></i></a></li>
-						<li><a data-filter=".fltr-itm3" href="#" id="produk-food" itemprop="url">Makanan Khas<i></i></a></li>
-						<li><a data-filter=".fltr-itm4" href="#" id="produk-lainnya" itemprop="url">Lainnya<i></i></a></li>
+						<li class="active"><a data-filter="*" data-title="pc-link" href="#" id="produk-all" itemprop="url">Semua<i></i></a></li>
+						<li><a data-filter=".fltr-itm1" data-title="pc-link" href="#" id="produk-songket" itemprop="url">Songket<i></i></a></li>
+						<li><a data-filter=".fltr-itm2" data-title="pc-link" href="#" id="produk-hiasan" itemprop="url">Hiasan<i></i></a></li>
+						<li><a data-filter=".fltr-itm3" data-title="pc-link" href="#" id="produk-food" itemprop="url">Makanan Khas<i></i></a></li>
+						<li><a data-filter=".fltr-itm4" data-title="pc-link" href="#" id="produk-lainnya" itemprop="url">Lainnya<i></i></a></li>
 					</ul>
 					<div class="fltr-dta style3 remove-ext3">
 						<div class="row masonry mrg20" id="pdct-list"></div>
@@ -200,41 +207,18 @@
 									<ul class="cnt-inf-lst">
 										<li><span>Business Address</span>Jl. Gotong Royong Jl. Ciledug Raya No.Kav. 13, RT.004/RW.009, Larangan Indah, Kec.
 											Larangan, Kota Tangerang, Banten 15154</li>
-										<li><span>Business Email</span><a href="#" title="" itemprop="url">silungkangvenue@gmail.com</a></li>
+										<li><span>Business Email</span><a href="#" title="Email" itemprop="url">silungkangvenue@gmail.com</a></li>
 									</ul>
 									<div class="cnt-inf-btns">
-										<a href="#" title="Facebook" itemprop="url" target="_blank"><i class="fa fa-facebook"></i></a>
+										<a href="https://www.facebook.com/profile.php?id=100073047533769" title="Facebook" itemprop="url" target="_blank"><i class="fa fa-facebook"></i></a>
 										<a href="#" title="Twitter" itemprop="url" target="_blank"><i class="fa fa-twitter"></i></a>
-										<a href="#" title="Instagram" itemprop="url" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+										<a href="https://www.instagram.com/gedungsilungkang/" title="Instagram" itemprop="url" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+										<a href="#" title="WhatsApp" itemprop="url" target="_blank"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					{{-- <div class="cnt-frm-dta">
-						<h2 itemprop="headline">Contact Us</h2>
-						<div class="cnt-frm">
-							<form>
-								<div class="row mrg20">
-									<div class="col-md-4 col-sm-6 col-lg-4">
-										<input type="text" placeholder="Name">
-									</div>
-									<div class="col-md-4 col-sm-6 col-lg-4">
-										<input type="email" placeholder="Email">
-									</div>
-									<div class="col-md-4 col-sm-12 col-lg-4">
-										<input type="text" placeholder="Website">
-									</div>
-									<div class="col-md-12 col-sm-12 col-lg-12">
-										<textarea placeholder="Message"></textarea>
-									</div>
-									<div class="col-md-12 col-sm-12 col-lg-12">
-										<button class="thm-btn" type="submit">Kirim</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div> --}}
 				</div>
 			</div>
 		</section>

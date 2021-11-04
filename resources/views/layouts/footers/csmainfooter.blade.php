@@ -1,6 +1,6 @@
 <!-- Footer -->
 <footer>
-  <div class="gap drk-bg top-spac80 bottom-spac80">
+  <div class="gap drk-bg top-spac80 bottom-spac80" id="contactUs">
     <div class="container">
       <div class="ftr-wrp remove-ext5">
         <div class="row">

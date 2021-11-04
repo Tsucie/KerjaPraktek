@@ -56,7 +56,7 @@
                   <div class="form-group">
                       <label for="harga">Harga</label>
                       <div class="col-sm-12">
-                          <input type="tel" class="form-control form-inputs" placeholder="Harganya" id="harga" name="harga">
+                          <input type="text" class="form-control form-inputs" placeholder="Harganya" id="harga" name="harga" onkeypress="return justNumber(event)">
                           <div aria-hidden="true" id="harga-alrt" class="alert alert-danger" role="alert">
                             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                             <span class="sr-only">Error:</span>
@@ -67,7 +67,7 @@
                   <div class="form-group">
                     <label for="stock">Stok Produk</label>
                     <div class="col-sm-12">
-                        <input type="tel" class="form-control form-inputs" placeholder="stock produknya" id="stock" name="stock">
+                        <input type="number" class="form-control form-inputs" placeholder="stock produknya" id="stock" name="stock" onkeypress="return justNumber(event)">
                         <div aria-hidden="true" id="stock-alrt" class="alert alert-danger" role="alert">
                             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                             <span class="sr-only">Error:</span>
@@ -184,5 +184,13 @@
 @endsection
 
 @push('js')
+    <script>
+        function justNumber(evt) {
+            const ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+        }
+    </script>
     <script src="{{ asset('assets') }}/js/Products.js"></script>
 @endpush

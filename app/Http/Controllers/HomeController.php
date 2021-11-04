@@ -31,16 +31,15 @@ class HomeController extends Controller
 
         $chartLength = 6;
         // Chart Valuasi Order
-        $venue_set = DB::table('order_venues')->where('ov_status_order','=',2)
+        $venue_set = DB::table('order_venues')->whereRaw("ov_status_order = 2 OR ov_status_order = 3")
                         ->selectRaw('SUM(ov_sum_biaya) AS ov_sum_biaya, MONTH(created_at) AS month')
                         ->groupByRaw('MONTH(created_at)')
-                        ->orderByRaw('ANY_VALUE(created_at) ASC')
+                        ->orderByRaw('created_at ASC')
                         ->get();
         $label_venue = [];
         $data_venue = [];
         $venue_last_month = 0;
         foreach ($venue_set as $item) {
-            $item->ov_sum_biaya /= 1000;
             array_push($label_venue, date_format(DateTime::createFromFormat('m', $item->month), 'M'));
             array_push($data_venue, floatval($item->ov_sum_biaya));
             $venue_last_month = $item->month;
@@ -67,13 +66,12 @@ class HomeController extends Controller
         $product_set = DB::table('order_products')->where('op_status_order','=',3)
                         ->selectRaw('SUM(op_sum_biaya) AS op_sum_biaya, MONTH(created_at) AS month')
                         ->groupByRaw('MONTH(created_at)')
-                        ->orderByRaw('ANY_VALUE(created_at) ASC')
+                        ->orderByRaw('created_at ASC')
                         ->get();
         $label_product = [];
         $data_product = [];
         $product_last_month = 0;
         foreach ($product_set as $item) {
-            $item->op_sum_biaya /= 1000;
             array_push($label_product, date_format(DateTime::createFromFormat('m', $item->month), 'M'));
             array_push($data_product, floatval($item->op_sum_biaya));
             $product_last_month = $item->month;
@@ -101,7 +99,7 @@ class HomeController extends Controller
         $vnu_ord_set = DB::table('order_venues')
                         ->selectRaw('count(*) AS ord_val, MONTH(created_at) AS month')
                         ->groupByRaw('MONTH(created_at)')
-                        ->orderByRaw('ANY_VALUE(created_at) ASC')
+                        ->orderByRaw('created_at ASC')
                         ->get();
         $label_vnu_ord = [];
         $data_vnu_ord = [];
@@ -133,7 +131,7 @@ class HomeController extends Controller
         $pdct_ord_set = DB::table('order_products')
                         ->selectRaw('count(*) AS ord_val, MONTH(created_at) AS month')
                         ->groupByRaw('MONTH(created_at)')
-                        ->orderByRaw('ANY_VALUE(created_at) ASC')
+                        ->orderByRaw('created_at ASC')
                         ->get();
         $label_pdct_ord = [];
         $data_pdct_ord = [];

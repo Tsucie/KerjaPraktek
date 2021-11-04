@@ -6,6 +6,7 @@ $(document).ready(function () {
 
   $('#gedung_aula').click(function (e) {
     e.preventDefault();
+    $('#input-sewa-submit').css("background-color", "#cccccc");
     if (isNaN(parseInt($('#form-sewa input[id="cst_id"]').val()))) {
       notif({
         msg: '<b style="color: white;">Harap Login terlebih dahulu sebelum order!</b>',
@@ -18,15 +19,23 @@ $(document).ready(function () {
       $('#sewa-modal').modal('show');
     }
   });
-
+    
   $('#input-cek-submit').click(function (e) {
     e.preventDefault();
     checkVenue('#form-cek-gedung');
   });
-
+  
+  $('#input-sewa-tanggal').on('input', function() {
+    $('#input-sewa-submit').css("background-color", "#FFD369");
+  });
+  
   $('#input-sewa-submit').click(function (e) {
-    e.preventDefault();
-    createOrd('#form-sewa');
+    if( !$('#input-sewa-tanggal').val() ) {
+        alert('isi tanggal terlebih dahulu');
+    }else {
+        e.preventDefault();
+        createOrd('#form-sewa');
+    }
   });
 
   $('#rvw-btn').click(function (e) {

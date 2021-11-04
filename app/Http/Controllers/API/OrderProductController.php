@@ -53,8 +53,8 @@ class OrderProductController extends Controller
                      ->join('customers', 'order_products.op_cst_id', '=', 'customers.cst_id')
                         ->select('order_products.*', 'customers.*')
                         ->selectSub(
-                            "SELECT pdct_nama FROM dbsilungkang.products WHERE pdct_id=(
-                                SELECT odp_pdct_id FROM dbsilungkang.order_detail_products
+                            "SELECT pdct_nama FROM products WHERE pdct_id=(
+                                SELECT odp_pdct_id FROM order_detail_products
                                 WHERE odp_op_id=order_products.op_id
                             )",
                             'pdct_nama')
