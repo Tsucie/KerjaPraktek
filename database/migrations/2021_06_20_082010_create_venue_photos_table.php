@@ -22,7 +22,6 @@ class CreateVenuePhotosTable extends Migration
                 $table->integer('vp_id')->unique('vp_id_UNIQUE');
                 $table->integer('vp_vnu_id');
                 $table->string('vp_filename', 150);
-                $table->binary('vp_photo');
                 $table->timestamps();
                 $table->primary('vp_id');
                 $table->foreign('vp_vnu_id', 'fk_venuePhotos_venues')

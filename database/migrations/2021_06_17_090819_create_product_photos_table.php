@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateProductPhotosTable extends Migration
@@ -21,7 +22,6 @@ class CreateProductPhotosTable extends Migration
                 $table->integer('pp_id')->unique('pp_id_UNIQUE');
                 $table->integer('pp_pdct_id');
                 $table->string('pp_filename', 150);
-                $table->binary('pp_photo');
                 $table->timestamps();
                 $table->primary('pp_id');
                 $table->foreign('pp_pdct_id','fk_productPhotos_products')

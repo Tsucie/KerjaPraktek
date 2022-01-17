@@ -19,8 +19,8 @@ class CreateFeedbacksTable extends Migration
         {
             Schema::create('feedbacks', function (Blueprint $table) {
                 $table->bigInteger('fb_id')->unique('fb_id_UNIQUE');
-                $table->bigInteger('fb_vnu_id')->nullable();
-                $table->bigInteger('fb_pdct_id')->nullable();
+                $table->integer('fb_vnu_id')->nullable();
+                $table->integer('fb_pdct_id')->nullable();
                 $table->string('fb_cst_nama');
                 $table->string('fb_cst_email');
                 $table->text('fb_text');
@@ -28,11 +28,11 @@ class CreateFeedbacksTable extends Migration
                 $table->timestamps();
                 $table->primary('fb_id');
                 $table->foreign('fb_vnu_id')
-                        ->references('vnu_id')->on('order_venues')
+                        ->references('vnu_id')->on('venues')
                         ->onUpdate('CASCADE')
                         ->onDelete('RESTRICT');
                 $table->foreign('fb_pdct_id')
-                        ->references('pdct_id')->on('order_products')
+                        ->references('pdct_id')->on('products')
                         ->onUpdate('CASCADE')
                         ->onDelete('RESTRICT');
             });
